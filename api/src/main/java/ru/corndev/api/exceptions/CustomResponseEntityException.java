@@ -13,8 +13,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class CustomResponseEntityException extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
-    public final ResponseEntity<Object> handlePgNameException (PgNameException ex, WebRequest request){
-        PgNameExceptionResponse exceptionResponse = new PgNameExceptionResponse(ex.getMessage());
+    public final ResponseEntity<Object> handlePgNameException (PlaygroundException ex, WebRequest request){
+        PlaygroundExceptionResponse exceptionResponse = new PlaygroundExceptionResponse(ex.getMessage());
         return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 

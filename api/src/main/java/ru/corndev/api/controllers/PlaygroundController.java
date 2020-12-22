@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.corndev.api.domain.Playground;
 import ru.corndev.api.services.MapValidationErrorService;
 import ru.corndev.api.services.PlaygroundService;
@@ -35,5 +32,27 @@ public class PlaygroundController {
 
         Playground thePlayground = playgroundService.saveOrUpdatePlayground(playground);
         return new ResponseEntity<Playground>(thePlayground, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{pgName}")
+    public ResponseEntity<?> getPgByName(@PathVariable String pgName){
+        Playground thePlayground =  playgroundService.findPgByName(pgName);
+        return new ResponseEntity<Playground>(thePlayground, HttpStatus.OK);
+    }
+    @GetMapping("/id/{pgId}")
+    public ResponseEntity<?> getPgByName(@PathVariable long pgId){
+        Playground thePlayground =  playgroundService.findPgById(pgId);
+        return new ResponseEntity<Playground>(thePlayground, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public Iterable<Playground> getAllPg(){
+        return playgroundService.findAllPg();
+    }
+
+    @DeleteMapping("/{pgId}")
+    public ResponseEntity<?> deletePgByid(@PathVariable long pgId){
+        playgroundService.deletePgById(pgId);
+        return new ResponseEntity<String>("Площадка была удалена", HttpStatus.OK);
     }
 }
