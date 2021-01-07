@@ -9,25 +9,31 @@ import java.util.Date;
 
 
 @Entity
+@Table(name = "playgrounds")
 public class Playground {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotBlank(message = "Введите название площадки")
     @Column(unique=true)
     private String playgroundName;
 
-    private String playgroundDescription;
+    @NotBlank(message = "Необходимо указать адрес")
+    private String address;
 
-    private Long ownerId;
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    private Date createdDate;
+    @OneToOne(mappedBy = "playground")
+    private Event event;
 
-    @PrePersist
-    protected void onCreate(){
-        this.createdDate = new Date();
-    }
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "playground_coordinates",
+            joinColumns =
+                    { @JoinColumn(name = "playground_id", referencedColumnName = "id") },
+            inverseJoinColumns =
+                    { @JoinColumn(name = "coordinate_id", referencedColumnName = "id") })
+    private Coordinate coordinates;
+
 
     public Playground() {
     }
@@ -48,27 +54,27 @@ public class Playground {
         this.playgroundName = playgroundName;
     }
 
-    public String getPlaygroundDescription() {
-        return playgroundDescription;
+    public String getAddress() {
+        return address;
     }
 
-    public void setPlaygroundDescription(String playgroundDescription) {
-        this.playgroundDescription = playgroundDescription;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public Long getOwnerId() {
-        return ownerId;
+    public Event getEvent() {
+        return event;
     }
 
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
+    public void setEvent(Event event) {
+        this.event = event;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
+    public Coordinate getCoordinates() {
+        return coordinates;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+    public void setCoordinates(Coordinate coordinates) {
+        this.coordinates = coordinates;
     }
 }

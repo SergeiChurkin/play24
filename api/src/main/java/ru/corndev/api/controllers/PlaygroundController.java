@@ -51,7 +51,7 @@ public class PlaygroundController {
     }
 
     @DeleteMapping("/{pgId}")
-    public ResponseEntity<?> deletePgByid(@PathVariable long pgId){
+    public ResponseEntity<?> deletePgById(@PathVariable long pgId){
         playgroundService.deletePgById(pgId);
         return new ResponseEntity<String>("Площадка была удалена", HttpStatus.OK);
     }

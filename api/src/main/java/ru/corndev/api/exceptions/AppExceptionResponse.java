@@ -1,10 +1,10 @@
 package ru.corndev.api.exceptions;
 
-public class PlaygroundExceptionResponse {
+public class AppExceptionResponse {
 
     private String message;
 
-    public PlaygroundExceptionResponse(String message){
+    public AppExceptionResponse(String message){
         this.message = message;
     }
 
