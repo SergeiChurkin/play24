@@ -26,7 +26,7 @@ public class User {
 
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Event> events;
 
     public User() {
@@ -34,12 +34,12 @@ public class User {
 
     public void addEvent( Event event){
         events.add(event);
-        event.setUser(this);
+        event.setOwner(this);
     }
 
     public void deleteEvent(Event event){
         events.remove(event);
-        event.setUser(null);
+        event.setOwner(null);
     }
 
     public Long getId() {

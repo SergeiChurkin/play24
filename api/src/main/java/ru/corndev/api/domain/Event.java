@@ -3,7 +3,9 @@ package ru.corndev.api.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "events")
@@ -12,6 +14,14 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "Заполните название")
+    private String eventName;
+
+    @NotBlank(message = "Выберите тип события")
+    private boolean repeated;
+
+
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "event_playground",
@@ -22,9 +32,11 @@ public class Event {
     private Playground playground;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private User owner;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    //private Set<Long> playersIdSet;
+
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date createdDate;
 
     @PrePersist
@@ -51,12 +63,12 @@ public class Event {
         this.playground = playground;
     }
 
-    public User getUser() {
-        return user;
+    public User getOwner() {
+        return owner;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     public Date getCreatedDate() {
@@ -66,4 +78,22 @@ public class Event {
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
+
+    public boolean isRepeated() {
+        return repeated;
+    }
+
+    public void setRepeated(boolean repeated) {
+        this.repeated = repeated;
+    }
+
+
 }
