@@ -1,18 +1,20 @@
-import logo from './logo.svg';
 import './App.css';
+import Dashboard from './components/Dashboard';
+import Header from './components/Layout/Header';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {BrowserRouter as Router, Route} from "react-router-dom"; 
+import AddEvent from './components/Event/AddEvent';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Play 24/7<br/>
-          Play everywhere
-        </p>
-
-      </header>
-    </div>
+    <Router>  
+      <div className="App">
+      <Header />
+      <Route exact path="/dashboard" component={Dashboard} />
+      <Route exact path="/addEvent" component={AddEvent} />
+      </div>
+    </Router>
+  
   );
 }
 

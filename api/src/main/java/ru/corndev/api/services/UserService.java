@@ -13,11 +13,25 @@ public class UserService {
     private UserRepo userRepo;
 
     public User saveOrUpdateUser(User user){
+        /*
+        User theUser = userRepo.findByUsername(user.getUsername());
+        if(theUser!=null){
+            throw new AppException("Пользователь с таким именем уже существует");
+        }
+        theUser = userRepo.findByPhone(user.getPhone());
+        if(theUser!=null){
+            throw new AppException("Пользователь с таким номером телефона уже существует");
+        }
+        theUser = userRepo.findByEmail(user.getEmail());
+        if(theUser!=null){
+            throw new AppException("Пользователь с таким email уже существует");
+        }
+*/
         try{
         return userRepo.save(user);
         }
         catch (Exception ex){
-            throw new AppException("Пользователь с таким именем уже существует");
+            throw new AppException("Произошла ошибка при сохранении данных");
         }
     }
 

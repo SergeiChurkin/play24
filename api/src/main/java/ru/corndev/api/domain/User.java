@@ -11,9 +11,18 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotBlank(message = "Заполните имя пользователя")
     @Column(unique=true)
     private String username;
+
+    @NotBlank(message = "Введите номер телефона")
+    @Column(unique=true)
+    private String phone;
+
+    @NotBlank(message = "Введите E-mail")
+    @Column(unique=true)
+    private String email;
 
     private String password;
 
@@ -63,5 +72,21 @@ public class User {
 
     public void setEvents(List<Event> events) {
         this.events = events;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
