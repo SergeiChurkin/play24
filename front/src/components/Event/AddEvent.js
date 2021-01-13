@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { createEvent } from "../../actions/eventActions";
 
 class AddEvent extends Component {
   constructor() {
@@ -57,7 +60,10 @@ class AddEvent extends Component {
                 checked={this.state.repeated}
                 onChange={this.onChange}
               />
-              <label className="form-check-label mb-3" htmlFor="repeatedCheckBox">
+              <label
+                className="form-check-label mb-3"
+                htmlFor="repeatedCheckBox"
+              >
                 Использовать расписание для события
               </label>
               <input
