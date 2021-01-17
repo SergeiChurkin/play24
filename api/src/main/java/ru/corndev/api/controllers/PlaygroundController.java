@@ -14,6 +14,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("api/playground")
+@CrossOrigin
 public class PlaygroundController {
 
     @Autowired

@@ -16,9 +16,9 @@ public class Event {
     private Long id;
 
     @NotBlank(message = "Заполните название")
+    @Column(unique=true)
     private String eventName;
 
-    @NotBlank(message = "Выберите тип события")
     private boolean repeated;
 
 

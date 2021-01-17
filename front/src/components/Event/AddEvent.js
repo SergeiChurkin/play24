@@ -10,10 +10,17 @@ class AddEvent extends Component {
       eventName: "",
       repeated: false,
       eventDate: "",
+      errors: {},
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.errors) {
+      this.setState({ errors: newProps.errors });
+    }
   }
 
   onChange(e) {
@@ -33,10 +40,11 @@ class AddEvent extends Component {
       repeated: this.state.repeated,
       eventDate: this.state.eventDate,
     };
-    console.log(newEvent);
+    this.props.createEvent(newEvent, this.props.history);
   }
 
   render() {
+    const { errors } = this.state;
     return (
       <div className="row">
         <div className="col-md-8 m-auto">
@@ -52,6 +60,7 @@ class AddEvent extends Component {
                 value={this.state.eventName}
                 onChange={this.onChange}
               />
+              <p>{errors.eventName}</p>
               <input
                 className="form-check-input mb-3"
                 type="checkbox"
@@ -82,4 +91,16 @@ class AddEvent extends Component {
     );
   }
 }
-export default AddEvent;
+
+AddEvent.propTypes = {
+  createEvent: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  errors: state.errors,
+});
+
+export default connect(mapStateToProps, {
+  createEvent,
+})(AddEvent);
