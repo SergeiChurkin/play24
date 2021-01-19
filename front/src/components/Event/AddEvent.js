@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createEvent } from "../../actions/eventActions";
+import classnames from "classnames";
 
 class AddEvent extends Component {
   constructor() {
@@ -55,34 +56,43 @@ class AddEvent extends Component {
               <input
                 name="eventName"
                 type="text"
-                className="form-control form-control-lg mb-3"
+                className={classnames("form-control form-control-lg", {
+                  "is-invalid": errors.eventName,
+                })}
                 placeholder="Event Name"
                 value={this.state.eventName}
                 onChange={this.onChange}
               />
-              <p>{errors.eventName}</p>
+              {errors.eventName && (
+                <div className="invalid-feedback">
+                  {errors.eventName}
+                </div>
+              )}
               <input
-                className="form-check-input mb-3"
+                className="form-check-input"
                 type="checkbox"
                 id="repeatedCheckBox"
                 name="repeated"
                 checked={this.state.repeated}
                 onChange={this.onChange}
               />
-              <label
-                className="form-check-label mb-3"
-                htmlFor="repeatedCheckBox"
-              >
+              <label className="form-check-label" htmlFor="repeatedCheckBox">
                 Использовать расписание для события
               </label>
               <input
                 name="eventDate"
                 type="datetime-local"
-                className="form-control form-control-lg mb-3"
+                className={classnames("form-control form-control-lg", {
+                  "is-invalid": errors.eventDate,
+                })}
                 value={this.state.eventDate}
                 onChange={this.onChange}
               />
-
+              {errors.eventDate && (
+                <div className="invalid-feedback">
+                  {errors.eventDate}
+                </div>
+              )}
               <input type="submit" className="btn btn-info btn-block mt-4" />
             </div>
           </form>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_ERRORS } from "./types";
+import { GET_ERRORS, GET_EVENTS } from "./types";
 
 export const createEvent = (event, history) => async (dispatch) => {
   try {
@@ -12,3 +12,12 @@ export const createEvent = (event, history) => async (dispatch) => {
     });
   }
 };
+
+
+export const getEvents = () => async dispatch =>{
+  const res = await axios.get("http://localhost:8080/api/event/all");
+  dispatch({
+    type:GET_EVENTS,
+    payload:res.data
+  })
+}

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;
 
@@ -15,13 +16,11 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Заполните название")
+    @NotBlank(message = "Заполните название мероприятия")
     @Column(unique=true)
     private String eventName;
 
     private boolean repeated;
-
-
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "event_playground",
@@ -38,6 +37,10 @@ public class Event {
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date createdDate;
+
+    //@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+    @NotNull(message = "Выберите дату и время мероприятия")
+    private Date eventDate;
 
     @PrePersist
     protected void onCreate(){
@@ -95,5 +98,11 @@ public class Event {
         this.repeated = repeated;
     }
 
+    public Date getEventDate() {
+        return eventDate;
+    }
 
+    public void setEventDate(Date eventDate) {
+        this.eventDate = eventDate;
+    }
 }
