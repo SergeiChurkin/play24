@@ -7,6 +7,7 @@ import AddEvent from "./components/Event/AddEvent";
 import Landing from "./components/Landing";
 import { Provider } from "react-redux";
 import store from "./store";
+import UpdateEvent from "./components/Event/UpdateEvent";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route exact path="/" component={Landing} />
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/addEvent" component={AddEvent} />
+            <Route exact path="/updateEvent/:id" component={UpdateEvent} />
           </div>
         </div>
       </Router>

@@ -21,7 +21,7 @@ class Header extends Component {
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
                 <a className="nav-link" href="/dashboard">
-                  Dashboard
+                  Мой Планшет
                 </a>
               </li>
             </ul>
@@ -29,12 +29,12 @@ class Header extends Component {
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
                 <a className="nav-link " href="register.html">
-                  Sign Up
+                  Регистрация
                 </a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="login.html">
-                  Login
+                  Вход
                 </a>
               </li>
             </ul>

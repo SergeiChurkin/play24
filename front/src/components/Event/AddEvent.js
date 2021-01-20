@@ -47,9 +47,9 @@ class AddEvent extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <div className="row">
+      <div className="container">
         <div className="col-md-8 m-auto">
-          <h5 className="display-4 text-center">Create new Event</h5>
+          <h5 className="display-4 text-center">Добавляем мероприятие</h5>
           <hr />
           <form onSubmit={this.onSubmit}>
             <div className="form-group">
@@ -59,14 +59,12 @@ class AddEvent extends Component {
                 className={classnames("form-control form-control-lg", {
                   "is-invalid": errors.eventName,
                 })}
-                placeholder="Event Name"
+                placeholder="Название"
                 value={this.state.eventName}
                 onChange={this.onChange}
               />
               {errors.eventName && (
-                <div className="invalid-feedback">
-                  {errors.eventName}
-                </div>
+                <div className="invalid-feedback">{errors.eventName}</div>
               )}
               <input
                 className="form-check-input"
@@ -77,7 +75,7 @@ class AddEvent extends Component {
                 onChange={this.onChange}
               />
               <label className="form-check-label" htmlFor="repeatedCheckBox">
-                Использовать расписание для события
+                Использовать расписание
               </label>
               <input
                 name="eventDate"
@@ -89,11 +87,13 @@ class AddEvent extends Component {
                 onChange={this.onChange}
               />
               {errors.eventDate && (
-                <div className="invalid-feedback">
-                  {errors.eventDate}
-                </div>
+                <div className="invalid-feedback">{errors.eventDate}</div>
               )}
-              <input type="submit" className="btn btn-info btn-block mt-4" />
+              <input
+                type="submit"
+                className="btn btn-info btn-block mt-4"
+                value="СОЗДАТЬ МЕРОПРИЯТИЕ"
+              />
             </div>
           </form>
         </div>

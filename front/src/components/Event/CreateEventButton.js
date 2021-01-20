@@ -5,7 +5,7 @@ const CreateEventButton = () => {
   return (
     <React.Fragment>
       <Link to="/addEvent" className="btn btn-lg btn-info">
-        Create Event
+        Добавить мероприятие
       </Link>
     </React.Fragment>
   );

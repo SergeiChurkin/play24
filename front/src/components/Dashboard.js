@@ -18,7 +18,7 @@ class Dashboard extends Component {
     return (
       <div className="row">
         <div className="col-md-12">
-          <h1 className="display-4 text-center">Dashboard</h1>
+          <h1 className="display-4 text-center">Мой планшет</h1>
           <br />
           <CreateEventButton />
           <br />

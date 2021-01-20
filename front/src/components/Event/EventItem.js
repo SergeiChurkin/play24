@@ -1,43 +1,43 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class EventItem extends Component {
   render() {
-
-    const {event} = this.props;
+    const { event } = this.props;
 
     return (
-
-        <div className="card card-body bg-light mb-3">
-          <div className="row">
-            <div className="col-2">
-              <span className="mx-auto">{event.createdDate}</span>
-            </div>
-            <div className="col-lg-6 col-md-4 col-8">
-              <h3>{event.eventName}</h3>
-              <p>{event.eventDate}</p>
-            </div>
-            <div className="col-md-4 d-none d-lg-block">
-              <ul className="list-group">
-                <a href="/ss">
-                  <li className="list-group-item board">
-                    <i className="fa fa-flag-checkered pr-1">Project Board </i>
-                  </li>
-                </a>
-                <a href="/ss">
-                  <li className="list-group-item update">
-                    <i className="fa fa-edit pr-1">Update Project Info</i>
-                  </li>
-                </a>
-                <a href="/ss">
-                  <li className="list-group-item delete">
-                    <i className="fa fa-minus-circle pr-1">Delete Project</i>
-                  </li>
-                </a>
-              </ul>
-            </div>
+      <div className="card card-body bg-light mb-3">
+        <div className="row">
+          <div className="col-2">
+            <span className="mx-auto">{event.createdDate}</span>
+          </div>
+          <div className="col-lg-6 col-md-4 col-8">
+            <h3>{event.eventName}</h3>
+            <p>{event.eventDate}</p>
+          </div>
+          <div className="col-md-4 d-none d-lg-block">
+            <ul className="list-group">
+              <a href="/ss">
+                <li className="list-group-item board">
+                  <i className="fa fa-flag-checkered pr-1">
+                    Подробная информация
+                  </i>
+                </li>
+              </a>
+              <Link to={`/updateEvent/${event.id}`}>
+                <li className="list-group-item update">
+                  <i className="fa fa-edit pr-1">Изменить мероприятие</i>
+                </li>
+              </Link>
+              <a href="/ss">
+                <li className="list-group-item delete">
+                  <i className="fa fa-minus-circle pr-1">Удалить мероприятие</i>
+                </li>
+              </a>
+            </ul>
           </div>
         </div>
-
+      </div>
     );
   }
 }
