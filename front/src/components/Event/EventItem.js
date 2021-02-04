@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { deleteEvent } from "../../actions/eventActions";
 
 class EventItem extends Component {
+  onDeleteClick = (id) => {
+    this.props.deleteEvent(id);
+  };
+
   render() {
     const { event } = this.props;
 
@@ -17,23 +24,25 @@ class EventItem extends Component {
           </div>
           <div className="col-md-4 d-none d-lg-block">
             <ul className="list-group">
-              <a href="/ss">
+              <Link to={`/showEvent/${event.id}`}>
                 <li className="list-group-item board">
                   <i className="fa fa-flag-checkered pr-1">
                     Подробная информация
                   </i>
                 </li>
-              </a>
+              </Link>
               <Link to={`/updateEvent/${event.id}`}>
                 <li className="list-group-item update">
                   <i className="fa fa-edit pr-1">Изменить мероприятие</i>
                 </li>
               </Link>
-              <a href="/ss">
-                <li className="list-group-item delete">
-                  <i className="fa fa-minus-circle pr-1">Удалить мероприятие</i>
-                </li>
-              </a>
+
+              <li
+                className="list-group-item delete"
+                onClick={this.onDeleteClick.bind(this, event.id)}
+              >
+                <i className="fa fa-minus-circle pr-1">Удалить мероприятие</i>
+              </li>
             </ul>
           </div>
         </div>
@@ -42,4 +51,8 @@ class EventItem extends Component {
   }
 }
 
-export default EventItem;
+EventItem.propTypes = {
+  deleteEvent: PropTypes.func.isRequired,
+};
+
+export default connect(null, { deleteEvent })(EventItem);

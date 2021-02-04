@@ -35,13 +35,13 @@ public class EventController {
         return new ResponseEntity<Event>(theEvent, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{eventName}")
+/*    @GetMapping("/{eventName}")
     public ResponseEntity<?> getEventByName(@PathVariable String eventName){
         Event theEvent =  eventService.findEventByName(eventName);
         return new ResponseEntity<Event>(theEvent, HttpStatus.OK);
-    }
+    }*/
 
-    @GetMapping("/id/{eventId}")
+    @GetMapping("/{eventId}")
     public ResponseEntity<?> getPgByName(@PathVariable long eventId){
         Event theEvent =  eventService.findEventById(eventId);
         return new ResponseEntity<Event>(theEvent, HttpStatus.OK);

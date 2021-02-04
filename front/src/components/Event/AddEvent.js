@@ -80,6 +80,7 @@ class AddEvent extends Component {
               <input
                 name="eventDate"
                 type="datetime-local"
+                
                 className={classnames("form-control form-control-lg", {
                   "is-invalid": errors.eventDate,
                 })}
