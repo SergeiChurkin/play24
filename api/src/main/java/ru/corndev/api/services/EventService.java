@@ -6,6 +6,7 @@ import ru.corndev.api.domain.Event;
 import ru.corndev.api.domain.Playground;
 import ru.corndev.api.exceptions.AppException;
 import ru.corndev.api.repos.EventRepo;
+import ru.corndev.api.repos.PlaygroundRepo;
 
 @Service
 public class EventService {
@@ -13,8 +14,20 @@ public class EventService {
     @Autowired
     private EventRepo eventRepo;
 
+    @Autowired
+    private PlaygroundRepo playgroundRepo;
+
     public Event saveOrUpdateEvent(Event event){
         try{
+            if(event.getId()==null){
+                Playground playground = new Playground();
+                event.setPlayground(playground);
+                playground.setEvent(event);
+            }else{
+                event.setPlayground(playgroundRepo.findByEventId(event.getId()));
+
+            }
+
             return eventRepo.save(event);
         }
         catch (Exception ex) {

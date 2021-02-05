@@ -17,17 +17,17 @@ public class PlaygroundService {
             return playgroundRepo.save(playground);
         }
         catch (Exception ex) {
-            throw new AppException("Площадка с таким именем уже существует :'"+playground.getPlaygroundName()+"'");
+            throw new AppException("Площадка с таким именем уже существует :''");
         }
     }
 
-    public Playground findPgByName(String name){
+/*    public Playground findPgByName(String name){
         Playground thePlayground = playgroundRepo.findByPlaygroundName(name);
         if(thePlayground==null){
             throw new AppException("Площадка с таким именем не найдена");
         }
         return thePlayground;
-    }
+    }*/
 
     public Playground findPgById(long id){
         Playground thePlayground = playgroundRepo.findById(id);

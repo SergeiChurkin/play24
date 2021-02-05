@@ -26,21 +26,21 @@ public class User {
 
     private String password;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
-    private List<Event> events;
+/*    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    private List<Event> events;*/
 
     public User() {
     }
 
-    public void addEvent( Event event){
+/*    public void addEvent( Event event){
         events.add(event);
-        event.setOwner(this);
+        //event.setOwner(this);
     }
 
     public void deleteEvent(Event event){
         events.remove(event);
-        event.setOwner(null);
-    }
+        //event.setOwner(null);
+    }*/
 
     public Long getId() {
         return id;
@@ -66,13 +66,13 @@ public class User {
         this.password = password;
     }
 
-    public List<Event> getEvents() {
+/*    public List<Event> getEvents() {
         return events;
     }
 
     public void setEvents(List<Event> events) {
         this.events = events;
-    }
+    }*/
 
     public String getPhone() {
         return phone;

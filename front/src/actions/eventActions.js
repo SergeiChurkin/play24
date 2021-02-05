@@ -38,7 +38,7 @@ export const getEvent = (id, history) => async (dispatch) => {
 };
 
 export const deleteEvent = (id) => async (dispatch) => {
-  if (window.confirm("Удалить событие?")) {
+  if (window.confirm("Удалить мероприятие?")) {
     await axios.delete(`/api/event/${id}`);
     dispatch({
       type: DELETE_EVENT,

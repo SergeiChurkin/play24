@@ -22,16 +22,11 @@ public class Event {
 
     private boolean repeated;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(name = "event_playground",
-            joinColumns =
-                    { @JoinColumn(name = "event_id", referencedColumnName = "id") },
-            inverseJoinColumns =
-                    { @JoinColumn(name = "playground_id", referencedColumnName = "id") })
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "event")
     private Playground playground;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User owner;
+/*    @ManyToOne(fetch = FetchType.LAZY)
+    private User owner;*/
 
     //private Set<Long> playersIdSet;
 
@@ -66,14 +61,6 @@ public class Event {
         this.playground = playground;
     }
 
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
-
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -105,4 +92,5 @@ public class Event {
     public void setEventDate(Date eventDate) {
         this.eventDate = eventDate;
     }
+
 }

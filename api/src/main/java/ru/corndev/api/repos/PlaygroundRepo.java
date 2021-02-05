@@ -7,9 +7,11 @@ import ru.corndev.api.domain.Playground;
 @Repository
 public interface PlaygroundRepo extends CrudRepository<Playground, Long> {
 
-   Playground findByPlaygroundName(String playgroundName);
+   //Playground findByPlaygroundName(String playgroundName);
 
    Playground findById(long id);
+
+   Playground findByEventId(long id);
 
    @Override
    Iterable<Playground> findAll();

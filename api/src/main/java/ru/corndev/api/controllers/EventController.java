@@ -32,29 +32,29 @@ public class EventController {
         if(errorMap!=null) return errorMap;
 
         Event theEvent = eventService.saveOrUpdateEvent(event);
-        return new ResponseEntity<Event>(theEvent, HttpStatus.CREATED);
+        return new ResponseEntity<>(theEvent, HttpStatus.CREATED);
     }
 
 /*    @GetMapping("/{eventName}")
     public ResponseEntity<?> getEventByName(@PathVariable String eventName){
         Event theEvent =  eventService.findEventByName(eventName);
-        return new ResponseEntity<Event>(theEvent, HttpStatus.OK);
+        return new ResponseEntity<>(theEvent, HttpStatus.OK);
     }*/
 
     @GetMapping("/{eventId}")
-    public ResponseEntity<?> getPgByName(@PathVariable long eventId){
+    public ResponseEntity<?> getEventById(@PathVariable long eventId){
         Event theEvent =  eventService.findEventById(eventId);
-        return new ResponseEntity<Event>(theEvent, HttpStatus.OK);
+        return new ResponseEntity<>(theEvent, HttpStatus.OK);
     }
 
     @GetMapping("/all")
-    public Iterable<Event> getAllPEvents(){
+    public Iterable<Event> getAllEvents(){
         return eventService.findAllEvents();
     }
 
     @DeleteMapping("/{eventId}")
     public ResponseEntity<?> deleteEventById(@PathVariable long eventId){
         eventService.deleteEventById(eventId);
-        return new ResponseEntity<String>("Мероприятие было удалено", HttpStatus.OK);
+        return new ResponseEntity<>("Мероприятие было удалено", HttpStatus.OK);
     }
 }

@@ -32,18 +32,18 @@ public class PlaygroundController {
         if(errorMap!=null) return errorMap;
 
         Playground thePlayground = playgroundService.saveOrUpdatePlayground(playground);
-        return new ResponseEntity<Playground>(thePlayground, HttpStatus.CREATED);
+        return new ResponseEntity<>(thePlayground, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{pgName}")
+/*    @GetMapping("/{pgName}")
     public ResponseEntity<?> getPgByName(@PathVariable String pgName){
         Playground thePlayground =  playgroundService.findPgByName(pgName);
-        return new ResponseEntity<Playground>(thePlayground, HttpStatus.OK);
-    }
+        return new ResponseEntity<>(thePlayground, HttpStatus.OK);
+    }*/
     @GetMapping("/id/{pgId}")
     public ResponseEntity<?> getPgByName(@PathVariable long pgId){
         Playground thePlayground =  playgroundService.findPgById(pgId);
-        return new ResponseEntity<Playground>(thePlayground, HttpStatus.OK);
+        return new ResponseEntity<>(thePlayground, HttpStatus.OK);
     }
 
     @GetMapping("/all")
@@ -54,6 +54,6 @@ public class PlaygroundController {
     @DeleteMapping("/{pgId}")
     public ResponseEntity<?> deletePgById(@PathVariable long pgId){
         playgroundService.deletePgById(pgId);
-        return new ResponseEntity<String>("Площадка была удалена", HttpStatus.OK);
+        return new ResponseEntity<>("Площадка была удалена", HttpStatus.OK);
     }
 }

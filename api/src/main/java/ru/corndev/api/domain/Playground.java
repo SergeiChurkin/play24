@@ -2,6 +2,7 @@ package ru.corndev.api.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -16,23 +17,17 @@ public class Playground {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Введите название площадки")
-    @Column(unique=true)
-    private String playgroundName;
-
-    @NotBlank(message = "Необходимо указать адрес")
+    //@NotBlank(message = "Необходимо указать адрес")
     private String address;
 
-    @OneToOne(mappedBy = "playground")
-    private Event event;
+    private String longitude;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(name = "playground_coordinates",
-            joinColumns =
-                    { @JoinColumn(name = "playground_id", referencedColumnName = "id") },
-            inverseJoinColumns =
-                    { @JoinColumn(name = "coordinate_id", referencedColumnName = "id") })
-    private Coordinate coordinates;
+    private String latitude;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "event_id", nullable = false)
+    @JsonIgnore
+    private Event event;
 
 
     public Playground() {
@@ -44,14 +39,6 @@ public class Playground {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getPlaygroundName() {
-        return playgroundName;
-    }
-
-    public void setPlaygroundName(String playgroundName) {
-        this.playgroundName = playgroundName;
     }
 
     public String getAddress() {
@@ -70,11 +57,19 @@ public class Playground {
         this.event = event;
     }
 
-    public Coordinate getCoordinates() {
-        return coordinates;
+    public String getLongitude() {
+        return longitude;
     }
 
-    public void setCoordinates(Coordinate coordinates) {
-        this.coordinates = coordinates;
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 }
