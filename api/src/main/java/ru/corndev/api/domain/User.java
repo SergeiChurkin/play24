@@ -2,7 +2,9 @@ package ru.corndev.api.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -26,13 +28,13 @@ public class User {
 
     private String password;
 
-/*    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
-    private List<Event> events;*/
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Event> events = new HashSet<>();
 
     public User() {
     }
 
-/*    public void addEvent( Event event){
+/*    public void addEvent(Event event){
         events.add(event);
         //event.setOwner(this);
     }
@@ -66,13 +68,13 @@ public class User {
         this.password = password;
     }
 
-/*    public List<Event> getEvents() {
+    public Set<Event> getEvents() {
         return events;
     }
 
-    public void setEvents(List<Event> events) {
+    public void setEvents(Set<Event> events) {
         this.events = events;
-    }*/
+    }
 
     public String getPhone() {
         return phone;

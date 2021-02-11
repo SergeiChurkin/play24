@@ -25,9 +25,7 @@ public class EventService {
                 playground.setEvent(event);
             }else{
                 event.setPlayground(playgroundRepo.findByEventId(event.getId()));
-
             }
-
             return eventRepo.save(event);
         }
         catch (Exception ex) {

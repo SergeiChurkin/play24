@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createEvent } from "../../actions/eventActions";
 import classnames from "classnames";
+import { YMaps, Map, ZoomControl, SearchControl, Placemark } from "react-yandex-maps";
 
 class AddEvent extends Component {
   constructor() {
@@ -66,6 +67,26 @@ class AddEvent extends Component {
               {errors.eventName && (
                 <div className="invalid-feedback">{errors.eventName}</div>
               )}
+                </div>
+                <div className="form-group"> 
+              <YMaps>
+              <Map
+                state={{
+                  zoom: 9,
+                  center: [59.939095, 30.315868],
+  
+                }}
+                width={'100%'}
+                height={200}
+              >
+                <SearchControl />
+                <ZoomControl />
+                <Placemark 
+                  geometry={[59.939095, 30.315868]} />
+              </Map>
+            </YMaps>
+            </div>
+            <div className="form-group">
               <input
                 className="form-check-input"
                 type="checkbox"
@@ -77,10 +98,11 @@ class AddEvent extends Component {
               <label className="form-check-label" htmlFor="repeatedCheckBox">
                 Использовать расписание
               </label>
+              </div>
+              <div className="form-group">
               <input
                 name="eventDate"
                 type="datetime-local"
-                
                 className={classnames("form-control form-control-lg", {
                   "is-invalid": errors.eventDate,
                 })}
@@ -96,7 +118,9 @@ class AddEvent extends Component {
                 value="СОЗДАТЬ МЕРОПРИЯТИЕ"
               />
             </div>
+            <div className="form-group"></div>
           </form>
+
         </div>
       </div>
     );

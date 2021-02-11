@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -16,6 +17,8 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long ownerId = 0L;
+
     @NotBlank(message = "Заполните название мероприятия")
     @Column(unique=true)
     private String eventName;
@@ -25,10 +28,8 @@ public class Event {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "event")
     private Playground playground;
 
-/*    @ManyToOne(fetch = FetchType.LAZY)
-    private User owner;*/
-
-    //private Set<Long> playersIdSet;
+    @ManyToMany(mappedBy = "events", fetch = FetchType.LAZY)
+    private Set<User> users = new HashSet<>();
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date createdDate;
@@ -43,6 +44,19 @@ public class Event {
     }
 
     public Event() {
+    }
+
+    public void addUser(User user){
+        users.add(user);
+        user.getEvents().add(this);
+    }
+
+    public void removeUser(User user){
+        users.remove(user);
+        user.getEvents().remove(this);
+    }
+    public void setOwner(User user){
+        this.ownerId = user.getId();
     }
 
     public Long getId() {
@@ -93,4 +107,11 @@ public class Event {
         this.eventDate = eventDate;
     }
 
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
 }
