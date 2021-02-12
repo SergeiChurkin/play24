@@ -3,7 +3,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createEvent } from "../../actions/eventActions";
 import classnames from "classnames";
-import { YMaps, Map, ZoomControl, SearchControl, Placemark } from "react-yandex-maps";
+import {
+  YMaps,
+  Map,
+  ZoomControl,
+  SearchControl,
+  Placemark,
+} from "react-yandex-maps";
 
 class AddEvent extends Component {
   constructor() {
@@ -13,6 +19,7 @@ class AddEvent extends Component {
       repeated: false,
       eventDate: "",
       errors: {},
+      types: {},
     };
 
     this.onChange = this.onChange.bind(this);
@@ -67,24 +74,29 @@ class AddEvent extends Component {
               {errors.eventName && (
                 <div className="invalid-feedback">{errors.eventName}</div>
               )}
-                </div>
-                <div className="form-group"> 
+            </div>
+            <div className="form-group">
+              <select className="form-select form-select-sm"  aria-label="Тип мероприятия">
+                <option selected>Выберите тип мероприятия</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+            <div className="form-group">
               <YMaps>
-              <Map
-                state={{
-                  zoom: 9,
-                  center: [59.939095, 30.315868],
-  
-                }}
-                width={'100%'}
-                height={200}
-              >
-                <SearchControl />
-                <ZoomControl />
-                <Placemark 
-                  geometry={[59.939095, 30.315868]} />
-              </Map>
-            </YMaps>
+                <Map
+                  state={{
+                    zoom: 9,
+                    center: [59.939095, 30.315868],
+                  }}
+                  width={"100%"}
+                  height={200}
+                >
+                  <SearchControl />
+                  <Placemark geometry={[59.939095, 30.315868]} />
+                </Map>
+              </YMaps>
             </div>
             <div className="form-group">
               <input
@@ -98,8 +110,8 @@ class AddEvent extends Component {
               <label className="form-check-label" htmlFor="repeatedCheckBox">
                 Использовать расписание
               </label>
-              </div>
-              <div className="form-group">
+            </div>
+            <div className="form-group">
               <input
                 name="eventDate"
                 type="datetime-local"
@@ -120,7 +132,6 @@ class AddEvent extends Component {
             </div>
             <div className="form-group"></div>
           </form>
-
         </div>
       </div>
     );

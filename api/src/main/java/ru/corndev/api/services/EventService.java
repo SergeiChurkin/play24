@@ -6,6 +6,7 @@ import ru.corndev.api.domain.Event;
 import ru.corndev.api.domain.Playground;
 import ru.corndev.api.exceptions.AppException;
 import ru.corndev.api.repos.EventRepo;
+import ru.corndev.api.repos.EventTypeRepo;
 import ru.corndev.api.repos.PlaygroundRepo;
 
 @Service
@@ -16,6 +17,8 @@ public class EventService {
 
     @Autowired
     private PlaygroundRepo playgroundRepo;
+    @Autowired
+    private EventTypeRepo eventTypeRepo;
 
     public Event saveOrUpdateEvent(Event event){
         try{
@@ -24,6 +27,8 @@ public class EventService {
                 event.setPlayground(playground);
                 playground.setEvent(event);
             }else{
+                //System.out.println("EVENT TYPE ID_"+event.getTypeId());
+                event.setEventType(eventTypeRepo.findByEventsId(event.getId()));
                 event.setPlayground(playgroundRepo.findByEventId(event.getId()));
             }
             return eventRepo.save(event);

@@ -1,6 +1,7 @@
 package ru.corndev.api.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -28,6 +29,9 @@ public class Event {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "event")
     private Playground playground;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    private EventType eventType;
+
     @ManyToMany(mappedBy = "events", fetch = FetchType.LAZY)
     private Set<User> users = new HashSet<>();
 
@@ -54,6 +58,10 @@ public class Event {
     public void removeUser(User user){
         users.remove(user);
         user.getEvents().remove(this);
+    }
+
+    public long getTypeId(){
+        return eventType.getId();
     }
     public void setOwner(User user){
         this.ownerId = user.getId();
@@ -113,5 +121,21 @@ public class Event {
 
     public void setOwnerId(Long ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public EventType getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }

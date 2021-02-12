@@ -21,6 +21,7 @@ class EventItem extends Component {
           <div className="col-lg-6 col-md-4 col-8">
             <h3>{event.eventName}</h3>
             <p>{event.eventDate}</p>
+            <h4>{event.eventType.typeName}</h4>
           </div>
           <div className="col-md-4 d-none d-lg-block">
             <ul className="list-group">

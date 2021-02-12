@@ -3,6 +3,7 @@ import { GET_EVENT } from "../actions/types";
 
 const initialState = {
   events: [],
+  eventTypes:[],
   event: {},
 };
 
@@ -12,12 +13,14 @@ export default function (state = initialState, action) {
       return {
         ...state,
         events: action.payload,
+        
       };
 
     case GET_EVENT:
       return {
         ...state,
         event: action.payload,
+        eventTypes:action.payload,
       };
     case DELETE_EVENT:
       return {
