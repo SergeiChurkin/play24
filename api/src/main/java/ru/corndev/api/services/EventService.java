@@ -3,6 +3,7 @@ package ru.corndev.api.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.corndev.api.domain.Event;
+import ru.corndev.api.domain.EventType;
 import ru.corndev.api.domain.Playground;
 import ru.corndev.api.exceptions.AppException;
 import ru.corndev.api.repos.EventRepo;
@@ -20,12 +21,14 @@ public class EventService {
     @Autowired
     private EventTypeRepo eventTypeRepo;
 
-    public Event saveOrUpdateEvent(Event event){
+    public Event saveOrUpdateEvent(Event event, Long eventTypeId){
         try{
             if(event.getId()==null){
                 Playground playground = new Playground();
+                event.setEventType(eventTypeRepo.findById(1L));
                 event.setPlayground(playground);
                 playground.setEvent(event);
+
             }else{
                 //System.out.println("EVENT TYPE ID_"+event.getTypeId());
                 event.setEventType(eventTypeRepo.findByEventsId(event.getId()));

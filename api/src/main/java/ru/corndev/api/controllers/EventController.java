@@ -26,12 +26,13 @@ public class EventController {
     public ResponseEntity<?> createNewEvent(
             @Valid
             @RequestBody Event event,
+            @RequestParam(required=false, name = "eventTypeId") Long eventTypeId,
             BindingResult result
             ){
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap!=null) return errorMap;
 
-        Event theEvent = eventService.saveOrUpdateEvent(event);
+        Event theEvent = eventService.saveOrUpdateEvent(event,eventTypeId);
         return new ResponseEntity<>(theEvent, HttpStatus.CREATED);
     }
 

@@ -76,7 +76,11 @@ class AddEvent extends Component {
               )}
             </div>
             <div className="form-group">
-              <select className="form-select form-select-sm"  aria-label="Тип мероприятия">
+              <select
+                className="form-select form-select-sm"
+                name="eventTypeId"
+                aria-label="Тип мероприятия"
+              >
                 <option selected>Выберите тип мероприятия</option>
                 <option value="1">One</option>
                 <option value="2">Two</option>
