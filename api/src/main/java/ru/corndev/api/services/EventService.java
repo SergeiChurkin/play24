@@ -21,23 +21,23 @@ public class EventService {
     @Autowired
     private EventTypeRepo eventTypeRepo;
 
-    public Event saveOrUpdateEvent(Event event, Long eventTypeId){
+    public Event saveOrUpdateEvent(long eventTypeId, Event event){
         try{
             if(event.getId()==null){
                 Playground playground = new Playground();
-                event.setEventType(eventTypeRepo.findById(1L));
+                EventType eventType = eventTypeRepo.findById(eventTypeId);
+                event.setEventType(eventType);
                 event.setPlayground(playground);
                 playground.setEvent(event);
 
             }else{
-                //System.out.println("EVENT TYPE ID_"+event.getTypeId());
                 event.setEventType(eventTypeRepo.findByEventsId(event.getId()));
                 event.setPlayground(playgroundRepo.findByEventId(event.getId()));
             }
             return eventRepo.save(event);
         }
         catch (Exception ex) {
-            throw new AppException("Мероприятие с таким именем уже существует :'"+event.getEventName()+"'");
+            throw new AppException("Ошибка при создании/обновлении мероприятия \n"+ex);
         }
     }
 

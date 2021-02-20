@@ -3,27 +3,32 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createEvent } from "../../actions/eventActions";
 import classnames from "classnames";
-import {
-  YMaps,
-  Map,
-  ZoomControl,
-  SearchControl,
-  Placemark,
-} from "react-yandex-maps";
+import { YMaps, Map, SearchControl, Placemark } from "react-yandex-maps";
+
+import axios from "axios";
 
 class AddEvent extends Component {
   constructor() {
     super();
+    const { id } = this.props.match.params;
     this.state = {
       eventName: "",
-      repeated: false,
+      repeated: false, 
       eventDate: "",
+      type_id:id,
       errors: {},
-      types: {},
+      types: [],
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    axios.get("/api/eventtypes/all").then((res) => {
+      const types = res.data;
+      this.setState({ types });
+    });
   }
 
   componentWillReceiveProps(newProps) {
@@ -31,6 +36,7 @@ class AddEvent extends Component {
       this.setState({ errors: newProps.errors });
     }
   }
+
 
   onChange(e) {
     const target = e.target;
@@ -49,7 +55,8 @@ class AddEvent extends Component {
       repeated: this.state.repeated,
       eventDate: this.state.eventDate,
     };
-    this.props.createEvent(newEvent, this.props.history);
+
+    this.props.createEvent(this.props.type_id, newEvent, this.props.history);
   }
 
   render() {
@@ -77,14 +84,14 @@ class AddEvent extends Component {
             </div>
             <div className="form-group">
               <select
-                className="form-select form-select-sm"
-                name="eventTypeId"
-                aria-label="Тип мероприятия"
+                className="form-select"
+                name="type_id"
+                onChange={this.onChange}
               >
-                <option selected>Выберите тип мероприятия</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                <option disabled>Choose...</option>
+                {this.state.types.map((type) => (
+                  <option value={type.id} key={type.id}>{type.typeName}</option>
+                ))}
               </select>
             </div>
             <div className="form-group">

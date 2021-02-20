@@ -1,9 +1,9 @@
 import axios from "axios";
 import { GET_ERRORS, GET_EVENT, GET_EVENTS, DELETE_EVENT } from "./types";
 
-export const createEvent = (event, history) => async (dispatch) => {
+export const createEvent = (type_id, event, history) => async (dispatch) => {
   try {
-    const res = await axios.post("/api/event", event);
+    await axios.post(`/api/event/${type_id}`, event);
     history.push("/dashboard");
     dispatch({
       type: GET_ERRORS,

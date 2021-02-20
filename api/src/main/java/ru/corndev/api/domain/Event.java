@@ -33,6 +33,7 @@ public class Event {
     private EventType eventType;
 
     @ManyToMany(mappedBy = "events", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<User> users = new HashSet<>();
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
@@ -60,9 +61,7 @@ public class Event {
         user.getEvents().remove(this);
     }
 
-    public long getTypeId(){
-        return eventType.getId();
-    }
+
     public void setOwner(User user){
         this.ownerId = user.getId();
     }
@@ -138,4 +137,6 @@ public class Event {
     public void setUsers(Set<User> users) {
         this.users = users;
     }
+
+
 }
