@@ -18,7 +18,7 @@ function App() {
           <div className="container">
             <Route exact path="/" component={Landing} />
             <Route exact path="/dashboard" component={Dashboard} />
-            <Route exact path="/addEvent/:id" component={AddEvent} />
+            <Route exact path="/addEvent/" component={AddEvent} />
             <Route exact path="/updateEvent/:id" component={UpdateEvent} />
           </div>
         </div>

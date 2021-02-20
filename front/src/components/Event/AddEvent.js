@@ -10,12 +10,11 @@ import axios from "axios";
 class AddEvent extends Component {
   constructor() {
     super();
-    const { id } = this.props.match.params;
     this.state = {
       eventName: "",
       repeated: false, 
       eventDate: "",
-      type_id:id,
+      type_id:"",
       errors: {},
       types: [],
     };
@@ -55,8 +54,8 @@ class AddEvent extends Component {
       repeated: this.state.repeated,
       eventDate: this.state.eventDate,
     };
-
-    this.props.createEvent(this.props.type_id, newEvent, this.props.history);
+    //console.log(this.state.type_id);
+    this.props.createEvent(this.state.type_id, newEvent, this.props.history);
   }
 
   render() {
@@ -152,6 +151,7 @@ class AddEvent extends Component {
 AddEvent.propTypes = {
   createEvent: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
+  type_id:PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => ({
