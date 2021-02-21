@@ -31,7 +31,7 @@ public class EventService {
                 playground.setEvent(event);
 
             }else{
-                event.setEventType(eventTypeRepo.findByEventsId(event.getId()));
+                event.setEventType(eventTypeRepo.findById(eventTypeId));
                 event.setPlayground(playgroundRepo.findByEventId(event.getId()));
             }
             return eventRepo.save(event);

@@ -3,6 +3,7 @@ import classnames from "classnames";
 import { getEvent, createEvent } from "../../actions/eventActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import axios from "axios";
 
 class UpdateEvent extends Component {
   constructor() {
@@ -12,7 +13,10 @@ class UpdateEvent extends Component {
       eventName: "",
       repeated: false,
       eventDate: "",
+      eventType: {},
       errors: {},
+      type_id: "",
+      types: [],
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -23,7 +27,14 @@ class UpdateEvent extends Component {
       this.setState({ errors: nextProps.errors });
     }
 
-    const { id, eventName, repeated, eventDate, createdDate } = nextProps.event;
+    const {
+      id,
+      eventName,
+      repeated,
+      eventDate,
+      createdDate,
+      eventType,
+    } = nextProps.event;
 
     this.setState({
       id,
@@ -31,6 +42,7 @@ class UpdateEvent extends Component {
       repeated,
       eventDate,
       createdDate,
+      eventType,
     });
   }
 
@@ -52,11 +64,15 @@ class UpdateEvent extends Component {
       eventDate: this.state.eventDate,
       createdDate: this.state.createdDate,
     };
-    this.props.createEvent(updateEvent, this.props.history);
+    this.props.createEvent(this.state.type_id, updateEvent, this.props.history);
   }
   componentDidMount() {
     const { id } = this.props.match.params;
     this.props.getEvent(id, this.props.history);
+    axios.get("/api/eventtypes/all").then((res) => {
+      const types = res.data;
+      this.setState({ types });
+    });
   }
   render() {
     const { errors } = this.state;
@@ -80,7 +96,25 @@ class UpdateEvent extends Component {
               {errors.eventName && (
                 <div className="invalid-feedback">{errors.eventName}</div>
               )}
-
+            </div>
+            <div className="form-group">
+              <select
+                className="form-select"
+                name="type_id"
+                onChange={this.onChange}
+              >
+                {this.state.types.map((type) => (
+                  <option
+                    value={type.id}
+                    key={type.id}
+                    selected={type.id == this.state.eventType.id}
+                  >
+                    {type.typeName}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="form-group">
               <input
                 className="form-check-input"
                 type="checkbox"
@@ -92,6 +126,8 @@ class UpdateEvent extends Component {
               <label className="form-check-label" htmlFor="repeatedCheckBox">
                 Использовать расписание
               </label>
+            </div>
+            <div className="form-group">
               <input
                 name="eventDate"
                 type="datetime-local"
@@ -104,12 +140,12 @@ class UpdateEvent extends Component {
               {errors.eventDate && (
                 <div className="invalid-feedback">{errors.eventDate}</div>
               )}
-              <input
-                type="submit"
-                className="btn btn-info btn-block mt-4"
-                value="ОБНОВИТЬ МЕРОПРИЯТИЕ"
-              />
             </div>
+            <input
+              type="submit"
+              className="btn btn-info btn-block mt-4"
+              value="ОБНОВИТЬ МЕРОПРИЯТИЕ"
+            />
           </form>
         </div>
       </div>

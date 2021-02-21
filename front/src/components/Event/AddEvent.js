@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createEvent } from "../../actions/eventActions";
 import classnames from "classnames";
-import { YMaps, Map, SearchControl, Placemark } from "react-yandex-maps";
-
+import { YMaps, Map, Placemark } from "react-yandex-maps";
 import axios from "axios";
 
 class AddEvent extends Component {
@@ -12,11 +11,12 @@ class AddEvent extends Component {
     super();
     this.state = {
       eventName: "",
-      repeated: false, 
+      repeated: false,
       eventDate: "",
-      type_id:"",
+      type_id: "",
       errors: {},
       types: [],
+      mapState :{ center: [59.939095, 30.315868], zoom: 10 },
     };
 
     this.onChange = this.onChange.bind(this);
@@ -35,7 +35,6 @@ class AddEvent extends Component {
       this.setState({ errors: newProps.errors });
     }
   }
-
 
   onChange(e) {
     const target = e.target;
@@ -60,6 +59,7 @@ class AddEvent extends Component {
 
   render() {
     const { errors } = this.state;
+    
     return (
       <div className="container">
         <div className="col-md-8 m-auto">
@@ -89,24 +89,20 @@ class AddEvent extends Component {
               >
                 <option disabled>Choose...</option>
                 {this.state.types.map((type) => (
-                  <option value={type.id} key={type.id}>{type.typeName}</option>
+                  <option value={type.id} key={type.id}>
+                    {type.typeName}
+                  </option>
                 ))}
               </select>
             </div>
             <div className="form-group">
-              <YMaps>
-                <Map
-                  state={{
-                    zoom: 9,
-                    center: [59.939095, 30.315868],
-                  }}
-                  width={"100%"}
-                  height={200}
-                >
-                  <SearchControl />
-                  <Placemark geometry={[59.939095, 30.315868]} />
-                </Map>
-              </YMaps>
+            <YMaps>
+            <Map state={this.state.mapState}>
+        
+
+        
+            </Map>
+          </YMaps>
             </div>
             <div className="form-group">
               <input
@@ -140,7 +136,6 @@ class AddEvent extends Component {
                 value="СОЗДАТЬ МЕРОПРИЯТИЕ"
               />
             </div>
-            <div className="form-group"></div>
           </form>
         </div>
       </div>
@@ -151,7 +146,6 @@ class AddEvent extends Component {
 AddEvent.propTypes = {
   createEvent: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  type_id:PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => ({
