@@ -20,31 +20,22 @@ class EventItem extends Component {
           </div>
           <div className="col-lg-6 col-md-4 col-8">
             <h3>{event.eventName}</h3>
-            <p>{event.eventDate}</p>
             <h4>{event.eventType.typeName}</h4>
+            <p>{event.eventDate}</p>
           </div>
-          <div className="col-md-4 d-none d-lg-block">
-            <ul className="list-group">
-              <Link to={`/showEvent/${event.id}`}>
-                <li className="list-group-item board">
-                  <i className="fa fa-flag-checkered pr-1">
-                    Подробная информация
-                  </i>
-                </li>
-              </Link>
-              <Link to={`/updateEvent/${event.id}`}>
-                <li className="list-group-item update">
-                  <i className="fa fa-edit pr-1">Изменить мероприятие</i>
-                </li>
-              </Link>
-
-              <li
-                className="list-group-item delete"
-                onClick={this.onDeleteClick.bind(this, event.id)}
-              >
-                <i className="fa fa-minus-circle pr-1">Удалить мероприятие</i>
-              </li>
-            </ul>
+          <div className="col-md-4 btn-group-vertical">
+            <Link to={`/showEvent/${event.id}`} className="btn btn-info">
+              Подробная информация
+            </Link>
+            <Link to={`/updateEvent/${event.id}`} className="btn btn-warning">
+              Изменить мероприятие
+            </Link>
+            <button
+              className="btn btn-danger"
+              onClick={this.onDeleteClick.bind(this, event.id)}
+            >
+              Удалить мероприятие
+            </button>
           </div>
         </div>
       </div>

@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.corndev.api.domain.Event;
+import ru.corndev.api.domain.Schedule;
+import ru.corndev.api.models.CompleteEvent;
 import ru.corndev.api.services.EventService;
 import ru.corndev.api.services.MapValidationErrorService;
 
@@ -25,15 +27,18 @@ public class EventController {
     @PostMapping("/{event_id}")
     public ResponseEntity<?> createNewEvent(
             @Valid
-            @RequestBody Event event,
+            @RequestBody CompleteEvent completeEvent,
+
             BindingResult result,
             @PathVariable long event_id
 
             ){
+        System.out.println(completeEvent);
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap!=null) return errorMap;
 
-        Event theEvent = eventService.saveOrUpdateEvent(event_id, event);
+        Event theEvent = eventService.saveOrUpdateEvent(event_id, completeEvent.event, completeEvent.schedules);
+
         return new ResponseEntity<>(theEvent, HttpStatus.CREATED);
     }
 

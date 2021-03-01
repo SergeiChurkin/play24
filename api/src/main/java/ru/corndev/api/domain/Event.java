@@ -27,6 +27,7 @@ public class Event {
     private boolean repeated;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "event")
+    @JsonIgnore
     private Playground playground;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -35,6 +36,10 @@ public class Event {
     @ManyToMany(mappedBy = "events", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<User> users = new HashSet<>();
+
+    @OneToMany(mappedBy = "event",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Schedule> schedules = new HashSet<>();
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date createdDate;
@@ -51,6 +56,10 @@ public class Event {
     public Event() {
     }
 
+    public void addScheduleItem(Schedule schedule){
+        schedules.add(schedule);
+        schedule.setEvent(this);
+    }
     public void addUser(User user){
         users.add(user);
         user.getEvents().add(this);
@@ -138,5 +147,20 @@ public class Event {
         this.users = users;
     }
 
+    public Set<Schedule> getSchedules() {
+        return schedules;
+    }
 
+    public void setSchedules(Set<Schedule> schedules) {
+        this.schedules = schedules;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", eventName='" + eventName + '\'' +
+                ", eventType=" + eventType +
+                '}';
+    }
 }

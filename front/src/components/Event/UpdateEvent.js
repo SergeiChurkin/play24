@@ -15,7 +15,7 @@ class UpdateEvent extends Component {
       eventDate: "",
       eventType: {},
       errors: {},
-      type_id: "",
+      type_id: 0,
       types: [],
     };
     this.onChange = this.onChange.bind(this);
@@ -44,6 +44,9 @@ class UpdateEvent extends Component {
       createdDate,
       eventType,
     });
+    this.setState({
+      type_id: this.state.eventType.id,
+    });
   }
 
   onChange(e) {
@@ -64,6 +67,7 @@ class UpdateEvent extends Component {
       eventDate: this.state.eventDate,
       createdDate: this.state.createdDate,
     };
+    console.log(this.state.type_id + "<-new   old ->"+ this.state.eventType.id) 
     this.props.createEvent(this.state.type_id, updateEvent, this.props.history);
   }
   componentDidMount() {
@@ -99,16 +103,13 @@ class UpdateEvent extends Component {
             </div>
             <div className="form-group">
               <select
-                className="form-select"
+                className="form-control form-control-lg"
                 name="type_id"
+                defaultValue={this.state.eventType.id}
                 onChange={this.onChange}
               >
                 {this.state.types.map((type) => (
-                  <option
-                    value={type.id}
-                    key={type.id}
-                    selected={type.id == this.state.eventType.id}
-                  >
+                  <option value={type.id} key={type.id}>
                     {type.typeName}
                   </option>
                 ))}

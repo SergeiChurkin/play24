@@ -5,10 +5,13 @@ import org.springframework.stereotype.Service;
 import ru.corndev.api.domain.Event;
 import ru.corndev.api.domain.EventType;
 import ru.corndev.api.domain.Playground;
+import ru.corndev.api.domain.Schedule;
 import ru.corndev.api.exceptions.AppException;
 import ru.corndev.api.repos.EventRepo;
 import ru.corndev.api.repos.EventTypeRepo;
 import ru.corndev.api.repos.PlaygroundRepo;
+
+import java.util.Set;
 
 @Service
 public class EventService {
@@ -21,17 +24,29 @@ public class EventService {
     @Autowired
     private EventTypeRepo eventTypeRepo;
 
-    public Event saveOrUpdateEvent(long eventTypeId, Event event){
+    public Event saveOrUpdateEvent(long eventTypeId, Event event, Set<Schedule> schedules){
+        EventType eventType = eventTypeRepo.findById(eventTypeId);
+        if(eventType==null){
+            throw new AppException("Выберите тип мероприятия");
+        }
         try{
-            if(event.getId()==null){
+            if(event.getId()==null){// new event
                 Playground playground = new Playground();
-                EventType eventType = eventTypeRepo.findById(eventTypeId);
+                if(schedules!=null && !schedules.isEmpty()){
+                    for (Schedule sch:schedules
+                         ) {
+                        Schedule schedule = new Schedule();
+                        schedule.setDay(sch.getDay());
+                        schedule.setTime(sch.getTime());
+                        event.addScheduleItem(schedule);
+                        System.out.println(sch);
+                    }
+                }
                 event.setEventType(eventType);
                 event.setPlayground(playground);
                 playground.setEvent(event);
-
-            }else{
-                event.setEventType(eventTypeRepo.findById(eventTypeId));
+            }else{// update event
+                event.setEventType(eventType);
                 event.setPlayground(playgroundRepo.findByEventId(event.getId()));
             }
             return eventRepo.save(event);

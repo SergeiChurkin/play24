@@ -14,7 +14,7 @@ public class EventType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @NotBlank(message = "Заполните название мероприятия")
+    @NotBlank(message = "Заполните название типа мероприятия")
     @Column(unique=true)
     private String typeName;
 

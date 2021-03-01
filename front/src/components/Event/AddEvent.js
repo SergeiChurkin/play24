@@ -13,10 +13,12 @@ class AddEvent extends Component {
       eventName: "",
       repeated: false,
       eventDate: "",
-      type_id: "",
+      typeId: 1,
       errors: {},
       types: [],
-      mapState :{ center: [59.939095, 30.315868], zoom: 10 },
+      mapState: { center: [59.939095, 30.315868], zoom: 10 },
+      day: "",
+      time: "",
     };
 
     this.onChange = this.onChange.bind(this);
@@ -53,13 +55,26 @@ class AddEvent extends Component {
       repeated: this.state.repeated,
       eventDate: this.state.eventDate,
     };
-    //console.log(this.state.type_id);
-    this.props.createEvent(this.state.type_id, newEvent, this.props.history);
+    const newSchedule = { day: "Понедельник", time: "15:00" };
+
+    const completeEvent = {
+      event: newEvent,
+      schedules: [
+        { day: "Понедельник", time: "15:00" },
+        { day: "Вторник", time: "18:30" },
+      ],
+    };
+
+    this.props.createEvent(
+      this.state.typeId,
+      completeEvent,
+      this.props.history
+    );
   }
 
   render() {
     const { errors } = this.state;
-    
+
     return (
       <div className="container">
         <div className="col-md-8 m-auto">
@@ -83,26 +98,22 @@ class AddEvent extends Component {
             </div>
             <div className="form-group">
               <select
-                className="form-select"
-                name="type_id"
+                className={classnames("form-control form-control-lg", {
+                  "is-invalid": errors.message,
+                })}
+                value={this.state.typeId}
+                name="typeId"
                 onChange={this.onChange}
               >
-                <option disabled>Choose...</option>
                 {this.state.types.map((type) => (
                   <option value={type.id} key={type.id}>
                     {type.typeName}
                   </option>
                 ))}
               </select>
-            </div>
-            <div className="form-group">
-            <YMaps>
-            <Map state={this.state.mapState}>
-        
-
-        
-            </Map>
-          </YMaps>
+              {errors.message && (
+                <div className="invalid-feedback">{errors.message}</div>
+              )}
             </div>
             <div className="form-group">
               <input
@@ -116,6 +127,42 @@ class AddEvent extends Component {
               <label className="form-check-label" htmlFor="repeatedCheckBox">
                 Использовать расписание
               </label>
+            </div>
+            <div className="form-group">
+              <select className="form-control-lg mr-3" name="day">
+                <option>Понедельник</option>
+                <option>Вторник</option>
+                <option>Среда</option>
+                <option>Четверг</option>
+                <option>Пятница</option>
+                <option>Суббота</option>
+                <option>Воскресенье</option>
+              </select>
+              <input
+                name="time"
+                type="time"
+                min="08:00"
+                max="21:00"
+                className="form-control-lg"
+              ></input>
+            </div>
+            <div className="form-group">
+              <select className="form-control-lg mr-3" name="day1">
+                <option>Понедельник</option>
+                <option>Вторник</option>
+                <option>Среда</option>
+                <option>Четверг</option>
+                <option>Пятница</option>
+                <option>Суббота</option>
+                <option>Воскресенье</option>
+              </select>
+              <input
+                name="time1"
+                type="time"
+                min="08:00"
+                max="21:00"
+                className="form-control-lg"
+              ></input>
             </div>
             <div className="form-group">
               <input
