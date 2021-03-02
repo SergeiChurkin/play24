@@ -33,7 +33,6 @@ public class EventController {
             @PathVariable long event_id
 
             ){
-        System.out.println(completeEvent);
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap!=null) return errorMap;
 

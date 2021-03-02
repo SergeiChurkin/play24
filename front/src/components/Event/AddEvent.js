@@ -17,8 +17,12 @@ class AddEvent extends Component {
       errors: {},
       types: [],
       mapState: { center: [59.939095, 30.315868], zoom: 10 },
-      day: "",
-      time: "",
+      day1: "",
+      time1: "",
+      day2: "",
+      time2: "",
+      day3: "",
+      time3: "",
     };
 
     this.onChange = this.onChange.bind(this);
@@ -55,13 +59,13 @@ class AddEvent extends Component {
       repeated: this.state.repeated,
       eventDate: this.state.eventDate,
     };
-    const newSchedule = { day: "Понедельник", time: "15:00" };
 
     const completeEvent = {
       event: newEvent,
       schedules: [
-        { day: "Понедельник", time: "15:00" },
-        { day: "Вторник", time: "18:30" },
+        { day:this.state.day1, time:this.state.time1 },
+        { day:this.state.day2, time:this.state.time2 },
+        { day:this.state.day3, time:this.state.time3 },
       ],
     };
 
@@ -129,25 +133,12 @@ class AddEvent extends Component {
               </label>
             </div>
             <div className="form-group">
-              <select className="form-control-lg mr-3" name="day">
-                <option>Понедельник</option>
-                <option>Вторник</option>
-                <option>Среда</option>
-                <option>Четверг</option>
-                <option>Пятница</option>
-                <option>Суббота</option>
-                <option>Воскресенье</option>
-              </select>
-              <input
-                name="time"
-                type="time"
-                min="08:00"
-                max="21:00"
-                className="form-control-lg"
-              ></input>
-            </div>
-            <div className="form-group">
-              <select className="form-control-lg mr-3" name="day1">
+              <select
+                className="form-control-lg mr-3"
+                name="day1"
+                onChange={this.onChange}
+                value={this.state.day1}
+              >
                 <option>Понедельник</option>
                 <option>Вторник</option>
                 <option>Среда</option>
@@ -161,7 +152,59 @@ class AddEvent extends Component {
                 type="time"
                 min="08:00"
                 max="21:00"
+                value={this.state.time1}
                 className="form-control-lg"
+                onChange={this.onChange}
+              ></input>
+            </div>
+            <div className="form-group">
+              <select
+                className="form-control-lg mr-3"
+                name="day2"
+                value={this.state.day2}
+                onChange={this.onChange}
+              >
+                <option>Понедельник</option>
+                <option>Вторник</option>
+                <option>Среда</option>
+                <option>Четверг</option>
+                <option>Пятница</option>
+                <option>Суббота</option>
+                <option>Воскресенье</option>
+              </select>
+              <input
+                name="time2"
+                type="time"
+                min="08:00"
+                max="21:00"
+                value={this.state.time2}
+                className="form-control-lg"
+                onChange={this.onChange}
+              ></input>
+            </div>
+            <div className="form-group">
+              <select
+                className="form-control-lg mr-3"
+                name="day3"
+                value={this.state.day3}
+                onChange={this.onChange}
+              >
+                <option>Понедельник</option>
+                <option>Вторник</option>
+                <option>Среда</option>
+                <option>Четверг</option>
+                <option>Пятница</option>
+                <option>Суббота</option>
+                <option>Воскресенье</option>
+              </select>
+              <input
+                name="time3"
+                type="time"
+                min="08:00"
+                max="21:00"
+                value={this.state.time3}
+                className="form-control-lg"
+                onChange={this.onChange}
               ></input>
             </div>
             <div className="form-group">
