@@ -20,7 +20,7 @@ public class Event {
 
     private Long ownerId = 0L;
 
-    @NotBlank(message = "Заполните название мероприятия")
+    //@NotBlank(message = "Заполните название мероприятия")
     @Column(unique=true)
     private String eventName;
 
@@ -45,7 +45,7 @@ public class Event {
     private Date createdDate;
 
     //@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
-    @NotNull(message = "Выберите дату и время мероприятия")
+    //@NotNull(message = "Выберите дату и время мероприятия")
     private Date eventDate;
 
     @PrePersist
