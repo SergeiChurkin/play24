@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createEvent } from "../../actions/eventActions";
 import classnames from "classnames";
-import { Formik, Field, Form, ErrorMessage, FieldArray} from "formik";
+import { Formik, Field, Form, ErrorMessage, FieldArray } from "formik";
 import { YMaps, Map, Placemark } from "react-yandex-maps";
 import axios from "axios";
-
+import { Button } from "bootstrap";
 
 class AddEvent extends Component {
   constructor() {
@@ -28,8 +28,63 @@ class AddEvent extends Component {
     };
 
     this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-    
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  addScheduleInputClick() {
+    this.setState((prevState) => ({
+      schedules: [...prevState.schedules, { day: "", time: "" }],
+    }));
+  }
+
+  createScheduleUI() {
+    return this.state.schedules.map((el, i) => (
+      <div key={i} className="form-group">
+        <select
+          name="day"
+          className="form-control"
+          defaultValue={el.day || "0"}
+          onChange={this.handleChange.bind(this, i)}
+        >
+          <option value="0" disabled>
+            Выберите день
+          </option>
+          <option value="1">Понедельник</option>
+          <option value="2">Вторник</option>
+          <option value="3">Среда</option>
+          <option value="4">Четверг</option>
+          <option value="5">Пятница</option>
+          <option value="6">Суббота</option>
+          <option value="7">Воскресенье</option>
+        </select>
+        <input
+          name="time"
+          type="time"
+          className="form-control"
+          value={el.time || ""}
+          onChange={this.handleChange.bind(this, i)}
+        />
+        <input
+          type="button"
+          value="Удалить день"
+          className="btn btn-danger"
+          onClick={this.removeClick.bind(this, i)}
+        />
+      </div>
+    ));
+  }
+
+  handleChange(i, e) {
+    e.preventDefault();
+    const { name, value } = e.target;
+    let schedules = [...this.state.schedules];
+    schedules[i] = { ...schedules[i], [name]: value };
+    this.setState({ schedules });
+  }
+
+  removeClick(i) {
+    let schedules = [...this.state.schedules];
+    schedules.splice(i, 1);
+    this.setState({ schedules });
   }
 
   componentDidMount() {
@@ -55,18 +110,17 @@ class AddEvent extends Component {
     });
   }
 
-
-  onSubmit(e) {
+  handleSubmit(e) {
     e.preventDefault();
     const newEvent = {
       eventName: this.state.eventName,
       repeated: this.state.repeated,
       eventDate: this.state.eventDate,
     };
-    console.log(this.values  );
+    console.log(this.values);
     const completeEvent = {
       event: newEvent,
-      schedules:this.values 
+      schedules: this.values,
     };
 
     this.props.createEvent(
@@ -78,151 +132,98 @@ class AddEvent extends Component {
 
   render() {
     const { errors } = this.state;
-
+    const { useSchedule } = this.state.repeated;
     return (
       <div className="container">
         <div className="col-md-8 m-auto">
           <h5 className="display-4 text-center">Добавляем мероприятие</h5>
           <hr />
-          <Formik 
-          enableReinitialize
-          initialValues={this.state}
-          >
-            {({  values }) => (
-              <form onSubmit={this.onSubmit}>
-  
-                <div className="form-group">
-                  <input
-                    name="eventName"
-                    type="text"
-                    className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.eventName,
-                    })}
-                    placeholder="Название"
-                    value={this.state.eventName}
-                    onChange={this.onChange}
-                  />
-                  {errors.eventName && (
-                    <div className="invalid-feedback">{errors.eventName}</div>
-                  )}
-                </div>
-                <div className="form-group">
-                  <select
-                    className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.message,
-                    })}
-                    value={this.state.typeId}
-                    name="typeId"
-                    onChange={this.onChange}
-                  >
-                    {this.state.types.map((type) => (
-                      <option value={type.id} key={type.id}>
-                        {type.typeName}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.message && (
-                    <div className="invalid-feedback">{errors.message}</div>
-                  )}
-                </div>
-                <div className="form-group">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    id="repeatedCheckBox"
-                    name="repeated"
-                    checked={this.state.repeated}
-                    onChange={this.onChange}
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="repeatedCheckBox"
-                  >
-                    Использовать расписание
-                  </label>
-                </div>
-                <div className="form-group">
-                  <FieldArray name="schedules">
-                    {({ insert, remove, push }) => (
-                      <div>
-                        {values.schedules.length > 0 &&
-                          values.schedules.map((schedule, index) => (
-                            <div className="row" key={index}>
-                              <div className="col">
-                                <Field
-                                  as="select"
-                                  name={`schedules.${index}.day`}
-                                >
-                                  <option selected>Понедельник</option>
-                                  <option>Вторник</option>
-                                  <option>Среда</option>
-                                  <option>Четверг</option>
-                                  <option>Пятница</option>
-                                  <option>Суббота</option>
-                                  <option>Воскресенье</option>
-                                </Field>
-                                <ErrorMessage
-                                  name={`schedules.${index}.day`}
-                                  component="div"
-                                  className="field-error"
-                                />
-                              </div>
-                              <div className="col">
-                                <Field
-                                  name={`schedules.${index}.time`}
-                                  type="time"
-                                />
-                                <ErrorMessage
-                                  name={`schedules.${index}.time`}
-                                  component="div"
-                                  className="field-error"
-                                />
-                              </div>
-                              <div className="col">
-                                <button
-                                  type="button"
-                                  className="secondary"
-                                  onClick={() => remove(index)}
-                                >
-                                  Удалить
-                                </button>
-                              </div>
-                            </div>
-                          ))}
-                        <button
-                          type="button"
-                          className="secondary"
-                          onClick={() => push({ day: "", time: "" })}
-                        >
-                          Добавить день
-                        </button>
-                      </div>
-                    )}
-                  </FieldArray>
-                </div>
-                
-                <div className="form-group">
-                  <input
-                    name="eventDate"
-                    type="datetime-local"
-                    className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.eventDate,
-                    })}
-                    value={this.state.eventDate}
-                    onChange={this.onChange}
-                  />
-                  {errors.eventDate && (
-                    <div className="invalid-feedback">{errors.eventDate}</div>
-                  )}
-                  <input
-                    type="submit"
-                    className="btn btn-info btn-block mt-4"
-                    value="СОЗДАТЬ МЕРОПРИЯТИЕ"
-                  />
-                </div>
-              </form>
+
+          <form handleSubmit={this.handleSubmit}>
+            <div className="form-group">
+              <input
+                name="eventName"
+                type="text"
+                className={classnames("form-control form-control-lg", {
+                  "is-invalid": errors.eventName,
+                })}
+                placeholder="Название"
+                value={this.state.eventName}
+                onChange={this.onChange}
+              />
+              {errors.eventName && (
+                <div className="invalid-feedback">{errors.eventName}</div>
+              )}
+            </div>
+            <div className="form-group">
+              <select
+                className={classnames("form-control form-control-lg", {
+                  "is-invalid": errors.message,
+                })}
+                value={this.state.typeId}
+                name="typeId"
+                onChange={this.onChange}
+              >
+                {this.state.types.map((type) => (
+                  <option value={type.id} key={type.id}>
+                    {type.typeName}
+                  </option>
+                ))}
+              </select>
+              {errors.message && (
+                <div className="invalid-feedback">{errors.message}</div>
+              )}
+            </div>
+            <div className="form-group">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="repeatedCheckBox"
+                name="repeated"
+                checked={this.state.repeated}
+                onChange={this.onChange}
+              />
+              <label className="form-check-label" htmlFor="repeatedCheckBox">
+                Использовать расписание
+              </label>
+            </div>
+            {this.state.repeated ? (
+              <div  className="form-group">
+              <input
+                type="button"
+                value="Добавить день"
+                className="btn btn-secondary"
+                onClick={this.addScheduleInputClick.bind(this)}
+              />
+              </div>
+            ) : null}
+            {this.state.repeated ? (
+              this.createScheduleUI()
+            ) : (
+              <div className="form-group">
+                <input
+                  name="eventDate"
+                  type="datetime-local"
+                  className={classnames("form-control form-control-lg", {
+                    "is-invalid": errors.eventDate,
+                  })}
+                  value={this.state.eventDate}
+                  onChange={this.onChange}
+                />
+                {errors.eventDate && (
+                  <div className="invalid-feedback">{errors.eventDate}</div>
+                )}
+              </div>
             )}
-          </Formik>
+
+            <div className="form-group">
+              <input
+                type="submit"
+                className="btn btn-info btn-block"
+                value="СОЗДАТЬ МЕРОПРИЯТИЕ"
+              />
+            </div>
+          </form>
         </div>
       </div>
     );
