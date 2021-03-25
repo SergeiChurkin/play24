@@ -62,12 +62,13 @@ class AddEvent extends Component {
           value={el.time || ""}
           onChange={this.handleChange.bind(this, i)}
         />
+        {i>0 &&
         <input
           type="button"
           value="Удалить день"
           className="btn btn-danger"
           onClick={this.removeClick.bind(this, i)}
-        />
+        />}
       </div>
     ));
   }
@@ -82,8 +83,9 @@ class AddEvent extends Component {
 
   removeClick(i) {
     let schedules = [...this.state.schedules];
+    if(schedules.length>1){
     schedules.splice(i, 1);
-    this.setState({ schedules });
+    this.setState({ schedules });}
   }
 
   componentDidMount() {
@@ -121,7 +123,6 @@ class AddEvent extends Component {
       event: newEvent,
       schedules: this.state.schedules,
     };
-    console.log(this.state.schedules);
     this.props.createEvent(
       this.state.typeId,
       completeEvent,
@@ -131,7 +132,6 @@ class AddEvent extends Component {
 
   render() {
     const { errors } = this.state;
-    const { useSchedule } = this.state.repeated;
     return (
       <div className="container">
         <div className="col-md-8 m-auto">

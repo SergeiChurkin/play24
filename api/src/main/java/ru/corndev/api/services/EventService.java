@@ -32,10 +32,10 @@ public class EventService {
         try{
             if(event.getId()==null){// new event
                 Playground playground = new Playground();
-                if(schedules!=null && !schedules.isEmpty()){
+                if(schedules!=null && !schedules.isEmpty() && event.isRepeated()){
                     for (Schedule sch:schedules
                          ) {
-                        if(sch.getDay()!="" && sch.getTime()!="") {
+                        if(!sch.getDay().equals("") && !sch.getTime().equals("")) {
                             Schedule schedule = new Schedule();
                             schedule.setDay(sch.getDay());
                             schedule.setTime(sch.getTime());
