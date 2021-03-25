@@ -28,7 +28,6 @@ public class EventController {
     public ResponseEntity<?> createNewEvent(
             @Valid
             @RequestBody CompleteEvent completeEvent,
-
             BindingResult result,
             @PathVariable long event_id
 

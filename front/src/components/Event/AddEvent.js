@@ -3,10 +3,9 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createEvent } from "../../actions/eventActions";
 import classnames from "classnames";
-import { Formik, Field, Form, ErrorMessage, FieldArray } from "formik";
-import { YMaps, Map, Placemark } from "react-yandex-maps";
+//import { YMaps, Map, Placemark } from "react-yandex-maps";
 import axios from "axios";
-import { Button } from "bootstrap";
+
 
 class AddEvent extends Component {
   constructor() {
@@ -117,12 +116,12 @@ class AddEvent extends Component {
       repeated: this.state.repeated,
       eventDate: this.state.eventDate,
     };
-    console.log(this.values);
+    
     const completeEvent = {
       event: newEvent,
-      schedules: this.values,
+      schedules: this.state.schedules,
     };
-
+    console.log(this.state.schedules);
     this.props.createEvent(
       this.state.typeId,
       completeEvent,
@@ -139,7 +138,7 @@ class AddEvent extends Component {
           <h5 className="display-4 text-center">Добавляем мероприятие</h5>
           <hr />
 
-          <form handleSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleSubmit}>
             <div className="form-group">
               <input
                 name="eventName"

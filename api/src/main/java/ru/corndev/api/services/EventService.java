@@ -24,62 +24,62 @@ public class EventService {
     @Autowired
     private EventTypeRepo eventTypeRepo;
 
-    public Event saveOrUpdateEvent(long eventTypeId, Event event, Set<Schedule> schedules) {
+    public Event saveOrUpdateEvent(long eventTypeId, Event event, Set<Schedule> schedules){
         EventType eventType = eventTypeRepo.findById(eventTypeId);
-        if (eventType == null) {
+        if(eventType==null){
             throw new AppException("Выберите тип мероприятия");
         }
-        try {
-            if (event.getId() == null) {// new event
+        try{
+            if(event.getId()==null){// new event
                 Playground playground = new Playground();
-                if (schedules != null && !schedules.isEmpty()) {
-                    for (Schedule sch : schedules
-                    ) {
-                        if (sch.getDay() != "" && sch.getTime() != "") {
+                if(schedules!=null && !schedules.isEmpty()){
+                    for (Schedule sch:schedules
+                         ) {
+                        if(sch.getDay()!="" && sch.getTime()!="") {
                             Schedule schedule = new Schedule();
                             schedule.setDay(sch.getDay());
                             schedule.setTime(sch.getTime());
                             event.addScheduleItem(schedule);
-                            System.out.println(sch);
                         }
                     }
                 }
                 event.setEventType(eventType);
                 event.setPlayground(playground);
                 playground.setEvent(event);
-            } else {// update event
+            }else{// update event
                 event.setEventType(eventType);
                 event.setPlayground(playgroundRepo.findByEventId(event.getId()));
             }
             return eventRepo.save(event);
-        } catch (Exception ex) {
-            throw new AppException("Ошибка при создании/обновлении мероприятия \n" + ex);
+        }
+        catch (Exception ex) {
+            throw new AppException("Ошибка при создании/обновлении мероприятия \n"+ex);
         }
     }
 
-    public Event findEventByName(String name) {
+    public Event findEventByName(String name){
         Event theEvent = eventRepo.findByEventName(name);
-        if (theEvent == null) {
+        if(theEvent==null){
             throw new AppException("Мероприятие с таким именем не найдено");
         }
         return theEvent;
     }
 
-    public Event findEventById(long id) {
+    public Event findEventById(long id){
         Event theEvent = eventRepo.findById(id);
-        if (theEvent == null) {
+        if(theEvent==null){
             throw new AppException("Мероприятие с таким ID не найдено");
         }
         return theEvent;
     }
 
-    public Iterable<Event> findAllEvents() {
+    public Iterable<Event> findAllEvents(){
         return eventRepo.findAll();
     }
 
-    public void deleteEventById(long id) {
+    public void deleteEventById(long id){
         Event theEvent = eventRepo.findById(id);
-        if (theEvent == null) {
+        if(theEvent==null){
             throw new AppException("Ошибка при удалении мероприятия");
         }
         eventRepo.delete(theEvent);
