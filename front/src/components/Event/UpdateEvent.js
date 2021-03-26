@@ -17,9 +17,21 @@ class UpdateEvent extends Component {
       errors: {},
       type_id: 0,
       types: [],
+      schedules: [
+        {
+          day: "",
+          time: "",
+        },
+      ],
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  addScheduleInputClick() {
+    this.setState((prevState) => ({
+      schedules: [...prevState.schedules, { day: "", time: "" }],
+    }));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -34,6 +46,7 @@ class UpdateEvent extends Component {
       eventDate,
       createdDate,
       eventType,
+      schedules,
     } = nextProps.event;
 
     this.setState({
@@ -43,6 +56,7 @@ class UpdateEvent extends Component {
       eventDate,
       createdDate,
       eventType,
+      schedules,
     });
     this.setState({
       type_id: this.state.eventType.id,
@@ -60,15 +74,25 @@ class UpdateEvent extends Component {
   }
   onSubmit(e) {
     e.preventDefault();
-    const updateEvent = {
+    const updatedEvent = {
       id: this.state.id,
       eventName: this.state.eventName,
       repeated: this.state.repeated,
       eventDate: this.state.eventDate,
       createdDate: this.state.createdDate,
     };
-    console.log(this.state.type_id + "<-new   old ->"+ this.state.eventType.id) 
-    this.props.createEvent(this.state.type_id, updateEvent, this.props.history);
+    const completeEvent = {
+      event: updatedEvent,
+      schedules: this.state.schedules,
+    };
+    console.log(
+      this.state.type_id + "<-new   old ->" + this.state.eventType.id
+    );
+    this.props.createEvent(
+      this.state.type_id,
+      completeEvent,
+      this.props.history
+    );
   }
   componentDidMount() {
     const { id } = this.props.match.params;
@@ -105,11 +129,15 @@ class UpdateEvent extends Component {
               <select
                 className="form-control form-control-lg"
                 name="type_id"
-                defaultValue={this.state.eventType.id}
+                value={this.state.eventType.id}
                 onChange={this.onChange}
               >
                 {this.state.types.map((type) => (
-                  <option value={type.id} key={type.id}>
+                  <option
+                    value={type.id}
+                    key={type.id}
+                    {...(type.id === this.state.eventType.id && "selected")}
+                  >
                     {type.typeName}
                   </option>
                 ))}
@@ -135,7 +163,6 @@ class UpdateEvent extends Component {
                 className={classnames("form-control form-control-lg", {
                   "is-invalid": errors.eventDate,
                 })}
-                value={this.state.eventDate}
                 onChange={this.onChange}
               />
               {errors.eventDate && (

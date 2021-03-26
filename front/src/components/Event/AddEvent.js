@@ -17,7 +17,7 @@ class AddEvent extends Component {
       typeId: 1,
       errors: {},
       types: [],
-      mapState: { center: [59.939095, 30.315868], zoom: 10 },
+      //mapState: { center: [59.939095, 30.315868], zoom: 10 },
       schedules: [
         {
           day: "",

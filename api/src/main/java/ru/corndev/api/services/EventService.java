@@ -10,6 +10,7 @@ import ru.corndev.api.exceptions.AppException;
 import ru.corndev.api.repos.EventRepo;
 import ru.corndev.api.repos.EventTypeRepo;
 import ru.corndev.api.repos.PlaygroundRepo;
+import ru.corndev.api.repos.ScheduleRepo;
 
 import java.util.Set;
 
@@ -23,6 +24,8 @@ public class EventService {
     private PlaygroundRepo playgroundRepo;
     @Autowired
     private EventTypeRepo eventTypeRepo;
+    @Autowired
+    private ScheduleRepo scheduleRepo;
 
     public Event saveOrUpdateEvent(long eventTypeId, Event event, Set<Schedule> schedules){
         EventType eventType = eventTypeRepo.findById(eventTypeId);
@@ -48,6 +51,8 @@ public class EventService {
                 playground.setEvent(event);
             }else{// update event
                 event.setEventType(eventType);
+                System.out.println(scheduleRepo.findByEventId(event.getId()));
+                event.setSchedules(scheduleRepo.findByEventId(event.getId()));
                 event.setPlayground(playgroundRepo.findByEventId(event.getId()));
             }
             return eventRepo.save(event);
