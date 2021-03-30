@@ -15,23 +15,70 @@ class UpdateEvent extends Component {
       eventDate: "",
       eventType: {},
       errors: {},
-      type_id: 0,
+      type_id: "",
       types: [],
-      schedules: [
-        {
-          day: "",
-          time: "",
-        },
-      ],
+      schedules: [],
     };
     this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   addScheduleInputClick() {
     this.setState((prevState) => ({
       schedules: [...prevState.schedules, { day: "", time: "" }],
     }));
+  }
+
+  createScheduleUI() {
+    return this.state.schedules.map((el, i) => (
+      <div key={i} className="form-group">
+        <select
+          name="day"
+          className="form-control"
+          value={el.day}
+          onChange={this.handleChange.bind(this, i)}
+        >
+          <option value="1">Понедельник</option>
+          <option value="2">Вторник</option>
+          <option value="3">Среда</option>
+          <option value="4">Четверг</option>
+          <option value="5">Пятница</option>
+          <option value="6">Суббота</option>
+          <option value="7">Воскресенье</option>
+        </select>
+        <input
+          name="time"
+          type="time"
+          className="form-control"
+          value={el.time}
+          onChange={this.handleChange.bind(this, i)}
+        />
+        {i > 0 && (
+          <input
+            type="button"
+            value="Удалить день"
+            className="btn btn-danger"
+            onClick={this.removeClick.bind(this, i)}
+          />
+        )}
+      </div>
+    ));
+  }
+
+  handleChange(i, e) {
+    e.preventDefault();
+    const { name, value } = e.target;
+    let schedules = [...this.state.schedules];
+    schedules[i] = { ...schedules[i], [name]: value };
+    this.setState({ schedules });
+  }
+
+  removeClick(i) {
+    let schedules = [...this.state.schedules];
+    if (schedules.length > 1) {
+      schedules.splice(i, 1);
+      this.setState({ schedules });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -47,6 +94,7 @@ class UpdateEvent extends Component {
       createdDate,
       eventType,
       schedules,
+      type_id,
     } = nextProps.event;
 
     this.setState({
@@ -57,22 +105,20 @@ class UpdateEvent extends Component {
       createdDate,
       eventType,
       schedules,
+      type_id,
     });
-    this.setState({
-      type_id: this.state.eventType.id,
-    });
+
   }
 
   onChange(e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
-
     this.setState({
       [name]: value,
     });
   }
-  onSubmit(e) {
+  handleSubmit(e) {
     e.preventDefault();
     const updatedEvent = {
       id: this.state.id,
@@ -85,11 +131,8 @@ class UpdateEvent extends Component {
       event: updatedEvent,
       schedules: this.state.schedules,
     };
-    console.log(
-      this.state.type_id + "<-new   old ->" + this.state.eventType.id
-    );
     this.props.createEvent(
-      this.state.type_id,
+      this.state.eventType.id,
       completeEvent,
       this.props.history
     );
@@ -109,7 +152,7 @@ class UpdateEvent extends Component {
         <div className="col-md-8 m-auto">
           <h5 className="display-4 text-center">Обновляем</h5>
           <hr />
-          <form onSubmit={this.onSubmit}>
+          <form onSubmit={this.handleSubmit}>
             <div className="form-group">
               <input
                 name="eventName"
@@ -129,7 +172,8 @@ class UpdateEvent extends Component {
               <select
                 className="form-control form-control-lg"
                 name="type_id"
-                value={this.state.eventType.id}
+                defaultValue={this.state.eventType.id}
+                value={this.state.type_id}
                 onChange={this.onChange}
               >
                 {this.state.types.map((type) => (
@@ -156,19 +200,34 @@ class UpdateEvent extends Component {
                 Использовать расписание
               </label>
             </div>
-            <div className="form-group">
-              <input
-                name="eventDate"
-                type="datetime-local"
-                className={classnames("form-control form-control-lg", {
-                  "is-invalid": errors.eventDate,
-                })}
-                onChange={this.onChange}
-              />
-              {errors.eventDate && (
-                <div className="invalid-feedback">{errors.eventDate}</div>
-              )}
-            </div>
+            {this.state.repeated ? (
+              <div className="form-group">
+                <input
+                  type="button"
+                  value="Добавить день"
+                  className="btn btn-secondary"
+                  onClick={this.addScheduleInputClick.bind(this)}
+                />
+              </div>
+            ) : null}
+            {this.state.repeated ? (
+              this.createScheduleUI()
+            ) : (
+              <div className="form-group">
+                <input
+                  name="eventDate"
+                  type="datetime-local"
+                  className={classnames("form-control form-control-lg", {
+                    "is-invalid": errors.eventDate,
+                  })}
+                  //value={this.state.eventDate}
+                  onChange={this.onChange}
+                />
+                {errors.eventDate && (
+                  <div className="invalid-feedback">{errors.eventDate}</div>
+                )}
+              </div>
+            )}
             <input
               type="submit"
               className="btn btn-info btn-block mt-4"

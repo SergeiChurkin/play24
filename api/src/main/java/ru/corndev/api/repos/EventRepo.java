@@ -12,6 +12,7 @@ public interface EventRepo extends CrudRepository<Event, Long> {
      Event findById(long id);
 
 
+
      EventType findByEventTypeId(long id);
 
     @Override

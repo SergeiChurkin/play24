@@ -38,7 +38,7 @@ public class Event {
     private Set<User> users = new HashSet<>();
 
     @OneToMany(mappedBy = "event",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JsonIgnore
+    //@JsonIgnore
     private Set<Schedule> schedules = new HashSet<>();
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
@@ -59,6 +59,12 @@ public class Event {
     public void addScheduleItem(Schedule schedule){
         schedules.add(schedule);
         schedule.setEvent(this);
+    }
+    public void removeSchedules(Set<Schedule> scheduleSet){
+        for(Schedule item:scheduleSet){
+            item.setEvent(null);
+        }
+        schedules.removeAll(scheduleSet);
     }
     public void addUser(User user){
         users.add(user);

@@ -25,12 +25,11 @@ public class EventController {
     private MapValidationErrorService mapValidationErrorService;
 
     @PostMapping("/{event_id}")
-    public ResponseEntity<?> createNewEvent(
+    public ResponseEntity<?> createOrUpdateNewEvent(
             @Valid
             @RequestBody CompleteEvent completeEvent,
             BindingResult result,
             @PathVariable long event_id
-
             ){
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap!=null) return errorMap;

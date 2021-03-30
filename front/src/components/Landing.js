@@ -6,10 +6,10 @@ class Landing extends Component {
       <div className="container">
       <div className="col-md-8 m-auto">
         <h1>Добро пожаловать.</h1>
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Вход</h5>
-            <p class="card-text">
+        <div className="card">
+          <div className="card-body">
+            <h5 className="card-title">Вход</h5>
+            <p className="card-text">
               <form>
                 <input
                   className="form-control mb-3"

@@ -12,6 +12,7 @@ import ru.corndev.api.repos.EventTypeRepo;
 import ru.corndev.api.repos.PlaygroundRepo;
 import ru.corndev.api.repos.ScheduleRepo;
 
+import javax.transaction.Transactional;
 import java.util.Set;
 
 @Service
@@ -27,6 +28,7 @@ public class EventService {
     @Autowired
     private ScheduleRepo scheduleRepo;
 
+    @Transactional
     public Event saveOrUpdateEvent(long eventTypeId, Event event, Set<Schedule> schedules){
         EventType eventType = eventTypeRepo.findById(eventTypeId);
         if(eventType==null){
@@ -51,9 +53,24 @@ public class EventService {
                 playground.setEvent(event);
             }else{// update event
                 event.setEventType(eventType);
-                System.out.println(scheduleRepo.findByEventId(event.getId()));
-                event.setSchedules(scheduleRepo.findByEventId(event.getId()));
-                event.setPlayground(playgroundRepo.findByEventId(event.getId()));
+                Set<Schedule> eventSchedules = scheduleRepo.findByEventId(event.getId());
+                event.removeSchedules(eventSchedules);
+                if(schedules!=null && !schedules.isEmpty() && event.isRepeated()){
+                    event.setEventDate(null);
+                    for (Schedule sch:schedules
+                    ) {
+                        if(!sch.getDay().equals("") && !sch.getTime().equals("")) {
+                            Schedule schedule = new Schedule();
+                            schedule.setDay(sch.getDay());
+                            schedule.setTime(sch.getTime());
+                            event.addScheduleItem(schedule);
+                        }
+                    }
+                }
+                else{//if not repeated
+                    event.setEventDate(event.getEventDate());
+                }
+                //event.setPlayground(playgroundRepo.findByEventId(event.getId()));
             }
             return eventRepo.save(event);
         }
