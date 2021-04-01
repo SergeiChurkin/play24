@@ -41,7 +41,7 @@ public class Event {
     //@JsonIgnore
     private Set<Schedule> schedules = new HashSet<>();
 
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private Date createdDate;
 
     //@JsonFormat(pattern = "dd-MM-yyyy HH:mm")

@@ -88,8 +88,7 @@ class ShowEvent extends Component {
 
                 {this.state.schedules.map((item) => (
                   <p className="card-text" key={item.id}>
-                    {this.daySwitch(item.day)}
-                    {item.time}
+                    {this.daySwitch(item.day)} {item.time}
                   </p>
                 ))}
               </div>

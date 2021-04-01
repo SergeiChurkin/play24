@@ -32,35 +32,44 @@ class UpdateEvent extends Component {
   createScheduleUI() {
     return this.state.schedules.map((el, i) => (
       <div key={i} className="form-group">
-        <select
-          name="day"
-          className="form-control"
-          value={el.day}
-          onChange={this.handleChange.bind(this, i)}
-        >
-          <option value="1">Понедельник</option>
-          <option value="2">Вторник</option>
-          <option value="3">Среда</option>
-          <option value="4">Четверг</option>
-          <option value="5">Пятница</option>
-          <option value="6">Суббота</option>
-          <option value="7">Воскресенье</option>
-        </select>
-        <input
-          name="time"
-          type="time"
-          className="form-control"
-          value={el.time}
-          onChange={this.handleChange.bind(this, i)}
-        />
-        {i > 0 && (
-          <input
-            type="button"
-            value="Удалить день"
-            className="btn btn-danger"
-            onClick={this.removeClick.bind(this, i)}
-          />
-        )}
+        <div className="row">
+          <div className="col-4">
+            <select
+              name="day"
+              className="form-control"
+              value={el.day}
+              onChange={this.handleChange.bind(this, i)}
+            >
+              <option value="0" disabled>
+                Выберите день
+              </option>
+              <option value="1">Понедельник</option>
+              <option value="2">Вторник</option>
+              <option value="3">Среда</option>
+              <option value="4">Четверг</option>
+              <option value="5">Пятница</option>
+              <option value="6">Суббота</option>
+              <option value="7">Воскресенье</option>
+            </select>
+          </div>
+          <div className="col-4">
+            <input
+              name="time"
+              type="time"
+              className="form-control"
+              value={el.time}
+              onChange={this.handleChange.bind(this, i)}
+            />
+          </div>
+          <div className="col-4">
+            <input
+              type="button"
+              value="Удалить день"
+              className="btn btn-danger"
+              onClick={this.removeClick.bind(this, i)}
+            />
+          </div>
+        </div>
       </div>
     ));
   }
@@ -107,7 +116,6 @@ class UpdateEvent extends Component {
       schedules,
       type_id,
     });
-
   }
 
   onChange(e) {
@@ -132,7 +140,7 @@ class UpdateEvent extends Component {
       schedules: this.state.schedules,
     };
     this.props.createEvent(
-      this.state.eventType.id,
+      this.state.type_id,
       completeEvent,
       this.props.history
     );
@@ -217,6 +225,7 @@ class UpdateEvent extends Component {
                 <input
                   name="eventDate"
                   type="datetime-local"
+                  timezone="+03:00"
                   className={classnames("form-control form-control-lg", {
                     "is-invalid": errors.eventDate,
                   })}
