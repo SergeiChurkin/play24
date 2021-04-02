@@ -1,6 +1,7 @@
 package ru.corndev.api.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +15,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Email(message = "Введите Email в качестве имени пользователя")
     @NotBlank(message = "Заполните имя пользователя")
     @Column(unique=true)
     private String username;
@@ -21,12 +23,12 @@ public class User {
     @NotBlank(message = "Введите номер телефона")
     @Column(unique=true)
     private String phone;
-
-    @NotBlank(message = "Введите E-mail")
-    @Column(unique=true)
-    private String email;
-
+    @NotBlank(message = "Введите пароль")
     private String password;
+    @Transient
+    private String confirmPassword;
+
+    private String nickname;
 
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<Event> events = new HashSet<>();
@@ -84,11 +86,5 @@ public class User {
         this.phone = phone;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }
