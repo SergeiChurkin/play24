@@ -32,13 +32,13 @@ public class UserController {
         if(errorMap!=null) return errorMap;
 
         User theUser = userService.saveOrUpdateUser(user);
-        return new ResponseEntity<User>(theUser, HttpStatus.CREATED);
+        return new ResponseEntity<>(theUser, HttpStatus.CREATED);
     }
 
     @GetMapping("/{username}")
     public ResponseEntity<?> getUserByName(@PathVariable String username){
         User theUser =  userService.findByUsername(username);
-        return new ResponseEntity<User>(theUser, HttpStatus.OK);
+        return new ResponseEntity<>(theUser, HttpStatus.OK);
     }
 
     @GetMapping("/all")
