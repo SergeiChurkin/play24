@@ -1,33 +1,42 @@
 package ru.corndev.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Email(message = "Введите Email в качестве имени пользователя")
-    @NotBlank(message = "Заполните имя пользователя")
+    @NotBlank(message = "Заполните email")
     @Column(unique=true)
     private String username;
 
     @NotBlank(message = "Введите номер телефона")
     @Column(unique=true)
     private String phone;
+
     @NotBlank(message = "Введите пароль")
     private String password;
     @Transient
     private String confirmPassword;
 
+    @NotBlank(message = "Заполните Nickname")
+    @Column(unique=true)
     private String nickname;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -70,6 +79,22 @@ public class User {
         this.password = password;
     }
 
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     public Set<Event> getEvents() {
         return events;
     }
@@ -86,5 +111,33 @@ public class User {
         this.phone = phone;
     }
 
+    @Override
+    @JsonIgnore
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
 
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isEnabled() {
+        return true;
+    }
 }

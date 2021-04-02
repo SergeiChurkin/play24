@@ -13,7 +13,7 @@ import ru.corndev.api.services.UserService;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("api/user")
+@RequestMapping("api/users")
 @CrossOrigin
 public class UserController {
 
@@ -22,8 +22,8 @@ public class UserController {
     @Autowired
     private MapValidationErrorService mapValidationErrorService;
 
-    @PostMapping("")
-    public ResponseEntity<?> createNewUser(
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(
             @Valid
             @RequestBody User user,
             BindingResult result){
@@ -31,18 +31,8 @@ public class UserController {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap!=null) return errorMap;
 
-        User theUser = userService.saveOrUpdateUser(user);
-        return new ResponseEntity<>(theUser, HttpStatus.CREATED);
+        User newUser = userService.saveUser(user);
+        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{username}")
-    public ResponseEntity<?> getUserByName(@PathVariable String username){
-        User theUser =  userService.findByUsername(username);
-        return new ResponseEntity<>(theUser, HttpStatus.OK);
-    }
-
-    @GetMapping("/all")
-    public Iterable<User> getAllUsers(){
-        return userService.findAllUsers();
-    }
 }

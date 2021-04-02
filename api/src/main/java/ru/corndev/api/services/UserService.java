@@ -1,6 +1,7 @@
 package ru.corndev.api.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.corndev.api.domain.Playground;
 import ru.corndev.api.domain.User;
@@ -12,8 +13,17 @@ public class UserService {
     @Autowired
     private UserRepo userRepo;
 
-    public User saveOrUpdateUser(User user){
-        /*
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
+    public User saveUser(User newUser){
+    newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
+    return userRepo.save(newUser);
+    }
+
+/*    public User saveOrUpdateUser(User user){
+        *//*
         User theUser = userRepo.findByUsername(user.getUsername());
         if(theUser!=null){
             throw new AppException("Пользователь с таким именем уже существует");
@@ -26,7 +36,7 @@ public class UserService {
         if(theUser!=null){
             throw new AppException("Пользователь с таким email уже существует");
         }
-*/
+*//*
         try{
         return userRepo.save(user);
         }
@@ -45,5 +55,5 @@ public class UserService {
 
     public Iterable<User> findAllUsers(){
         return userRepo.findAll();
-    }
+    }*/
 }
