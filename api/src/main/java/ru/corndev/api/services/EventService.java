@@ -2,15 +2,9 @@ package ru.corndev.api.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.corndev.api.domain.Event;
-import ru.corndev.api.domain.EventType;
-import ru.corndev.api.domain.Playground;
-import ru.corndev.api.domain.Schedule;
+import ru.corndev.api.domain.*;
 import ru.corndev.api.exceptions.EventException;
-import ru.corndev.api.repos.EventRepo;
-import ru.corndev.api.repos.EventTypeRepo;
-import ru.corndev.api.repos.PlaygroundRepo;
-import ru.corndev.api.repos.ScheduleRepo;
+import ru.corndev.api.repos.*;
 
 import javax.transaction.Transactional;
 import java.util.Set;
@@ -20,7 +14,8 @@ public class EventService {
 
     @Autowired
     private EventRepo eventRepo;
-
+    @Autowired
+    private UserRepo userRepo;
     @Autowired
     private PlaygroundRepo playgroundRepo;
     @Autowired
@@ -29,12 +24,15 @@ public class EventService {
     private ScheduleRepo scheduleRepo;
 
     @Transactional
-    public Event saveOrUpdateEvent(long eventTypeId, Event event, Set<Schedule> schedules){
+    public Event saveOrUpdateEvent(long eventTypeId, Event event, Set<Schedule> schedules, String username  ){
         EventType eventType = eventTypeRepo.findById(eventTypeId);
         if(eventType==null){
             throw new EventException("Выберите тип мероприятия");
         }
         try{
+            User user = userRepo.findByUsername(username);
+            event.addUser(user);
+            event.setEventLeader(user.getUsername());
             if(event.getId()==null){// new event
                 Playground playground = new Playground();
                 if(schedules!=null && !schedules.isEmpty() && event.isRepeated()){

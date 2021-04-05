@@ -12,6 +12,7 @@ import ru.corndev.api.services.EventService;
 import ru.corndev.api.services.MapValidationErrorService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("api/event")
@@ -29,12 +30,13 @@ public class EventController {
             @Valid
             @RequestBody CompleteEvent completeEvent,
             BindingResult result,
-            @PathVariable long event_id
+            @PathVariable long event_id,
+            Principal principal
             ){
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap!=null) return errorMap;
 
-        Event theEvent = eventService.saveOrUpdateEvent(event_id, completeEvent.event, completeEvent.schedules);
+        Event theEvent = eventService.saveOrUpdateEvent(event_id, completeEvent.event, completeEvent.schedules,principal.getName());
 
         return new ResponseEntity<>(theEvent, HttpStatus.CREATED);
     }

@@ -44,6 +44,8 @@ public class Event {
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private Date createdDate;
 
+    private String eventLeader;
+
     //@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     //@NotNull(message = "Выберите дату и время мероприятия")
     private Date eventDate;
@@ -159,6 +161,14 @@ public class Event {
 
     public void setSchedules(Set<Schedule> schedules) {
         this.schedules = schedules;
+    }
+
+    public String getEventLeader() {
+        return eventLeader;
+    }
+
+    public void setEventLeader(String eventLeader) {
+        this.eventLeader = eventLeader;
     }
 
     @Override
