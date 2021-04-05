@@ -1,10 +1,10 @@
 package ru.corndev.api.exceptions;
 
-public class AppExceptionResponse {
+public class EventExceptionResponse {
 
     private String message;
 
-    public AppExceptionResponse(String message){
+    public EventExceptionResponse(String message){
         this.message = message;
     }
 

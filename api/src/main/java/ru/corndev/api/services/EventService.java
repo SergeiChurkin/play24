@@ -6,7 +6,7 @@ import ru.corndev.api.domain.Event;
 import ru.corndev.api.domain.EventType;
 import ru.corndev.api.domain.Playground;
 import ru.corndev.api.domain.Schedule;
-import ru.corndev.api.exceptions.AppException;
+import ru.corndev.api.exceptions.EventException;
 import ru.corndev.api.repos.EventRepo;
 import ru.corndev.api.repos.EventTypeRepo;
 import ru.corndev.api.repos.PlaygroundRepo;
@@ -32,7 +32,7 @@ public class EventService {
     public Event saveOrUpdateEvent(long eventTypeId, Event event, Set<Schedule> schedules){
         EventType eventType = eventTypeRepo.findById(eventTypeId);
         if(eventType==null){
-            throw new AppException("Выберите тип мероприятия");
+            throw new EventException("Выберите тип мероприятия");
         }
         try{
             if(event.getId()==null){// new event
@@ -75,14 +75,14 @@ public class EventService {
             return eventRepo.save(event);
         }
         catch (Exception ex) {
-            throw new AppException("Ошибка при создании/обновлении мероприятия \n"+ex);
+            throw new EventException("Ошибка при создании/обновлении мероприятия \n"+ex);
         }
     }
 
     public Event findEventByName(String name){
         Event theEvent = eventRepo.findByEventName(name);
         if(theEvent==null){
-            throw new AppException("Мероприятие с таким именем не найдено");
+            throw new EventException("Мероприятие с таким именем не найдено");
         }
         return theEvent;
     }
@@ -90,7 +90,7 @@ public class EventService {
     public Event findEventById(long id){
         Event theEvent = eventRepo.findById(id);
         if(theEvent==null){
-            throw new AppException("Мероприятие с таким ID не найдено");
+            throw new EventException("Мероприятие с таким ID не найдено");
         }
         return theEvent;
     }
@@ -102,7 +102,7 @@ public class EventService {
     public void deleteEventById(long id){
         Event theEvent = eventRepo.findById(id);
         if(theEvent==null){
-            throw new AppException("Ошибка при удалении мероприятия");
+            throw new EventException("Ошибка при удалении мероприятия");
         }
         eventRepo.delete(theEvent);
     }

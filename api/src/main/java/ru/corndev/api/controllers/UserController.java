@@ -9,6 +9,7 @@ import ru.corndev.api.domain.Playground;
 import ru.corndev.api.domain.User;
 import ru.corndev.api.services.MapValidationErrorService;
 import ru.corndev.api.services.UserService;
+import ru.corndev.api.validator.UserValidator;
 
 import javax.validation.Valid;
 
@@ -21,12 +22,16 @@ public class UserController {
     private UserService userService;
     @Autowired
     private MapValidationErrorService mapValidationErrorService;
+    @Autowired
+    private UserValidator userValidator;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(
             @Valid
             @RequestBody User user,
             BindingResult result){
+
+        userValidator.validate(user,result);
 
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap!=null) return errorMap;

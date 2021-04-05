@@ -3,7 +3,7 @@ package ru.corndev.api.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.corndev.api.domain.Playground;
-import ru.corndev.api.exceptions.AppException;
+import ru.corndev.api.exceptions.EventException;
 import ru.corndev.api.repos.PlaygroundRepo;
 
 @Service
@@ -17,7 +17,7 @@ public class PlaygroundService {
             return playgroundRepo.save(playground);
         }
         catch (Exception ex) {
-            throw new AppException("Площадка с таким именем уже существует :''");
+            throw new EventException("Площадка с таким именем уже существует :''");
         }
     }
 
@@ -32,7 +32,7 @@ public class PlaygroundService {
     public Playground findPgById(long id){
         Playground thePlayground = playgroundRepo.findById(id);
         if(thePlayground==null){
-            throw new AppException("Площадка с таким ID не найдена");
+            throw new EventException("Площадка с таким ID не найдена");
         }
         return thePlayground;
     }
@@ -44,7 +44,7 @@ public class PlaygroundService {
     public void deletePgById(long id){
         Playground thePlayground = playgroundRepo.findById(id);
         if(thePlayground==null){
-            throw new AppException("Ошибка при удалении площадки");
+            throw new EventException("Ошибка при удалении площадки");
         }
         playgroundRepo.delete(thePlayground);
     }

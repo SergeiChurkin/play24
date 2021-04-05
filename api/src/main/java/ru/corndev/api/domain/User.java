@@ -21,7 +21,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Email(message = "Введите Email в качестве имени пользователя")
+    @Email(message = "Введите корректный Email вида 'mail@email.com'")
     @NotBlank(message = "Заполните email")
     @Column(unique=true)
     private String username;
@@ -32,6 +32,7 @@ public class User implements UserDetails {
 
     @NotBlank(message = "Введите пароль")
     private String password;
+
     @Transient
     private String confirmPassword;
 
