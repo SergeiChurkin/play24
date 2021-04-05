@@ -6,6 +6,7 @@ import ru.corndev.api.domain.User;
 
 @Repository
 public interface UserRepo extends CrudRepository<User, Long> {
+    User findByUsername(String username);
 
-
+    User getById(Long id);
 }
