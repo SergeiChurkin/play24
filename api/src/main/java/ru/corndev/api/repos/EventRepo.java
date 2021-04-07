@@ -17,4 +17,6 @@ public interface EventRepo extends CrudRepository<Event, Long> {
 
     @Override
     Iterable<Event> findAll();
+
+    Iterable<Event> findAllByEventLeader(String username);
 }

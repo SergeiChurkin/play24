@@ -48,19 +48,19 @@ public class EventController {
     }*/
 
     @GetMapping("/{eventId}")
-    public ResponseEntity<?> getEventById(@PathVariable long eventId){
-        Event theEvent =  eventService.findEventById(eventId);
+    public ResponseEntity<?> getEventById(@PathVariable long eventId, Principal principal){
+        Event theEvent =  eventService.findEventById(eventId,principal.getName());
         return new ResponseEntity<>(theEvent, HttpStatus.OK);
     }
 
     @GetMapping("/all")
-    public Iterable<Event> getAllEvents(){
-        return eventService.findAllEvents();
+    public Iterable<Event> getAllEvents(Principal principal){
+        return eventService.findAllEvents(principal.getName());
     }
 
     @DeleteMapping("/{eventId}")
-    public ResponseEntity<?> deleteEventById(@PathVariable long eventId){
-        eventService.deleteEventById(eventId);
+    public ResponseEntity<?> deleteEventById(@PathVariable long eventId, Principal principal){
+        eventService.deleteEventById(eventId,principal.getName());
         return new ResponseEntity<>("Мероприятие было удалено", HttpStatus.OK);
     }
 }

@@ -48,4 +48,12 @@ public class EventType {
     public void setEvents(Set<Event> events) {
         this.events = events;
     }
+
+    @Override
+    public String toString() {
+        return "EventType{" +
+                "id=" + id +
+                ", typeName='" + typeName + '\'' +
+                '}';
+    }
 }

@@ -40,21 +40,11 @@ public class User implements UserDetails {
     @Column(unique=true)
     private String nickname;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
     private Set<Event> events = new HashSet<>();
 
     public User() {
     }
-
-/*    public void addEvent(Event event){
-        events.add(event);
-        //event.setOwner(this);
-    }
-
-    public void deleteEvent(Event event){
-        events.remove(event);
-        //event.setOwner(null);
-    }*/
 
     public Long getId() {
         return id;
@@ -140,5 +130,15 @@ public class User implements UserDetails {
     @JsonIgnore
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", phone='" + phone + '\'' +
+                ", nickname='" + nickname + '\'' +
+                '}';
     }
 }

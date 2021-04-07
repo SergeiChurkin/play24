@@ -72,4 +72,14 @@ public class Playground {
     public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
+
+    @Override
+    public String toString() {
+        return "Playground{" +
+                "id=" + id +
+                ", address='" + address + '\'' +
+                ", longitude='" + longitude + '\'' +
+                ", latitude='" + latitude + '\'' +
+                '}';
+    }
 }

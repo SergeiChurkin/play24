@@ -18,8 +18,6 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long ownerId = 0L;
-
     //@NotBlank(message = "Заполните название мероприятия")
     @Column(unique=true)
     private String eventName;
@@ -33,9 +31,10 @@ public class Event {
     @ManyToOne(fetch = FetchType.EAGER)
     private EventType eventType;
 
-    @ManyToMany(mappedBy = "events", fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
-    private Set<User> users = new HashSet<>();
+    private User user;
+
 
     @OneToMany(mappedBy = "event",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     //@JsonIgnore
@@ -68,20 +67,8 @@ public class Event {
         }
         schedules.removeAll(scheduleSet);
     }
-    public void addUser(User user){
-        users.add(user);
-        user.getEvents().add(this);
-    }
-
-    public void removeUser(User user){
-        users.remove(user);
-        user.getEvents().remove(this);
-    }
 
 
-    public void setOwner(User user){
-        this.ownerId = user.getId();
-    }
 
     public Long getId() {
         return id;
@@ -131,13 +118,6 @@ public class Event {
         this.eventDate = eventDate;
     }
 
-    public Long getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
-    }
 
     public EventType getEventType() {
         return eventType;
@@ -147,12 +127,12 @@ public class Event {
         this.eventType = eventType;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Set<Schedule> getSchedules() {
