@@ -4,11 +4,13 @@ import Header from "./components/Layout/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import AddEvent from "./components/Event/AddEvent";
-import Landing from "./components/Landing";
+import Landing from "./components/Layout/Landing";
 import { Provider } from "react-redux";
 import store from "./store";
 import UpdateEvent from "./components/Event/UpdateEvent";
 import ShowEvent from "./components/Event/ShowEvent";
+import Login from "./components/UserManagment/Login";
+import Register from "./components/UserManagment/Register";
 
 function App() {
   return (
@@ -17,7 +19,11 @@ function App() {
         <div className="App">
           <Header />
           <div className="container">
+          
             <Route exact path="/" component={Landing} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
+
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/addEvent/" component={AddEvent} />
             <Route exact path="/updateEvent/:id" component={UpdateEvent} />
