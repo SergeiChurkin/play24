@@ -20,11 +20,17 @@ class Register extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-componentWillReceiveProps(nextProps){
-    if(nextProps.errors){
-        this.setState({errors:nextProps.errors})
+  componentDidMount() {
+    if (this.props.security.validToken) {
+      this.props.history.push("/dashboard");
     }
-}
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
 
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
@@ -56,8 +62,8 @@ componentWillReceiveProps(nextProps){
                   <input
                     type="text"
                     className={classnames("form-control form-control-lg", {
-                        "is-invalid": errors.nickname,
-                      })}
+                      "is-invalid": errors.nickname,
+                    })}
                     placeholder="Nickname"
                     name="nickname"
                     value={this.state.nickname}
@@ -71,8 +77,8 @@ componentWillReceiveProps(nextProps){
                   <input
                     type="text"
                     className={classnames("form-control form-control-lg", {
-                        "is-invalid": errors.phone,
-                      })}
+                      "is-invalid": errors.phone,
+                    })}
                     placeholder="Phone number"
                     name="phone"
                     value={this.state.phone}
@@ -86,8 +92,8 @@ componentWillReceiveProps(nextProps){
                   <input
                     type="text"
                     className={classnames("form-control form-control-lg", {
-                        "is-invalid": errors.username,
-                      })}
+                      "is-invalid": errors.username,
+                    })}
                     placeholder="Email Address (Username)"
                     name="username"
                     value={this.state.username}
@@ -101,8 +107,8 @@ componentWillReceiveProps(nextProps){
                   <input
                     type="password"
                     className={classnames("form-control form-control-lg", {
-                        "is-invalid": errors.password,
-                      })}
+                      "is-invalid": errors.password,
+                    })}
                     placeholder="Password"
                     name="password"
                     value={this.state.password}
@@ -116,15 +122,17 @@ componentWillReceiveProps(nextProps){
                   <input
                     type="password"
                     className={classnames("form-control form-control-lg", {
-                        "is-invalid": errors.confirmPassword,
-                      })}
+                      "is-invalid": errors.confirmPassword,
+                    })}
                     placeholder="Confirm Password"
                     name="confirmPassword"
                     value={this.state.confirmPassword}
                     onChange={this.handleChange}
                   />
                   {errors.confirmPassword && (
-                    <div className="invalid-feedback">{errors.confirmPassword}</div>
+                    <div className="invalid-feedback">
+                      {errors.confirmPassword}
+                    </div>
                   )}
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
@@ -140,10 +148,12 @@ componentWillReceiveProps(nextProps){
 Register.propTypes = {
   createNewUser: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
+  security:PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
   errors: state.errors,
+  security:state.security
 });
 
 export default connect(mapStateToProps, {
