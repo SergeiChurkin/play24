@@ -21,10 +21,12 @@ import ru.corndev.api.validator.UserValidator;
 
 import javax.validation.Valid;
 
+import java.security.Principal;
+
 import static ru.corndev.api.security.SecurityConfig.TOKEN_PREFIX;
 
 @RestController
-@RequestMapping("api/users")
+@RequestMapping("api/")
 @CrossOrigin
 public class UserController {
 
@@ -40,7 +42,7 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
 
-    @PostMapping("/login")
+    @PostMapping("/users/login")
     public ResponseEntity<?> authenticateUser(
             @Valid
             @RequestBody LoginRequest loginRequest,
@@ -61,7 +63,7 @@ public class UserController {
         return ResponseEntity.ok(new JWTLoginSuccessResponse(true,jwt));
     }
 
-    @PostMapping("/register")
+    @PostMapping("/users/register")
     public ResponseEntity<?> registerUser(
             @Valid
             @RequestBody User user,
@@ -74,6 +76,18 @@ public class UserController {
 
         User newUser = userService.saveUser(user);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/user/info")
+    public ResponseEntity<?> getUserInfo(Principal principal){
+        User theUser = userService.loadUserInfo(principal.getName());
+        return new ResponseEntity<>(theUser,HttpStatus.OK);
+    }
+
+    @PostMapping("/user/invite/{email}")
+    public ResponseEntity<?> sendInvite(@PathVariable String email, BindingResult result, Principal principal){
+        userService.sendingInviteByUsername(email, principal.getName());
+        return new ResponseEntity<>("Запрос в друзья отправлен", HttpStatus.OK);
     }
 
 }

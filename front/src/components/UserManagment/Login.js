@@ -20,18 +20,29 @@ class Login extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-componentDidMount(){
-  if(this.props.security.validToken){
-    this.props.history.push("/dashboard")
+  componentDidMount() {
+    if (this.props.security.validToken) {
+      this.props.history.push("/dashboard");
+    }
   }
-}
+  componentDidUpdate() {
+    if (this.props.security.validToken) {
+      this.props.history.push("/dashboard");
+    }
+  }
 
-  componentWillReceiveProps(nextProps) {
+  /*componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
     if(nextProps.security.validToken){
         this.props.history.push("/dashboard")
+    }
+  }*/
+
+  static getDerivedStateFromProps(nextProps) {
+    if (nextProps.errors) {
+      return { errors: nextProps.errors };
     }
   }
 
@@ -51,7 +62,7 @@ componentDidMount(){
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Log In</h1>
+              <h1 className="display-4 text-center">Вход</h1>
               <form onSubmit={this.onSubmit}>
                 <div className="form-group">
                   <input
@@ -59,7 +70,7 @@ componentDidMount(){
                     className={classnames("form-control form-control-lg", {
                       "is-invalid": errors.username,
                     })}
-                    placeholder="Email Address"
+                    placeholder="Email"
                     name="username"
                     value={this.state.username}
                     onChange={this.handleChange}
@@ -74,7 +85,7 @@ componentDidMount(){
                     className={classnames("form-control form-control-lg", {
                       "is-invalid": errors.password,
                     })}
-                    placeholder="Password"
+                    placeholder="Пароль"
                     name="password"
                     value={this.state.password}
                     onChange={this.handleChange}
@@ -96,10 +107,10 @@ componentDidMount(){
 Login.propTypes = {
   login: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  security:PropTypes.object.isRequired
+  security: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
-  security:state.security,
+  security: state.security,
   errors: state.errors,
 });
 

@@ -26,9 +26,9 @@ class Register extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(nextProps) {
     if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+      return { errors: nextProps.errors };
     }
   }
 
@@ -55,8 +55,8 @@ class Register extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Sign Up</h1>
-              <p className="lead text-center">Create your Account</p>
+              <h1 className="display-4 text-center">Регистрация</h1>
+              <p className="lead text-center">Создайте свой аккаунт</p>
               <form onSubmit={this.onSubmit}>
                 <div className="form-group">
                   <input
@@ -79,7 +79,7 @@ class Register extends Component {
                     className={classnames("form-control form-control-lg", {
                       "is-invalid": errors.phone,
                     })}
-                    placeholder="Phone number"
+                    placeholder="Номер телефона"
                     name="phone"
                     value={this.state.phone}
                     onChange={this.handleChange}
@@ -94,7 +94,7 @@ class Register extends Component {
                     className={classnames("form-control form-control-lg", {
                       "is-invalid": errors.username,
                     })}
-                    placeholder="Email Address (Username)"
+                    placeholder="Email"
                     name="username"
                     value={this.state.username}
                     onChange={this.handleChange}
@@ -109,7 +109,7 @@ class Register extends Component {
                     className={classnames("form-control form-control-lg", {
                       "is-invalid": errors.password,
                     })}
-                    placeholder="Password"
+                    placeholder="Пароль"
                     name="password"
                     value={this.state.password}
                     onChange={this.handleChange}
@@ -124,7 +124,7 @@ class Register extends Component {
                     className={classnames("form-control form-control-lg", {
                       "is-invalid": errors.confirmPassword,
                     })}
-                    placeholder="Confirm Password"
+                    placeholder="Подтверждение пароля"
                     name="confirmPassword"
                     value={this.state.confirmPassword}
                     onChange={this.handleChange}

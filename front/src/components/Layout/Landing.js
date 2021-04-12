@@ -1,39 +1,44 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 class Landing extends Component {
-
+  componentDidMount() {
+    if (this.props.security.validToken) {
+      this.props.history.push("/dashboard");
+    }
+  }
   render() {
     return (
       <div className="container">
-      <div className="col-md-8 m-auto">
-        <h1>Добро пожаловать.</h1>
-        <div className="card">
-          <div className="card-body">
-            <h5 className="card-title">Вход</h5>
-            <p className="card-text">
-              <form>
-                <input
-                  className="form-control mb-3"
-                  type="text"
-                  placeholder="Имя пользователя"
-                  name="username"
-                ></input>
-                <input
-                  className="form-control mb-3"
-                  type="password"
-                  placeholder="Пароль"
-                  name="password"
-                ></input>
-                <button type="submit" className="btn btn-primary mb-3">
-                  Войти
-                </button>
-              </form>
-            </p>
-          </div>
+      <div className="row">
+        <div className="col-md-12 text-center">
+          <h1 className="display-3 mb-4">
+           Play 24/7
+          </h1>
+          <p className="lead">
+            
+          </p>
+          <hr />
+          <Link className="btn btn-lg btn-primary mr-2" to="/register">
+            Регистрация
+          </Link>
+          <Link className="btn btn-lg btn-secondary mr-2" to="/login">
+            Вход
+          </Link>
         </div>
       </div>
-      </div>
+    </div>
     );
   }
 }
-export default Landing;
+Landing.propTypes = {
+  security: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  security: state.security
+});
+
+export default connect(mapStateToProps)(Landing);

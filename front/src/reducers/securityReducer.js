@@ -13,7 +13,7 @@ const booleanActionPayload = (payload) => {
   }
 };
 
-export default function (state = inititalState, action) {
+export default function secure(state = inititalState, action) {
   switch (action.type) {
     case SET_CURRENT_USER:
       return {

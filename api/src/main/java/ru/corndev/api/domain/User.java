@@ -38,8 +38,13 @@ public class User implements UserDetails {
     @Column(unique=true)
     private String nickname;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    private Set<User> friends;
+
     @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
     private Set<Event> events = new HashSet<>();
+
+
 
     public User() {
     }
@@ -100,6 +105,13 @@ public class User implements UserDetails {
         this.phone = phone;
     }
 
+    public Set<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(Set<User> friends) {
+        this.friends = friends;
+    }
 
     @Override
     @JsonIgnore

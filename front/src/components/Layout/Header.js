@@ -24,9 +24,9 @@ class Header extends Component {
 
         <ul className="navbar-nav ml-auto">
           <li className="nav-item">
-            
-            <h4>  {user.nickname}</h4>
-            
+            <Link className="nav-link" to="/lk">
+              {user.nickname}
+            </Link>
           </li>
           <li className="nav-item">
             <Link
@@ -89,14 +89,11 @@ class Header extends Component {
 
 Header.propTypes = {
   logout: PropTypes.func.isRequired,
-  security: PropTypes.object.isRequired
+  security: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-  security: state.security
+const mapStateToProps = (state) => ({
+  security: state.security,
 });
 
-export default connect(
-  mapStateToProps,
-  { logout }
-)(Header);
+export default connect(mapStateToProps, { logout })(Header);

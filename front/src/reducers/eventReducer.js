@@ -6,13 +6,12 @@ const initialState = {
   event: {},
 };
 
-export default function (state = initialState, action) {
+export default function event(state = initialState, action) {
   switch (action.type) {
     case GET_EVENTS:
       return {
         ...state,
         events: action.payload,
-        
       };
 
     case GET_EVENT:

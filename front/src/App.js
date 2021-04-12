@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import Dashboard from "./components/Dashboard";
 import Header from "./components/Layout/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AddEvent from "./components/Event/AddEvent";
 import Landing from "./components/Layout/Landing";
 import { Provider } from "react-redux";
@@ -16,6 +16,8 @@ import jwt_decode from "jwt-decode";
 import setJWTToken from "./securityUtils/setJWTToken";
 import { SET_CURRENT_USER } from "./actions/types";
 import { logout } from "./actions/securityActions";
+import SecureRoute from "./securityUtils/SecureRoute";
+import UserInfo from "./components/User/UserInfo";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -24,7 +26,7 @@ if (jwtToken) {
   const decoded_jwtToken = jwt_decode(jwtToken);
   store.dispatch({
     type: SET_CURRENT_USER,
-    payload: decoded_jwtToken
+    payload: decoded_jwtToken,
   });
 
   const currentTime = Date.now() / 1000;
@@ -45,11 +47,21 @@ class App extends Component {
               <Route exact path="/" component={Landing} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
-
-              <Route exact path="/dashboard" component={Dashboard} />
-              <Route exact path="/addEvent/" component={AddEvent} />
-              <Route exact path="/updateEvent/:id" component={UpdateEvent} />
-              <Route exact path="/showEvent/:id" component={ShowEvent} />
+              <Switch>
+                <SecureRoute exact path="/dashboard" component={Dashboard} />
+                <SecureRoute exact path="/addEvent/" component={AddEvent} />
+                <SecureRoute exact path="/lk" component={UserInfo} />
+                <SecureRoute
+                  exact
+                  path="/updateEvent/:id"
+                  component={UpdateEvent}
+                />
+                <SecureRoute
+                  exact
+                  path="/showEvent/:id"
+                  component={ShowEvent}
+                />
+              </Switch>
             </div>
           </div>
         </Router>

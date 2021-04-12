@@ -16,7 +16,37 @@ class ShowEvent extends Component {
       schedules: [],
     };
   }
+/*
+  static getDerivedStateFromProps(nextProps) {
+    if (nextProps.errors) {
+      return {
+        errors: nextProps.errors,
+      };
+    }
+  }
 
+  componentDidUpdate(nextProps){
+    const {
+      id,
+      eventName,
+      repeated,
+      eventDate,
+      createdDate,
+      eventType,
+      schedules,
+    } = nextProps.event;
+
+    this.setState({
+      id,
+      eventName,
+      repeated,
+      eventDate,
+      createdDate,
+      eventType,
+      schedules,
+    });
+  }*/
+  
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
@@ -73,11 +103,10 @@ class ShowEvent extends Component {
     const { errors } = this.state;
     return (
       <div className="container">
-      <div className="card border-info mb-3  text-center">
-      <h2 className="card-header">{this.state.eventName}</h2>
-      </div>
+        <div className="card border-info mb-3  text-center">
+          <h2 className="card-header">{this.state.eventName}</h2>
+        </div>
         <div className="row">
-
           <div className="col-6">
             <div className="card border-info mb-3">
               <h4 className="card-header">{this.state.eventType.typeName}</h4>

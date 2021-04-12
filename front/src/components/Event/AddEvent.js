@@ -104,9 +104,9 @@ class AddEvent extends Component {
     });
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.errors) {
-      this.setState({ errors: newProps.errors });
+  static getDerivedStateFromProps(nextProps) {
+    if (nextProps.errors) {
+      return { errors: nextProps.errors };
     }
   }
 
