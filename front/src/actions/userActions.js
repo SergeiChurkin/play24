@@ -9,12 +9,13 @@ export const getMyInfo = () => async (dispatch) => {
     });
   };
 
-  export const sendFriendRequest = (email) => async (dispatch) => {
-    if (window.confirm("Отправить запрос в друзья?")) {
-      await axios.delete(`/api/user/invite/${email}`);
+  export const sendFriendRequest = (email,history) => async (dispatch) => {
+
+    await axios.post(`/api/user/invite/${email}`);
+      history.push("/lk");
       dispatch({
         type: SEND_FRIEND_REQUEST,
-        payload: {},
+        payload: email,
       });
-    }
+    
   };

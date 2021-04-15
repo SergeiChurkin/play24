@@ -14,11 +14,11 @@ class UserInfo extends Component {
       phone: "",
       friends: [],
       friendRequests: [],
-      usernameRequest: "",
+      email: "",
       errors: {},
     };
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   handleChange(e) {
@@ -52,9 +52,9 @@ class UserInfo extends Component {
     this.props.getMyInfo();
   }
 
-  handleSubmit(e) {
+  onSubmit(e) {
     e.preventDefaults();
-    this.props.sendFriendRequest(this.state.usernameRequest);
+    this.props.sendFriendRequest(this.state.email, this.props.history);
   }
   render() {
     const { errors } = this.state;
@@ -64,17 +64,17 @@ class UserInfo extends Component {
         <h2>nickname: {this.state.nickname}</h2>
         <h2>phone: {this.state.phone}</h2>
         <hr />
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.onSubmit} method="post">
           <div className="form-group">
             <label>Отправить запрос в друзья</label>
             <input
               type="text"
               className={classnames("form-control form-control-lg", {
-                "is-invalid": errors.usernameRequest,
+                "is-invalid": errors.email,
               })}
               placeholder="Email"
-              name="usernameRequest"
-              value={this.state.usernameRequest}
+              name="email"
+              value={this.state.email}
               onChange={this.handleChange}
             />
           </div>

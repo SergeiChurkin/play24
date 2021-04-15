@@ -19,6 +19,11 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    public static final int DISPATCHED=1;
+    public static final int CONFIRMED=2;
+    public static final int REJECTED=3;
+
+
 
     public User saveUser(User newUser){
 
@@ -48,9 +53,9 @@ public class UserService {
             throw new UsernameAlreadyExistsException("Ошибка в запросе в друзья");
         }
         FriendRequest friendRequest = new FriendRequest();
-        friendRequest.setRequestFrom(fromUser);
-        friendRequest.setRequestTo(toUser);
-        friendRequest.setStatus(1);
+        friendRequest.setRequestFromUserId(fromUser.getId());
+        friendRequest.setRequestToUserId(toUser.getId());
+        friendRequest.setStatus(DISPATCHED);
         friendRequestRepo.save(friendRequest);
     }
 }

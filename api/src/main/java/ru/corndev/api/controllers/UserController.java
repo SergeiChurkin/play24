@@ -85,7 +85,8 @@ public class UserController {
     }
 
     @PostMapping("/user/invite/{email}")
-    public ResponseEntity<?> sendInvite(@PathVariable String email, BindingResult result, Principal principal){
+    public ResponseEntity<?> sendInvite(@PathVariable String email, Principal principal){
+        System.out.println(email);
         userService.sendingInviteByUsername(email, principal.getName());
         return new ResponseEntity<>("Запрос в друзья отправлен", HttpStatus.OK);
     }
