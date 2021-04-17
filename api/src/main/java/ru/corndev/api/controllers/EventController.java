@@ -32,11 +32,11 @@ public class EventController {
             BindingResult result,
             @PathVariable long event_id,
             Principal principal
-            ){
+    ) {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-        if(errorMap!=null) return errorMap;
+        if (errorMap != null) return errorMap;
 
-        Event theEvent = eventService.saveOrUpdateEvent(event_id, completeEvent.event, completeEvent.schedules,principal.getName());
+        Event theEvent = eventService.saveOrUpdateEvent(event_id, completeEvent.event, completeEvent.schedules, principal.getName());
 
         return new ResponseEntity<>(theEvent, HttpStatus.CREATED);
     }
@@ -48,19 +48,22 @@ public class EventController {
     }*/
 
     @GetMapping("/{eventId}")
-    public ResponseEntity<?> getEventById(@PathVariable long eventId, Principal principal){
-        Event theEvent =  eventService.findEventById(eventId,principal.getName());
+    public ResponseEntity<?> getEventById(@PathVariable long eventId, Principal principal) {
+        Event theEvent = eventService.findEventById(eventId, principal.getName());
         return new ResponseEntity<>(theEvent, HttpStatus.OK);
     }
 
     @GetMapping("/all")
-    public Iterable<Event> getAllEvents(Principal principal){
-        return eventService.findAllEvents(principal.getName());
+    public Iterable<Event> getAllEvents(Principal principal) {
+        //if (!principal.getName().isEmpty()) {
+            return eventService.findAllEvents(principal.getName());
+        //}
+        //return null;
     }
 
     @DeleteMapping("/{eventId}")
-    public ResponseEntity<?> deleteEventById(@PathVariable long eventId, Principal principal){
-        eventService.deleteEventById(eventId,principal.getName());
+    public ResponseEntity<?> deleteEventById(@PathVariable long eventId, Principal principal) {
+        eventService.deleteEventById(eventId, principal.getName());
         return new ResponseEntity<>("Мероприятие было удалено", HttpStatus.OK);
     }
 }

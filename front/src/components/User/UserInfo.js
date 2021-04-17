@@ -53,7 +53,7 @@ class UserInfo extends Component {
   }
 
   onSubmit(e) {
-    e.preventDefaults();
+    //e.preventDefaults();
     this.props.sendFriendRequest(this.state.email, this.props.history);
   }
   render() {
@@ -64,7 +64,7 @@ class UserInfo extends Component {
         <h2>nickname: {this.state.nickname}</h2>
         <h2>phone: {this.state.phone}</h2>
         <hr />
-        <form onSubmit={this.onSubmit} method="post">
+        <form onSubmit={this.onSubmit}>
           <div className="form-group">
             <label>Отправить запрос в друзья</label>
             <input

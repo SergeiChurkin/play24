@@ -50,7 +50,7 @@ class App extends Component {
               <Switch>
                 <SecureRoute exact path="/dashboard" component={Dashboard} />
                 <SecureRoute exact path="/addEvent/" component={AddEvent} />
-                <SecureRoute exact path="/lk" component={UserInfo} />
+                <SecureRoute exact path="/userInfo" component={UserInfo} />
                 <SecureRoute
                   exact
                   path="/updateEvent/:id"

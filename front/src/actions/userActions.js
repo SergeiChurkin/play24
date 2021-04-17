@@ -11,8 +11,8 @@ export const getMyInfo = () => async (dispatch) => {
 
   export const sendFriendRequest = (email,history) => async (dispatch) => {
 
-    await axios.post(`/api/user/invite/${email}`);
-      history.push("/lk");
+    await axios.post(`/api/friends/invite/${email}`);
+      history.push("/userInfo");
       dispatch({
         type: SEND_FRIEND_REQUEST,
         payload: email,
