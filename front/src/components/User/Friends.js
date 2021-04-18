@@ -1,18 +1,15 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getMyInfo, sendFriendRequest } from "../../actions/userActions";
+import { sendFriendRequest } from "../../actions/userActions";
 import classnames from "classnames";
+import axios from 'axios';
 
-class UserInfo extends Component {
+
+class Friends extends Component {
   constructor() {
     super();
     this.state = {
-      id: "",
-      username: "",
-      nickname: "",
-      phone: "",
-      friends: [],
       email: "",
       errors: {},
     };
@@ -30,45 +27,29 @@ class UserInfo extends Component {
       [name]: value,
     });
   }
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
-
-    const { id, username, nickname, phone, friends } = nextProps.user;
-
-    this.setState({
-      id,
-      username,
-      nickname,
-      phone,
-      friends,
-    });
-  }
-  componentDidMount() {
-    this.props.getMyInfo();
   }
 
   handleSubmit(e) {
     e.preventDefaults();
     const request = {
-      email: this.state.email,
-    };
-
-    this.props.sendFriendRequest(request, this.props.history);
+        email:this.state.email
+    }
+     axios.post("/api/friends/invite/", { request})
+     .then(res => {
+        console.log(res);
+      })
+    //this.props.sendFriendRequest(request, this.props.history);
   }
   render() {
     const { errors } = this.state;
     return (
       <div className="container">
-        <h2>email: {this.state.username}</h2>
-        <h2>nickname: {this.state.nickname}</h2>
-        <h2>phone: {this.state.phone}</h2>
-        <hr />
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
-            <label>Отправить запрос в друзья</label>
             <input
               type="text"
               className={classnames("form-control form-control-lg", {
@@ -81,7 +62,7 @@ class UserInfo extends Component {
             />
           </div>
           <div className="form-group">
-            <input type="submit" className="btn btn-info btn-block mt-4" />
+            <button type="submit" className="btn btn-info btn-block mt-4" >button</button>
           </div>
         </form>
       </div>
@@ -89,19 +70,15 @@ class UserInfo extends Component {
   }
 }
 
-UserInfo.propTypes = {
-  getMyInfo: PropTypes.func.isRequired,
-  sendFriendRequest: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
+Friends.propTypes = {
   errors: PropTypes.object.isRequired,
+  sendFriendRequest: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  user: state.users.user,
   errors: state.errors,
 });
 
 export default connect(mapStateToProps, {
-  getMyInfo,
   sendFriendRequest,
-})(UserInfo);
+})(Friends);

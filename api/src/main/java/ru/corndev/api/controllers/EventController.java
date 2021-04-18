@@ -41,12 +41,6 @@ public class EventController {
         return new ResponseEntity<>(theEvent, HttpStatus.CREATED);
     }
 
-/*    @GetMapping("/{eventName}")
-    public ResponseEntity<?> getEventByName(@PathVariable String eventName){
-        Event theEvent =  eventService.findEventByName(eventName);
-        return new ResponseEntity<>(theEvent, HttpStatus.OK);
-    }*/
-
     @GetMapping("/{eventId}")
     public ResponseEntity<?> getEventById(@PathVariable long eventId, Principal principal) {
         Event theEvent = eventService.findEventById(eventId, principal.getName());
