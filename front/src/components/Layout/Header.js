@@ -19,7 +19,7 @@ class Header extends Component {
             <Link className="nav-link" to="/dashboard">
               Мой планшет
             </Link>
-          </li>
+          </li>          
         </ul>
 
         <ul className="navbar-nav ml-auto">

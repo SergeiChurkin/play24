@@ -6,14 +6,12 @@ import { getEvents } from "../actions/eventActions";
 import PropTypes from "prop-types";
 
 class Dashboard extends Component {
-
-  componentDidMount(){
-    this.props.getEvents(); 
+  componentDidMount() {
+    this.props.getEvents();
   }
 
   render() {
-
-    const {events} = this.props.events
+    const { events } = this.props.events;
 
     return (
       <div className="row">
@@ -23,10 +21,9 @@ class Dashboard extends Component {
           <CreateEventButton />
           <br />
           <hr />
-          {events.map(event=>(
-            <EventItem key={event.id} event={event}/>
+          {events.map((event) => (
+            <EventItem key={event.id} event={event} />
           ))}
-          
         </div>
       </div>
     );

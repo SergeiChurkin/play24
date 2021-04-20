@@ -14,7 +14,7 @@ export default function user(state = initialState, action) {
     case SEND_FRIEND_REQUEST:
       return {
         ...state,
-        user: state.user,
+        message: action.payload,
       };
 
     default:

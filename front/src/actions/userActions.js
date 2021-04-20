@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_MY_INFO, GET_ERRORS } from "./types";
+import { GET_MY_INFO, GET_ERRORS, GET_MESSAGES } from "./types";
 
 export const getMyInfo = () => async (dispatch) => {
   const res = await axios.get("/api/user/info");
@@ -11,11 +11,11 @@ export const getMyInfo = () => async (dispatch) => {
 
 export const sendFriendRequest = (email, history) => async (dispatch) => {
   try {
-    await axios.post(`/api/friends/invite/`, email);
+    const res = await axios.post(`/api/friends/invite/`, {email});
     history.push("/userInfo");
     dispatch({
-      type: GET_ERRORS,
-      payload: {},
+      type: GET_MESSAGES,
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
