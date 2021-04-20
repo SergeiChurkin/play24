@@ -7,15 +7,6 @@ import classnames from "classnames";
 class UserInfo extends Component {
   constructor() {
     super();
-    this.state = {
-      id: "",
-      username: "",
-      nickname: "",
-      phone: "",
-      friends: [],
-      email: "",
-      errors: {},
-    };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -35,17 +26,8 @@ class UserInfo extends Component {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
-
-    const { id, username, nickname, phone, friends } = nextProps.user;
-
-    this.setState({
-      id,
-      username,
-      nickname,
-      phone,
-      friends,
-    });
   }
+
   componentDidMount() {
     this.props.getMyInfo();
   }
@@ -60,30 +42,34 @@ class UserInfo extends Component {
   }
   render() {
     const { errors } = this.state;
+    const { user } = this.props.user;
     return (
       <div className="container">
-        <h2>email: {this.state.username}</h2>
-        <h2>nickname: {this.state.nickname}</h2>
-        <h2>phone: {this.state.phone}</h2>
-        <hr />
-        <form onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label>Отправить запрос в друзья</label>
-            <input
-              type="text"
-              className={classnames("form-control form-control-lg", {
-                "is-invalid": errors.email,
-              })}
-              placeholder="Email"
-              name="email"
-              value={this.state.email}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <input type="submit" className="btn btn-info btn-block mt-4" />
-          </div>
-        </form>
+        <div className="container">
+          <h2>email: {this.state.username}</h2>
+          <h2>nickname: {this.state.nickname}</h2>
+          <h2>phone: {this.state.phone}</h2>
+        </div>
+        <div className="container">
+          <form action="" onSubmit={this.handleSubmit}>
+            <div className="form-group">
+              <label>Отправить запрос в друзья</label>
+              <input
+                type="text"
+                className={classnames("form-control form-control-lg", {
+                  "is-invalid": errors.email,
+                })}
+                placeholder="Email"
+                name="email"
+                value={this.state.email}
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <input type="submit" className="btn btn-info btn-block mt-4" />
+            </div>
+          </form>
+        </div>
       </div>
     );
   }
@@ -97,7 +83,7 @@ UserInfo.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  user: state.users.user,
+  user: state.user,
   errors: state.errors,
 });
 
