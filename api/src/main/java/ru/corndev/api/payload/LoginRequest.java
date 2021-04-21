@@ -4,23 +4,23 @@ import javax.validation.constraints.NotBlank;
 
 public class LoginRequest   {
     @NotBlank(message = "Заполните имя пользователя")
-    private String username;
+    private String usernameLogin;
     @NotBlank(message = "Пароль не может быть пустым")
-    private String password;
+    private String passwordLogin;
 
-    public String getUsername() {
-        return username;
+    public String getUsernameLogin() {
+        return usernameLogin;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsernameLogin(String usernameLogin) {
+        this.usernameLogin = usernameLogin;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPasswordLogin() {
+        return passwordLogin;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordLogin(String passwordLogin) {
+        this.passwordLogin = passwordLogin;
     }
 }

@@ -21,6 +21,7 @@ class Register extends Component {
   }
 
   componentDidMount() {
+    document.title = "Регистрация - Play 24/7";
     if (this.props.security.validToken) {
       this.props.history.push("/dashboard");
     }

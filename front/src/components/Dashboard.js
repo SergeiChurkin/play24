@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 
 class Dashboard extends Component {
   componentDidMount() {
+    document.title = "Мой планшет - Play 24/7";
     this.props.getEvents();
   }
 

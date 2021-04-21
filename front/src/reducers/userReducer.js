@@ -1,7 +1,9 @@
-import { GET_MY_INFO, SEND_FRIEND_REQUEST } from "../actions/types";
+import {
+  GET_MY_INFO,
+} from "../actions/types";
 
 const initialState = {
-  user: {},
+  user:{}
 };
 
 export default function user(state = initialState, action) {
@@ -10,11 +12,6 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         user: action.payload,
-      };
-    case SEND_FRIEND_REQUEST:
-      return {
-        ...state,
-        message: action.payload,
       };
 
     default:

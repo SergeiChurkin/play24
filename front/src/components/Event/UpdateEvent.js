@@ -146,6 +146,7 @@ class UpdateEvent extends Component {
     );
   }
   componentDidMount() {
+    document.title = "Обновление мероприятия - Play 24/7";
     const { id } = this.props.match.params;
     this.props.getEvent(id, this.props.history);
     axios.get("/api/eventtypes/all").then((res) => {

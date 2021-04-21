@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 
 class Landing extends Component {
   componentDidMount() {
+    document.title = "Play 24/7 играй всегда, играй везде";
     if (this.props.security.validToken) {
       this.props.history.push("/dashboard");
     }
@@ -21,10 +22,10 @@ class Landing extends Component {
             
           </p>
           <hr />
-          <Link className="btn btn-lg btn-primary mr-2" to="/register">
+          <Link className="btn btn-lg btn-primary" to="/register">
             Регистрация
           </Link>
-          <Link className="btn btn-lg btn-secondary mr-2" to="/login">
+          <Link className="btn btn-lg btn-secondary" to="/login">
             Вход
           </Link>
         </div>

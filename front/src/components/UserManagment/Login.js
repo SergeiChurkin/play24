@@ -8,8 +8,8 @@ class Login extends Component {
   constructor() {
     super();
     this.state = {
-      username: "",
-      password: "",
+      usernameLogin: "",
+      passwordLogin: "",
       errors: {},
     };
     this.handleChange = this.handleChange.bind(this);
@@ -21,6 +21,7 @@ class Login extends Component {
   }
 
   componentDidMount() {
+    document.title = "Вход на сайт - Play 24/7";
     if (this.props.security.validToken) {
       this.props.history.push("/dashboard");
     }
@@ -43,14 +44,16 @@ class Login extends Component {
   static getDerivedStateFromProps(nextProps) {
     if (nextProps.errors) {
       return { errors: nextProps.errors };
+    }else{
+      return {errors:{}}
     }
   }
 
   onSubmit(e) {
     e.preventDefault();
     const loginRequest = {
-      username: this.state.username,
-      password: this.state.password,
+      usernameLogin: this.state.usernameLogin,
+      passwordLogin: this.state.passwordLogin,
     };
     this.props.login(loginRequest);
   }
@@ -68,30 +71,34 @@ class Login extends Component {
                   <input
                     type="text"
                     className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.username,
+                      "is-invalid": errors.usernameLogin,
                     })}
                     placeholder="Email"
-                    name="username"
-                    value={this.state.username}
+                    name="usernameLogin"
+                    value={this.state.usernameLogin}
                     onChange={this.handleChange}
                   />
-                  {errors.username && (
-                    <div className="invalid-feedback">{errors.username}</div>
+                  {errors.usernameLogin && (
+                    <div className="invalid-feedback">
+                      {errors.usernameLogin}
+                    </div>
                   )}
                 </div>
                 <div className="form-group">
                   <input
                     type="password"
                     className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.password,
+                      "is-invalid": errors.passwordLogin,
                     })}
                     placeholder="Пароль"
-                    name="password"
-                    value={this.state.password}
+                    name="passwordLogin"
+                    value={this.state.passwordLogin}
                     onChange={this.handleChange}
                   />
-                  {errors.password && (
-                    <div className="invalid-feedback">{errors.password}</div>
+                  {errors.passwordLogin && (
+                    <div className="invalid-feedback">
+                      {errors.passwordLogin}
+                    </div>
                   )}
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />

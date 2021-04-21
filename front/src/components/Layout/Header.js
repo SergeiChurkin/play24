@@ -13,13 +13,13 @@ class Header extends Component {
     const { validToken, user } = this.props.security;
 
     const userIsAuthenticated = (
-      <div className="collapse navbar-collapse" id="mobile-nav">
-        <ul className="navbar-nav mr-auto">
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
           <li className="nav-item">
             <Link className="nav-link" to="/dashboard">
               Мой планшет
             </Link>
-          </li>          
+          </li>
         </ul>
 
         <ul className="navbar-nav ml-auto">
@@ -42,8 +42,8 @@ class Header extends Component {
     );
 
     const userIsNotAuthenticated = (
-      <div className="collapse navbar-collapse" id="mobile-nav">
-        <ul className="navbar-nav ml-auto">
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
           <li className="nav-item">
             <Link className="nav-link" to="/register">
               Регистрация
@@ -51,7 +51,7 @@ class Header extends Component {
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/login">
-              Войти
+              Вход
             </Link>
           </li>
         </ul>
@@ -67,18 +67,21 @@ class Header extends Component {
     }
 
     return (
-      <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
-        <div className="container">
+      <nav className="navbar navbar-expand-md navbar-dark bg-primary mb-4  sticky-top ">
+        <div class="container-fluid">
           <Link className="navbar-brand" to="/">
             Play 24/7
           </Link>
           <button
-            className="navbar-toggler"
+            class="navbar-toggler"
             type="button"
-            data-toggle="collapse"
-            data-target="#mobile-nav"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbar"
+            aria-controls="navbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon" />
+            <span class="navbar-toggler-icon"></span>
           </button>
           {headerLinks}
         </div>

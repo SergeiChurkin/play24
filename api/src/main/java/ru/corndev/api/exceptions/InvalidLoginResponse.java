@@ -1,27 +1,27 @@
 package ru.corndev.api.exceptions;
 
 public class InvalidLoginResponse {
-    private String username;
-    private String password;
+    private String usernameLogin;
+    private String passwordLogin;
 
     public InvalidLoginResponse() {
-        this.username = "Invalid username";
-        this.password = "Invalid password";
+        this.usernameLogin = "Invalid username";
+        this.passwordLogin = "Invalid password";
     }
 
-    public String getUsername() {
-        return username;
+    public String getUsernameLogin() {
+        return usernameLogin;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsernameLogin(String usernameLogin) {
+        this.usernameLogin = usernameLogin;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPasswordLogin() {
+        return passwordLogin;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordLogin(String passwordLogin) {
+        this.passwordLogin = passwordLogin;
     }
 }

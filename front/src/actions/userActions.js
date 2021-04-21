@@ -1,20 +1,11 @@
 import axios from "axios";
-import { GET_MY_INFO, GET_ERRORS, GET_MESSAGES } from "./types";
+import { GET_MY_INFO, GET_ERRORS, } from "./types";
 
 export const getMyInfo = () => async (dispatch) => {
-  const res = await axios.get("/api/user/info");
-  dispatch({
-    type: GET_MY_INFO,
-    payload: res.data,
-  });
-};
-
-export const sendFriendRequest = (email, history) => async (dispatch) => {
   try {
-    const res = await axios.post(`/api/friends/invite/`, {email});
-    history.push("/userInfo");
+    const res = await axios.get("/api/user/info");
     dispatch({
-      type: GET_MESSAGES,
+      type: GET_MY_INFO,
       payload: res.data,
     });
   } catch (err) {
@@ -24,3 +15,4 @@ export const sendFriendRequest = (email, history) => async (dispatch) => {
     });
   }
 };
+

@@ -52,8 +52,8 @@ public class UserController {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
-                        loginRequest.getPassword()
+                        loginRequest.getUsernameLogin(),
+                        loginRequest.getPasswordLogin()
                 )
         );
 
@@ -73,7 +73,6 @@ public class UserController {
 
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null) return errorMap;
-
         User newUser = userService.saveUser(user);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }

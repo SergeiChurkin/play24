@@ -39,9 +39,11 @@ public class User implements UserDetails {
     private String nickname;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
-    private Set<User> friends;
+    @JsonIgnore
+    private Set<User> friends = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
+    @JsonIgnore
     private Set<Event> events = new HashSet<>();
 
 

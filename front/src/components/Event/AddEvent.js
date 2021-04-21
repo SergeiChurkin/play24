@@ -98,6 +98,7 @@ class AddEvent extends Component {
   }
 
   componentDidMount() {
+    document.title = "Добавить мероприятие - Play 24/7";
     axios.get("/api/eventtypes/all").then((res) => {
       const types = res.data;
       this.setState({ types });

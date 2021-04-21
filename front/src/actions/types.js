@@ -14,3 +14,4 @@ export const GET_MY_INFO = "GET_MY_INFO";
 // Friend Actions
 export const SEND_FRIEND_REQUEST = "SEND_FRIEND_REQUEST";
 export const GET_FRIEND_REQUESTS = "GET_FRIEND_REQUESTS";
+export const GET_INVITES = "GET_INVITES";

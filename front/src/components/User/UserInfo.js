@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getMyInfo, sendFriendRequest } from "../../actions/userActions";
+import {
+  getMyInfo,
+  sendFriendRequest,
+  getInvites,
+} from "../../actions/userActions";
 import classnames from "classnames";
 
 class UserInfo extends Component {
@@ -12,7 +16,7 @@ class UserInfo extends Component {
       username: "",
       nickname: "",
       phone: "",
-      friends: [],
+      friendRequests: [],
       email: "",
       errors: {},
       messages: {},
@@ -34,19 +38,21 @@ class UserInfo extends Component {
       this.setState({ messages: nextProps.messages });
     }
 
-    const { id, username, nickname, phone, friends } = nextProps.user;
+    const { id, username, nickname, phone } = nextProps.user;
 
-    this.setState({ id, username, nickname, phone, friends });
+    this.setState({ id, username, nickname, phone });
   }
 
   componentDidMount() {
+    document.title = "Моя информация - Play 24/7";
     this.props.getMyInfo();
+    const friendRequests = this.props.getInvites();
+    this.setState({ friendRequests });
     this.setState({ isLoaded: true });
-    }
+  }
 
   handleSubmit(e) {
     e.preventDefault();
-
     this.props.sendFriendRequest(this.state.email, this.props.history);
     this.setState({ email: "" });
   }
@@ -67,11 +73,13 @@ class UserInfo extends Component {
         </div>
 
         <div className="container mt-5">
-          {messages ? (
-            <div className="alert alert-success" role="alert">
-              Запрос в друзья отправлен
+          {messages && <div className="toast-body"></div>}
+
+          {errors.email && (
+            <div className="toast-body">
+              Произошла ошибка при отправке запроса
             </div>
-          ) : null}
+          )}
 
           <form action="" onSubmit={this.handleSubmit}>
             <div className="form-group">
@@ -86,12 +94,16 @@ class UserInfo extends Component {
                 value={this.state.email}
                 onChange={this.handleChange}
               />
+              {errors.email && (
+                <div className="invalid-feedback">{errors.email}</div>
+              )}
             </div>
             <div className="form-group">
               <input type="submit" className="btn btn-info btn-block mt-4" />
             </div>
           </form>
         </div>
+
       </div>
     );
   }
@@ -100,13 +112,15 @@ class UserInfo extends Component {
 UserInfo.propTypes = {
   getMyInfo: PropTypes.func.isRequired,
   sendFriendRequest: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
+  //user: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
   messages: PropTypes.object.isRequired,
+  getInvites: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   user: state.users.user,
+  friendRequests: state.users.invites,
   errors: state.errors,
   messages: state.messages,
 });
@@ -114,4 +128,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getMyInfo,
   sendFriendRequest,
+  getInvites,
 })(UserInfo);

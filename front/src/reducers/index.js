@@ -4,6 +4,8 @@ import eventReducer from "./eventReducer";
 import securityReducer from "./securityReducer"
 import userReducer from "./userReducer"
 import messageReducer from "./messageReducer"
+import friendReducer from "./friendReducer"
+
 
 export default combineReducers({
   errors: errorReducer,
@@ -11,4 +13,5 @@ export default combineReducers({
   events:eventReducer,
   security:securityReducer,
   users:userReducer,
+  friends:friendReducer,
 });
