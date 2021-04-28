@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import {
-  getMyInfo,
-  sendFriendRequest,
-  getInvites,
-} from "../../actions/userActions";
+import { getMyInfo } from "../../actions/userActions";
+import { sendFriendRequest, getInvites } from "../../actions/friendActions";
 import classnames from "classnames";
+import { Toast } from "react-bootstrap";
 
 class UserInfo extends Component {
   constructor() {
@@ -16,10 +14,9 @@ class UserInfo extends Component {
       username: "",
       nickname: "",
       phone: "",
-      friendRequests: [],
+      //invites: [],
       email: "",
       errors: {},
-      messages: {},
       isLoaded: false,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -34,9 +31,6 @@ class UserInfo extends Component {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
-    if (nextProps.messages) {
-      this.setState({ messages: nextProps.messages });
-    }
 
     const { id, username, nickname, phone } = nextProps.user;
 
@@ -46,8 +40,8 @@ class UserInfo extends Component {
   componentDidMount() {
     document.title = "Моя информация - Play 24/7";
     this.props.getMyInfo();
-    const friendRequests = this.props.getInvites();
-    this.setState({ friendRequests });
+    const invites = this.props.getInvites();
+    this.setState({ invites });
     this.setState({ isLoaded: true });
   }
 
@@ -58,7 +52,8 @@ class UserInfo extends Component {
   }
 
   render() {
-    const { errors, isLoaded, messages } = this.state;
+    const { errors, isLoaded } = this.state;
+
 
     if (!isLoaded) {
       return <div className="container">Loading...</div>;
@@ -73,14 +68,6 @@ class UserInfo extends Component {
         </div>
 
         <div className="container mt-5">
-          {messages && <div className="toast-body"></div>}
-
-          {errors.email && (
-            <div className="toast-body">
-              Произошла ошибка при отправке запроса
-            </div>
-          )}
-
           <form action="" onSubmit={this.handleSubmit}>
             <div className="form-group">
               <label>Отправить запрос в друзья</label>
@@ -94,16 +81,28 @@ class UserInfo extends Component {
                 value={this.state.email}
                 onChange={this.handleChange}
               />
-              {errors.email && (
-                <div className="invalid-feedback">{errors.email}</div>
-              )}
             </div>
+            {errors.email && (
+              <Toast>
+                <Toast.Body>Заполните поле Email</Toast.Body>
+              </Toast>
+            )}
             <div className="form-group">
               <input type="submit" className="btn btn-info btn-block mt-4" />
             </div>
           </form>
-        </div>
 
+          {errors.username && (
+            <Toast>
+              <Toast.Header>
+                <img className="rounded mr-2" alt="" />
+                <strong className="mr-auto">Ошибка</strong>
+              </Toast.Header>
+              <Toast.Body>Ошибка при оправке запроса</Toast.Body>
+            </Toast>
+          )}
+        </div>
+        <div className="container mt-5"></div>
       </div>
     );
   }
@@ -114,15 +113,15 @@ UserInfo.propTypes = {
   sendFriendRequest: PropTypes.func.isRequired,
   //user: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
-  messages: PropTypes.object.isRequired,
+  //messages: PropTypes.object.isRequired,
   getInvites: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   user: state.users.user,
-  friendRequests: state.users.invites,
+  invites: state.friends.invites,
   errors: state.errors,
-  messages: state.messages,
+  //messages: state.messages,
 });
 
 export default connect(mapStateToProps, {

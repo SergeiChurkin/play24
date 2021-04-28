@@ -1,12 +1,12 @@
 import axios from "axios";
-import {GET_INVITES, GET_ERRORS,} from "./types"
+import {GET_INVITES, GET_ERRORS, SEND_FRIEND_REQUEST,} from "./types"
 
 export const getInvites = () => async (dispatch) => {
     try {
-      const res = await axios.get("/api/friends/invites");
+      await axios.get("/api/friends/invites");
       dispatch({
-        type: GET_INVITES,
-        payload: res.data,
+        type: GET_ERRORS,
+        payload: {},
       });
     } catch (err) {
       dispatch({
@@ -19,10 +19,11 @@ export const getInvites = () => async (dispatch) => {
   export const sendFriendRequest = (email, history) => async (dispatch) => {
     try {
       const res = await axios.post(`/api/friends/invite/`, { email });
+      window.confirm("Запрос отправлен")
       history.push("/userInfo");
       dispatch({
-        type: GET_ERRORS,
-        payload: {},
+        type: SEND_FRIEND_REQUEST,
+        payload: res.data,
       });
     } catch (err) {
       dispatch({

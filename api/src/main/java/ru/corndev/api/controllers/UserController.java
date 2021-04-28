@@ -70,7 +70,6 @@ public class UserController {
             BindingResult result) {
 
         userValidator.validate(user, result);
-
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null) return errorMap;
         User newUser = userService.saveUser(user);

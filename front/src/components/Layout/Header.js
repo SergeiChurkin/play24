@@ -13,7 +13,7 @@ class Header extends Component {
     const { validToken, user } = this.props.security;
 
     const userIsAuthenticated = (
-      <div class="collapse navbar-collapse" id="navbar">
+      <div className="collapse navbar-collapse" id="navbar">
         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
           <li className="nav-item">
             <Link className="nav-link" to="/dashboard">
@@ -42,7 +42,7 @@ class Header extends Component {
     );
 
     const userIsNotAuthenticated = (
-      <div class="collapse navbar-collapse" id="navbar">
+      <div className="collapse navbar-collapse" id="navbar">
         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
           <li className="nav-item">
             <Link className="nav-link" to="/register">
@@ -68,12 +68,12 @@ class Header extends Component {
 
     return (
       <nav className="navbar navbar-expand-md navbar-dark bg-primary mb-4  sticky-top ">
-        <div class="container-fluid">
+        <div className="container-fluid">
           <Link className="navbar-brand" to="/">
             Play 24/7
           </Link>
           <button
-            class="navbar-toggler"
+            className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbar"
@@ -81,7 +81,7 @@ class Header extends Component {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
           {headerLinks}
         </div>
