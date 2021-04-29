@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 import classnames from "classnames";
 
 class Register extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       username: "",

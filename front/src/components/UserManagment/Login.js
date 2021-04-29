@@ -5,8 +5,8 @@ import classnames from "classnames";
 import { login } from "../../actions/securityActions";
 
 class Login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       usernameLogin: "",
       passwordLogin: "",

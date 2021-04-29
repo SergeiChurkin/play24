@@ -8,29 +8,31 @@ public class FriendRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long requestFromId;
+    private String sender;
 
-    private Long requestToId;
+    private String nickname;
+
+    private String recipient;
 
     private int status;
 
     public FriendRequest() {
     }
 
-    public Long getRequestFromId() {
-        return requestFromId;
+    public String getSender() {
+        return sender;
     }
 
-    public void setRequestFromId(Long requestFromId) {
-        this.requestFromId = requestFromId;
+    public void setSender(String sender) {
+        this.sender = sender;
     }
 
-    public Long getRequestToId() {
-        return requestToId;
+    public String getRecipient() {
+        return recipient;
     }
 
-    public void setRequestToId(Long requestToId) {
-        this.requestToId = requestToId;
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
     }
 
     public Long getId() {
@@ -47,5 +49,13 @@ public class FriendRequest {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

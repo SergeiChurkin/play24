@@ -1,4 +1,4 @@
-import { GET_INVITES, SEND_FRIEND_REQUEST } from "../actions/types";
+import { GET_INVITES } from "../actions/types";
 
 const initialState = {
   invites: [],
@@ -7,7 +7,10 @@ const initialState = {
 export default function friend(state = initialState, action) {
   switch (action.type) {
     case GET_INVITES:
-      return { invites: action.payload };
+      return { 
+        ...state, 
+        invites: action.payload 
+      };
 
     default:
       return state;

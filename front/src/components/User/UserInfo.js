@@ -4,17 +4,17 @@ import { connect } from "react-redux";
 import { getMyInfo } from "../../actions/userActions";
 import { sendFriendRequest, getInvites } from "../../actions/friendActions";
 import classnames from "classnames";
-import { Toast } from "react-bootstrap";
+import { Toast, Spinner } from "react-bootstrap";
+import InviteItem from "./InviteItem";
 
 class UserInfo extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       id: "",
       username: "",
       nickname: "",
       phone: "",
-      //invites: [],
       email: "",
       errors: {},
       isLoaded: false,
@@ -40,8 +40,7 @@ class UserInfo extends Component {
   componentDidMount() {
     document.title = "Моя информация - Play 24/7";
     this.props.getMyInfo();
-    const invites = this.props.getInvites();
-    this.setState({ invites });
+    this.props.getInvites();
     this.setState({ isLoaded: true });
   }
 
@@ -53,10 +52,9 @@ class UserInfo extends Component {
 
   render() {
     const { errors, isLoaded } = this.state;
-
-
+    const { invites } = this.props.invites;
     if (!isLoaded) {
-      return <div className="container">Loading...</div>;
+      return <Spinner animation="border" />;
     }
 
     return (
@@ -84,7 +82,7 @@ class UserInfo extends Component {
             </div>
             {errors.email && (
               <Toast>
-                <Toast.Body>Заполните поле Email</Toast.Body>
+                <Toast.Body>{errors.email}</Toast.Body>
               </Toast>
             )}
             <div className="form-group">
@@ -102,7 +100,12 @@ class UserInfo extends Component {
             </Toast>
           )}
         </div>
-        <div className="container mt-5"></div>
+        <div className="container mt-5">
+          {" "}
+          {invites.map((invite) => (
+            <InviteItem key={invite.id} invite={invite} />
+          ))}
+        </div>
       </div>
     );
   }
@@ -111,17 +114,15 @@ class UserInfo extends Component {
 UserInfo.propTypes = {
   getMyInfo: PropTypes.func.isRequired,
   sendFriendRequest: PropTypes.func.isRequired,
-  //user: PropTypes.object.isRequired,
+  invites: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
-  //messages: PropTypes.object.isRequired,
   getInvites: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   user: state.users.user,
-  invites: state.friends.invites,
+  invites: state.friends,
   errors: state.errors,
-  //messages: state.messages,
 });
 
 export default connect(mapStateToProps, {

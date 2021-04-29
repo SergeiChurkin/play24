@@ -3,7 +3,6 @@ import errorReducer from "./errorReducer";
 import eventReducer from "./eventReducer";
 import securityReducer from "./securityReducer";
 import userReducer from "./userReducer";
-import messageReducer from "./messageReducer";
 import friendReducer from "./friendReducer";
 
 export default combineReducers({

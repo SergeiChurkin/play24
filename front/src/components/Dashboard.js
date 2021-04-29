@@ -13,7 +13,6 @@ class Dashboard extends Component {
 
   render() {
     const { events } = this.props.events;
-
     return (
       <div className="row">
         <div className="col-md-12">

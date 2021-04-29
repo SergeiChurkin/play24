@@ -7,8 +7,8 @@ import classnames from "classnames";
 import axios from "axios";
 
 class AddEvent extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       eventName: "",
       repeated: false,

@@ -6,8 +6,8 @@ import { connect } from "react-redux";
 import axios from "axios";
 
 class UpdateEvent extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       id: "",
       eventName: "",
