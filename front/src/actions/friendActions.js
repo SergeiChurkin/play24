@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_INVITES, GET_ERRORS, SEND_FRIEND_REQUEST } from "./types";
+import { GET_INVITES, GET_ERRORS, SEND_FRIEND_REQUEST, DELETE_REQUEST } from "./types";
 
 export const getInvites = () => async (dispatch) => {
   const res = await axios.get("/api/friends/invites");
@@ -21,6 +21,16 @@ export const sendFriendRequest = (email, history) => async (dispatch) => {
     dispatch({
       type: GET_ERRORS,
       payload: err.response.data,
+    });
+  }
+};
+
+export const deleteFriendRequest = (id) => async (dispatch) => {
+  if (window.confirm("Удалить запрос в друзья?")) {
+    await axios.delete(`/api/friends/invites/${id}`);
+    dispatch({
+      type: DELETE_REQUEST,
+      payload: id,
     });
   }
 };

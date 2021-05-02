@@ -1,4 +1,4 @@
-import { GET_INVITES } from "../actions/types";
+import { DELETE_REQUEST, GET_INVITES } from "../actions/types";
 
 const initialState = {
   invites: [],
@@ -11,7 +11,11 @@ export default function friend(state = initialState, action) {
         ...state, 
         invites: action.payload 
       };
-
+      case DELETE_REQUEST:
+        return {
+          ...state,
+          invites: state.invites.filter((invite) => invite.id !== action.payload),
+        };
     default:
       return state;
   }

@@ -8,7 +8,9 @@ import ru.corndev.api.domain.User;
 @Repository
 public interface FriendsRepo extends CrudRepository<FriendRequest, Long> {
 
-    FriendRequest getById(long id);
+    FriendRequest findById(long id);
 
     Iterable<?> findByRecipient(String username);
+
+
 }

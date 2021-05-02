@@ -19,7 +19,7 @@ public class FriendsService {
 
     public static final int DISPATCHED=1;
     public static final int CONFIRMED=2;
-    public static final int REJECTED=0;
+    public static final int DECLINE=0;
 
     public void sendingInviteByUsername(String toUsername, String fromUsername){
         User toUser = userRepo.findByUsername(toUsername);
@@ -39,5 +39,12 @@ public class FriendsService {
     public Iterable<?> gettingInvites(String username) {
         User toUser = userRepo.findByUsername(username);
         return friendsRepo.findByRecipient(toUser.getUsername());
+    }
+
+    public void deleteInvite(long id) {
+        FriendRequest friendRequest = friendsRepo.findById(id);
+        if(friendRequest!=null){
+            friendsRepo.delete(friendRequest);
+        }
     }
 }

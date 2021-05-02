@@ -41,4 +41,10 @@ public class FriendsController {
     public Iterable<?> getInvites(Principal principal){
         return friendsService.gettingInvites(principal.getName());
     }
+
+    @DeleteMapping("/invites/{id}")
+    public ResponseEntity<?> deleteInviteById(@PathVariable long id) {
+        friendsService.deleteInvite(id);
+        return new ResponseEntity<>("Запрос в друзья удален", HttpStatus.OK);
+    }
 }
