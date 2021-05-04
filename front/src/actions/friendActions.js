@@ -1,5 +1,12 @@
 import axios from "axios";
-import { GET_INVITES, GET_ERRORS, SEND_FRIEND_REQUEST, DELETE_REQUEST } from "./types";
+import {
+  GET_INVITES,
+  GET_ERRORS,
+  SEND_FRIEND_REQUEST,
+  DELETE_REQUEST,
+  ACCEPT_REQUEST,
+  GET_FRIENDS,
+} from "./types";
 
 export const getInvites = () => async (dispatch) => {
   const res = await axios.get("/api/friends/invites");
@@ -11,7 +18,7 @@ export const getInvites = () => async (dispatch) => {
 
 export const sendFriendRequest = (email, history) => async (dispatch) => {
   try {
-    const res = await axios.post(`/api/friends/invite/`, { email });
+    const res = await axios.post(`/api/friends/invites/`, { email });
     history.push("/userInfo");
     dispatch({
       type: SEND_FRIEND_REQUEST,
@@ -33,4 +40,22 @@ export const deleteFriendRequest = (id) => async (dispatch) => {
       payload: id,
     });
   }
+};
+
+export const acceptFriendRequest = (id, foo) => async (dispatch) => {
+  await axios.get(`/api/friends/accept/${id}`);
+  foo();
+  dispatch({
+    type: ACCEPT_REQUEST,
+    payload: id,
+  });
+  
+};
+
+export const getFriends = () => async (dispatch) => {
+  const res = await axios.get("/api/friends/all");
+  dispatch({
+    type: GET_FRIENDS,
+    payload: res.data,
+  });
 };

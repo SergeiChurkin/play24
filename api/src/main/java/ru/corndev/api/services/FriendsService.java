@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import ru.corndev.api.domain.FriendRequest;
 import ru.corndev.api.domain.User;
 import ru.corndev.api.exceptions.EmailFriendRequestException;
-import ru.corndev.api.repos.FriendsRepo;
+import ru.corndev.api.repos.FriendsRequestRepo;
 import ru.corndev.api.repos.UserRepo;
+
+import java.util.Set;
 
 @Service
 public class FriendsService {
@@ -15,7 +17,7 @@ public class FriendsService {
     private UserRepo userRepo;
 
     @Autowired
-    private FriendsRepo friendsRepo;
+    private FriendsRequestRepo friendsRequestRepo;
 
     public static final int DISPATCHED=1;
     public static final int CONFIRMED=2;
@@ -33,18 +35,40 @@ public class FriendsService {
         friendRequest.setNickname(fromUser.getNickname());
         friendRequest.setRecipient(toUser.getUsername());
         friendRequest.setStatus(DISPATCHED);
-        friendsRepo.save(friendRequest);
+        friendsRequestRepo.save(friendRequest);
     }
 
     public Iterable<?> gettingInvites(String username) {
         User toUser = userRepo.findByUsername(username);
-        return friendsRepo.findByRecipient(toUser.getUsername());
+        return friendsRequestRepo.findByRecipient(toUser.getUsername());
     }
 
     public void deleteInvite(long id) {
-        FriendRequest friendRequest = friendsRepo.findById(id);
+        FriendRequest friendRequest = friendsRequestRepo.findById(id);
         if(friendRequest!=null){
-            friendsRepo.delete(friendRequest);
+            friendsRequestRepo.delete(friendRequest);
         }
+    }
+
+    public void acceptRequest(long id) {
+        FriendRequest friendRequest = friendsRequestRepo.findById(id);
+        if(friendRequest!=null){
+            User toUser = userRepo.findByUsername(friendRequest.getRecipient());
+            User fromUser = userRepo.findByUsername(friendRequest.getSender());
+            friendRequest.setStatus(CONFIRMED);
+            toUser.addFriend(fromUser);
+            userRepo.save(toUser);
+            fromUser.addFriend(toUser);
+            userRepo.save(fromUser);
+
+        }
+    }
+
+    public Set<User> getFriends(String username){
+        User user = userRepo.findByUsername(username);
+        if(user!=null){
+            return user.getFriends();
+        }
+        else return null;
     }
 }

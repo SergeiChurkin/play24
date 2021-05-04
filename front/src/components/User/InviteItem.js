@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import { Spinner, Container, Row, Col } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { deleteFriendRequest } from "../../actions/friendActions";
+import {
+  deleteFriendRequest,
+  acceptFriendRequest,
+} from "../../actions/friendActions";
 class InviteItem extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +19,7 @@ class InviteItem extends Component {
   };
 
   onAcceptClick = (id) => {
-    this.props.acceptFriendRequest(id);
+    this.props.acceptFriendRequest(id, this.props.refreshFriends);
   };
 
   componentDidMount() {
@@ -33,27 +36,29 @@ class InviteItem extends Component {
 
     return (
       <Container>
-        <Row sm>
-          <Col>
-            Запрос в друзья от {invite.nickname} ({invite.sender})
-          </Col>
-          <Col>
-            <button
-              className="btn btn-success"
-              onClick={this.onAcceptClick.bind(this, invite.id)}
-            >
-              Принять запрос
-            </button>
-          </Col>
-          <Col>
-            <button
-              className="btn btn-danger"
-              onClick={this.onDeleteClick.bind(this, invite.id)}
-            >
-              Отклонить запрос
-            </button>
-          </Col>
-        </Row>
+        {invite.status === 1 && (
+          <Row sm>
+            <Col>
+              Запрос в друзья от {invite.nickname} ({invite.sender})
+            </Col>
+            <Col>
+              <button
+                className="btn btn-success btn-sm"
+                onClick={this.onAcceptClick.bind(this, invite.id)}
+              >
+                Принять
+              </button>
+            </Col>
+            <Col>
+              <button
+                className="btn btn-danger btn-sm"
+                onClick={this.onDeleteClick.bind(this, invite.id)}
+              >
+                Отклонить
+              </button>
+            </Col>
+          </Row>
+        )}
       </Container>
     );
   }
@@ -61,6 +66,9 @@ class InviteItem extends Component {
 
 InviteItem.propTypes = {
   deleteFriendRequest: PropTypes.func.isRequired,
+  acceptFriendRequest: PropTypes.func.isRequired,
 };
 
-export default connect(null, { deleteFriendRequest })(InviteItem);
+export default connect(null, { deleteFriendRequest, acceptFriendRequest })(
+  InviteItem
+);

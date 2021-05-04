@@ -6,7 +6,7 @@ import ru.corndev.api.domain.FriendRequest;
 import ru.corndev.api.domain.User;
 
 @Repository
-public interface FriendsRepo extends CrudRepository<FriendRequest, Long> {
+public interface FriendsRequestRepo extends CrudRepository<FriendRequest, Long> {
 
     FriendRequest findById(long id);
 

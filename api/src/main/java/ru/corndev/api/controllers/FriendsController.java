@@ -25,7 +25,7 @@ public class FriendsController {
     @Autowired
     private MapValidationErrorService mapValidationErrorService;
 
-    @PostMapping("/invite")
+    @PostMapping("/invites")
     public ResponseEntity<?> sendInvite(
             @Valid
             @RequestBody FriendRequestPayload friendRequestPayload,
@@ -47,4 +47,16 @@ public class FriendsController {
         friendsService.deleteInvite(id);
         return new ResponseEntity<>("Запрос в друзья удален", HttpStatus.OK);
     }
+
+    @GetMapping("/accept/{id}")
+    public ResponseEntity<?> acceptRequestById(@PathVariable long id){
+        friendsService.acceptRequest(id);
+        return new ResponseEntity<>("Запрос в друзья принят", HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public Iterable<User> getAllFriends(Principal principal){
+        return friendsService.getFriends(principal.getName());
+    }
+
 }

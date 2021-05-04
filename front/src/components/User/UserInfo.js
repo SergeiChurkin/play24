@@ -2,10 +2,15 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getMyInfo } from "../../actions/userActions";
-import { sendFriendRequest, getInvites } from "../../actions/friendActions";
+import {
+  sendFriendRequest,
+  getInvites,
+  getFriends,
+} from "../../actions/friendActions";
 import classnames from "classnames";
 import { Toast, Spinner } from "react-bootstrap";
 import InviteItem from "./InviteItem";
+import FriendItem from "./FriendItem";
 
 class UserInfo extends Component {
   constructor(props) {
@@ -18,6 +23,7 @@ class UserInfo extends Component {
       email: "",
       errors: {},
       isLoaded: false,
+      friends: [],
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,7 +39,6 @@ class UserInfo extends Component {
     }
 
     const { id, username, nickname, phone } = nextProps.user;
-
     this.setState({ id, username, nickname, phone });
   }
 
@@ -41,7 +46,13 @@ class UserInfo extends Component {
     document.title = "Моя информация - Play 24/7";
     this.props.getMyInfo();
     this.props.getInvites();
+    const {temp} = this.props.getFriends();
+    this.setState({friends:temp});
     this.setState({ isLoaded: true });
+  }
+
+  componentDidUpdate() {
+    //this.props.getFriends();
   }
 
   handleSubmit(e) {
@@ -53,6 +64,7 @@ class UserInfo extends Component {
   render() {
     const { errors, isLoaded } = this.state;
     const { invites } = this.props.invites;
+    const { friends } = this.props.friends;
     if (!isLoaded) {
       return <Spinner animation="border" />;
     }
@@ -101,9 +113,18 @@ class UserInfo extends Component {
           )}
         </div>
         <div className="container mt-5">
-          {" "}
           {invites.map((invite) => (
-            <InviteItem key={invite.id} invite={invite} />
+            <InviteItem
+              key={invite.id}
+              invite={invite}
+              refreshFriends={this.props.getFriends}
+            />
+          ))}
+        </div>
+        <div className="container mt-5">
+          <h4>Мои друзья</h4>
+          {friends.map((friend) => (
+            <FriendItem key={friend.id} friend={friend} />
           ))}
         </div>
       </div>
@@ -117,11 +138,14 @@ UserInfo.propTypes = {
   invites: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
   getInvites: PropTypes.func.isRequired,
+  getFriends: PropTypes.func.isRequired,
+  friends: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   user: state.users.user,
   invites: state.friends,
+  friends: state.friends,
   errors: state.errors,
 });
 
@@ -129,4 +153,5 @@ export default connect(mapStateToProps, {
   getMyInfo,
   sendFriendRequest,
   getInvites,
+  getFriends,
 })(UserInfo);

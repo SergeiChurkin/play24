@@ -1,4 +1,3 @@
-export const GET_MESSAGES = "GET_MESSAGES"
 export const GET_ERRORS = "GET_ERRORS";
 
 // Event Actions
@@ -17,3 +16,4 @@ export const GET_FRIEND_REQUESTS = "GET_FRIEND_REQUESTS";
 export const GET_INVITES = "GET_INVITES";
 export const ACCEPT_REQUEST = "ACCEPT_REQUIEST";
 export const DELETE_REQUEST = "DELETE_REQUEST";
+export const GET_FRIENDS = "GET_FRIENDS";

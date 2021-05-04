@@ -67,7 +67,7 @@ class Header extends Component {
     }
 
     return (
-      <nav className="navbar navbar-expand-md navbar-dark bg-primary mb-4  sticky-top ">
+      <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4  sticky-top ">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
             Play 24/7

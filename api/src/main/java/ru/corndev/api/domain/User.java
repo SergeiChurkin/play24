@@ -51,6 +51,11 @@ public class User implements UserDetails {
     public User() {
     }
 
+    public void addFriend(User friend){
+        friends.add(friend);
+        //friend.addFriend(this);
+    }
+
     public Long getId() {
         return id;
     }
