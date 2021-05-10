@@ -44,6 +44,10 @@ public class User implements UserDetails {
 
     @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
     @JsonIgnore
+    private Set<Event> myEvents = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @JsonIgnore
     private Set<Event> events = new HashSet<>();
 
 
@@ -96,12 +100,12 @@ public class User implements UserDetails {
         this.nickname = nickname;
     }
 
-    public Set<Event> getEvents() {
-        return events;
+    public Set<Event> getMyEvents() {
+        return myEvents;
     }
 
-    public void setEvents(Set<Event> events) {
-        this.events = events;
+    public void setMyEvents(Set<Event> myEvents) {
+        this.myEvents = myEvents;
     }
 
     public String getPhone() {
@@ -118,6 +122,14 @@ public class User implements UserDetails {
 
     public void setFriends(Set<User> friends) {
         this.friends = friends;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
     }
 
     @Override

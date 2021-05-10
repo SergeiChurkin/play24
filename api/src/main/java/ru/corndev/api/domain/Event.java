@@ -35,6 +35,10 @@ public class Event {
     @JsonIgnore
     private User user;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<User> players = new HashSet<>();
+
 
     @OneToMany(mappedBy = "event",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     //@JsonIgnore
@@ -149,6 +153,14 @@ public class Event {
 
     public void setEventLeader(String eventLeader) {
         this.eventLeader = eventLeader;
+    }
+
+    public Set<User> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Set<User> players) {
+        this.players = players;
     }
 
     @Override

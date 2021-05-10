@@ -3,7 +3,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createEvent } from "../../actions/eventActions";
 import classnames from "classnames";
-//import { YMaps, Map, Placemark } from "react-yandex-maps";
+import {
+  YMaps,
+  Map,
+  Placemark,
+  SearchControl,
+  ZoomControl,
+} from "react-yandex-maps";
 import axios from "axios";
 
 class AddEvent extends Component {
@@ -16,7 +22,8 @@ class AddEvent extends Component {
       typeId: 1,
       errors: {},
       types: [],
-      //mapState: { center: [59.939095, 30.315868], zoom: 10 },
+      mapState: { center: [59.939095, 30.315868], zoom: 10 },
+      search: {},
       schedules: [
         {
           day: "",
@@ -28,6 +35,11 @@ class AddEvent extends Component {
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  onChangeSearchString(string) {
+    this.setState({ search: string });
+  }
+
   addScheduleInputClick() {
     this.setState((prevState) => ({
       schedules: [...prevState.schedules, { day: "", time: "" }],
@@ -70,7 +82,7 @@ class AddEvent extends Component {
             {i > 0 && (
               <input
                 type="button"
-                value="Удалить день"
+                value="Удалить"
                 className="btn btn-danger"
                 onClick={this.removeClick.bind(this, i)}
               />
@@ -142,6 +154,7 @@ class AddEvent extends Component {
 
   render() {
     const { errors } = this.state;
+    const coordinates = [59.939095, 30.315868];
     return (
       <div className="container">
         <div className="col-md-8 m-auto">
@@ -200,7 +213,7 @@ class AddEvent extends Component {
               <div className="form-group">
                 <input
                   type="button"
-                  value="Добавить день"
+                  value="Добавить"
                   className="btn btn-secondary"
                   onClick={this.addScheduleInputClick.bind(this)}
                 />
@@ -224,7 +237,23 @@ class AddEvent extends Component {
                 )}
               </div>
             )}
-
+            <div className="form-group">
+              <YMaps query={{ load: 'control.ZoomControl' }}>
+                <Map
+                  width="50vw"
+                  height="50vh"
+                  defaultState={this.state.mapState}
+                >
+                  <SearchControl options={{ float: "right" }} />
+                  <Placemark
+                    geometry={coordinates}
+                    options={{ draggable: true, hasBalloon: false }}
+                    
+                  />
+                  <ZoomControl options={{ float: "right" }} />
+                </Map>
+              </YMaps>
+            </div>
             <div className="form-group">
               <input
                 type="submit"
