@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Spinner, Container, Row, Col } from "react-bootstrap";
+import { Spinner, Container, Row, Col, Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
@@ -10,15 +10,19 @@ class InviteItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isAcceptDisable: false,
+      isDeleteDisable: false,
       isLoaded: false,
     };
   }
 
   onDeleteClick = (id) => {
+    this.setState({ isDeleteDisable: true });
     this.props.deleteFriendRequest(id);
   };
 
   onAcceptClick = (id) => {
+    this.setState({ isAcceptDisable: true });
     this.props.acceptFriendRequest(id, this.props.refreshFriends);
   };
 
@@ -42,21 +46,26 @@ class InviteItem extends Component {
               Запрос в друзья от {invite.nickname} ({invite.sender})
             </Col>
             <Col>
-              <button
-                className="btn btn-success btn-sm"
+              <Button
+                size="sm"
+                variant="success"
+                disabled={this.state.isAcceptDisable}
                 onClick={this.onAcceptClick.bind(this, invite.id)}
               >
-                Принять
-              </button>
+              {this.state.isAcceptDisable ? 'Загрузка...' : 'Принять'}
+              </Button>
             </Col>
             <Col>
-              <button
-                className="btn btn-danger btn-sm"
+              <Button
+                variant="danger"
+                size="sm"
+                disabled={this.state.isDeleteDisable}
                 onClick={this.onDeleteClick.bind(this, invite.id)}
               >
-                Отклонить
-              </button>
+              {this.state.isDeleteDisable ? 'Загрузка...' : 'Отклонить'}
+              </Button>
             </Col>
+            <Col> </Col>
           </Row>
         )}
       </Container>

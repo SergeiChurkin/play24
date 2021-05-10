@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { getEvent, createEvent } from "../../actions/eventActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { getFriends } from "../../actions/friendActions";
+import { Modal, Button, Container } from "react-bootstrap";
+import FriendItemInvite from "../User/FriendItemInvite";
 
 class ShowEvent extends Component {
   constructor(props) {
@@ -10,13 +13,15 @@ class ShowEvent extends Component {
       id: "",
       eventName: "",
       repeated: false,
+      showModal: false,
       eventDate: "",
       eventType: {},
       errors: {},
       schedules: [],
+      friends: [],
     };
   }
-/*
+  /*
   static getDerivedStateFromProps(nextProps) {
     if (nextProps.errors) {
       return {
@@ -46,7 +51,7 @@ class ShowEvent extends Component {
       schedules,
     });
   }*/
-  
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
@@ -77,6 +82,8 @@ class ShowEvent extends Component {
     document.title = "Просмотр мероприятия - Play 24/7";
     const { id } = this.props.match.params;
     this.props.getEvent(id, this.props.history);
+    const { temp } = this.props.getFriends();
+    this.setState({ friends: temp });
   }
 
   daySwitch(param) {
@@ -99,9 +106,15 @@ class ShowEvent extends Component {
         return "";
     }
   }
+  handleClose = () => {
+    this.setState({ showModal: false });
+  };
+  handleShow = () => {
+    this.setState({ showModal: true });
+  };
 
   render() {
-    const { errors } = this.state;
+    const { friends } = this.props.friends;
     return (
       <div className="container">
         <div className="card border-info mb-3  text-center">
@@ -127,10 +140,32 @@ class ShowEvent extends Component {
           <div className="col-6">
             <div className="card border-info mb-3">
               <h4 className="card-header">Участники</h4>
-              <div className="card-body"></div>
+              <div className="card-body">
+                <Button variant="primary" onClick={this.handleShow.bind(this)}>
+                  Добавить участиников
+                </Button>
+              </div>
             </div>
           </div>
         </div>
+
+        <Modal show={this.state.showModal} onHide={this.handleClose.bind(this)}>
+          <Modal.Header>
+            <Modal.Title>Позовите друзей на мероприятие</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Container>
+              {friends.map((friend) => (
+                <FriendItemInvite key={friend.id} friend={friend} />
+              ))}
+            </Container>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.handleClose.bind(this)}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     );
   }
@@ -141,11 +176,15 @@ ShowEvent.propTypes = {
   createEvent: PropTypes.func.isRequired,
   event: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
+  friends: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   event: state.events.event,
   errors: state.errors,
+  friends: state.friends,
 });
 
-export default connect(mapStateToProps, { getEvent, createEvent })(ShowEvent);
+export default connect(mapStateToProps, { getEvent, createEvent, getFriends })(
+  ShowEvent
+);

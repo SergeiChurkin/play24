@@ -4,11 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "events")
@@ -35,14 +31,17 @@ public class Event {
     @JsonIgnore
     private User user;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "event",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
-    private Set<User> players = new HashSet<>();
-
+    private Set<InviteToEvent> invites = new HashSet<>();
 
     @OneToMany(mappedBy = "event",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     //@JsonIgnore
     private Set<Schedule> schedules = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<User> players = new HashSet<>();
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private Date createdDate;
@@ -61,6 +60,10 @@ public class Event {
     public Event() {
     }
 
+    public void addInvite(InviteToEvent invite){
+        invites.add(invite);
+    }
+
     public void addScheduleItem(Schedule schedule){
         schedules.add(schedule);
         schedule.setEvent(this);
@@ -72,7 +75,21 @@ public class Event {
         schedules.removeAll(scheduleSet);
     }
 
+    public Set<User> getPlayers() {
+        return players;
+    }
 
+    public Set<InviteToEvent> getInvites() {
+        return invites;
+    }
+
+    public void setInvites(Set<InviteToEvent> invites) {
+        this.invites = invites;
+    }
+
+    public void setPlayers(Set<User> players) {
+        this.players = players;
+    }
 
     public Long getId() {
         return id;
@@ -153,14 +170,6 @@ public class Event {
 
     public void setEventLeader(String eventLeader) {
         this.eventLeader = eventLeader;
-    }
-
-    public Set<User> getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(Set<User> players) {
-        this.players = players;
     }
 
     @Override

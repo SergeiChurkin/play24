@@ -7,8 +7,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.corndev.api.domain.Event;
 import ru.corndev.api.domain.Schedule;
+import ru.corndev.api.domain.User;
 import ru.corndev.api.models.CompleteEvent;
 import ru.corndev.api.services.EventService;
+import ru.corndev.api.services.FriendsService;
 import ru.corndev.api.services.MapValidationErrorService;
 
 import javax.validation.Valid;
@@ -21,6 +23,9 @@ public class EventController {
 
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private FriendsService friendsService;
 
     @Autowired
     private MapValidationErrorService mapValidationErrorService;
@@ -59,5 +64,18 @@ public class EventController {
     public ResponseEntity<?> deleteEventById(@PathVariable long eventId, Principal principal) {
         eventService.deleteEventById(eventId, principal.getName());
         return new ResponseEntity<>("Мероприятие было удалено", HttpStatus.OK);
+    }
+
+    @GetMapping("/{eventId}/invites")
+    public Iterable<User> getFriendsReadyToInvite(@PathVariable long eventId, Principal principal){
+        return friendsService.getFriendsForInviteToEvent(eventId,principal.getName());
+    }
+
+    @GetMapping("/{eventId}/{userId}/invites")
+    public ResponseEntity<?> sendingInviteToEvent(@PathVariable long eventId,
+                                                  @PathVariable long userId,
+                                                  Principal principal){
+        friendsService.sendingInviteToEvent(eventId,userId,principal.getName());
+        return new ResponseEntity<>("Приглашение на мероприятие отправлено", HttpStatus.OK);
     }
 }

@@ -7,13 +7,11 @@ import ru.corndev.api.domain.EventType;
 
 @Repository
 public interface EventRepo extends CrudRepository<Event, Long> {
-     Event findByEventName(String name);
+    Event findByEventName(String name);
 
-     Event findById(long id);
+    Event findById(long id);
 
-
-
-     EventType findByEventTypeId(long id);
+    EventType findByEventTypeId(long id);
 
     @Override
     Iterable<Event> findAll();

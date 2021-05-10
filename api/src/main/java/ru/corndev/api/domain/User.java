@@ -21,11 +21,11 @@ public class User implements UserDetails {
 
     @Email(message = "Введите корректный Email вида 'mail@email.com'")
     @NotBlank(message = "Заполните email")
-    @Column(unique=true)
+    @Column(unique = true)
     private String username;
 
     @NotBlank(message = "Введите номер телефона")
-    @Column(unique=true)
+    @Column(unique = true)
     private String phone;
 
     @NotBlank(message = "Введите пароль")
@@ -35,10 +35,10 @@ public class User implements UserDetails {
     private String confirmPassword;
 
     @NotBlank(message = "Заполните Nickname")
-    @Column(unique=true)
+    @Column(unique = true)
     private String nickname;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<User> friends = new HashSet<>();
 
@@ -46,18 +46,41 @@ public class User implements UserDetails {
     @JsonIgnore
     private Set<Event> myEvents = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, mappedBy = "user")
+    @JsonIgnore
+    private Set<InviteToEvent> invites;
+
+    @ManyToMany(fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Event> events = new HashSet<>();
-
 
 
     public User() {
     }
 
-    public void addFriend(User friend){
+    public void addInvite(InviteToEvent invite){
+        invites.add(invite);
+    }
+
+    public void addFriend(User friend) {
         friends.add(friend);
         //friend.addFriend(this);
+    }
+
+    public Set<InviteToEvent> getInvites() {
+        return invites;
+    }
+
+    public void setInvites(Set<InviteToEvent> invites) {
+        this.invites = invites;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
     }
 
     public Long getId() {
@@ -122,14 +145,6 @@ public class User implements UserDetails {
 
     public void setFriends(Set<User> friends) {
         this.friends = friends;
-    }
-
-    public Set<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(Set<Event> events) {
-        this.events = events;
     }
 
     @Override
