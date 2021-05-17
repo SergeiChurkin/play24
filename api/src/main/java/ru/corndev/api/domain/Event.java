@@ -31,7 +31,7 @@ public class Event {
     @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "event",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "event",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<InviteToEvent> invites = new HashSet<>();
 
@@ -62,6 +62,10 @@ public class Event {
 
     public void addInvite(InviteToEvent invite){
         invites.add(invite);
+    }
+
+    public void addPlayer(User user){
+        players.add(user);
     }
 
     public void addScheduleItem(Schedule schedule){

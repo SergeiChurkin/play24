@@ -17,9 +17,9 @@ class FriendItem extends Component {
     this.setState({ isLoaded: true });
   }
 
-  handleClick = (eventId, userId) => async (dispatch) => {
+  handleClick = (eventId, userId) => {
     this.setState({ isDisable: true });
-    await axios.get(`/api/event/1/${userId}/invites`);
+    axios.get(`/api/event/${eventId}/${userId}/invites`);
   };
 
   render() {
@@ -39,7 +39,7 @@ class FriendItem extends Component {
           <Button
             size="sm"
             disabled={this.state.isDisable}
-            onClick={this.handleClick.bind(this, 1, friend.id)}
+            onClick={this.handleClick.bind(this, 2, friend.id)}
           >
             {this.state.isDisable ? "Отправка..." : "Пригласить"}
           </Button>

@@ -21,37 +21,6 @@ class ShowEvent extends Component {
       friends: [],
     };
   }
-  /*
-  static getDerivedStateFromProps(nextProps) {
-    if (nextProps.errors) {
-      return {
-        errors: nextProps.errors,
-      };
-    }
-  }
-
-  componentDidUpdate(nextProps){
-    const {
-      id,
-      eventName,
-      repeated,
-      eventDate,
-      createdDate,
-      eventType,
-      schedules,
-    } = nextProps.event;
-
-    this.setState({
-      id,
-      eventName,
-      repeated,
-      eventDate,
-      createdDate,
-      eventType,
-      schedules,
-    });
-  }*/
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });

@@ -103,14 +103,14 @@ public class FriendsService {
         Event event = eventRepo.findById(eventId);
         User user = userRepo.getById(userId);
         if (event != null && user != null) {
-            if (inviteRepo.findByEvent(event) == null && inviteRepo.findByUser(user) == null) {
+            if (inviteRepo.findByUser(user) == null) {
                 InviteToEvent inviteToEvent = new InviteToEvent();
                 inviteToEvent.setEvent(event);
                 inviteToEvent.setUser(user);
                 event.addInvite(inviteToEvent);
-                eventRepo.save(event);
+                //eventRepo.save(event);
                 user.addInvite(inviteToEvent);
-                userRepo.save(user);
+                //userRepo.save(user);
                 inviteRepo.save(inviteToEvent);
             }
         }

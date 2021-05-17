@@ -38,7 +38,7 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String nickname;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<User> friends = new HashSet<>();
 
@@ -50,7 +50,7 @@ public class User implements UserDetails {
     @JsonIgnore
     private Set<InviteToEvent> invites;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Event> events = new HashSet<>();
 
@@ -65,6 +65,10 @@ public class User implements UserDetails {
     public void addFriend(User friend) {
         friends.add(friend);
         //friend.addFriend(this);
+    }
+
+    public void addEvent(Event event){
+        events.add(event);
     }
 
     public Set<InviteToEvent> getInvites() {

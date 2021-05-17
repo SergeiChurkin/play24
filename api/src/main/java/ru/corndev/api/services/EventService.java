@@ -57,6 +57,8 @@ public class EventService {
                         }
                     }
                 }
+                event.addPlayer(user);
+                user.addEvent(event);
                 event.setEventType(eventType);
                 event.setPlayground(playground);
                 playground.setEvent(event);
