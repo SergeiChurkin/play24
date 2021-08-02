@@ -4,6 +4,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import ru.corndev.api.domain.Event;
 import ru.corndev.api.domain.EventType;
+import ru.corndev.api.domain.User;
 
 @Repository
 public interface EventRepo extends CrudRepository<Event, Long> {
@@ -17,4 +18,6 @@ public interface EventRepo extends CrudRepository<Event, Long> {
     Iterable<Event> findAll();
 
     Iterable<Event> findAllByEventLeader(String username);
+
+
 }

@@ -1,6 +1,7 @@
 package ru.corndev.api.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,6 +14,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User implements UserDetails {
 
     @Id
@@ -35,8 +37,8 @@ public class User implements UserDetails {
     private String confirmPassword;
 
     @NotBlank(message = "Заполните Nickname")
-    @Column(unique = true)
-    private String nickname;
+    //@Column(unique = true)
+    private String fullName;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
@@ -119,12 +121,12 @@ public class User implements UserDetails {
         this.confirmPassword = confirmPassword;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public Set<Event> getMyEvents() {
@@ -187,7 +189,7 @@ public class User implements UserDetails {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", phone='" + phone + '\'' +
-                ", nickname='" + nickname + '\'' +
+                ", nickname='" + fullName + '\'' +
                 '}';
     }
 }

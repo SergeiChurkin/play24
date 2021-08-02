@@ -6,6 +6,7 @@ import {
   DELETE_REQUEST,
   ACCEPT_REQUEST,
   GET_FRIENDS,
+  GET_FRIENDS_TO_INVITE
 } from "./types";
 
 export const getInvites = () => async (dispatch) => {
@@ -42,9 +43,9 @@ export const deleteFriendRequest = (id) => async (dispatch) => {
   }
 };
 
-export const acceptFriendRequest = (id, foo) => async (dispatch) => {
+export const acceptFriendRequest = (id, refreshFriends) => async (dispatch) => {
   await axios.get(`/api/friends/accept/${id}`);
-  foo();
+  refreshFriends();
   dispatch({
     type: ACCEPT_REQUEST,
     payload: id,
@@ -59,3 +60,12 @@ export const getFriends = () => async (dispatch) => {
     payload: res.data,
   });
 };
+
+export const getFriendsReadyToInvite = (id) =>async (dispatch) =>{
+const res = await axios.get(`/api/invites/${id}`)
+dispatch({
+  type: GET_FRIENDS_TO_INVITE,
+  payload: res.data,
+});
+
+}

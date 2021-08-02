@@ -18,7 +18,7 @@ class UserInfo extends Component {
     this.state = {
       id: "",
       username: "",
-      nickname: "",
+      fullName: "",
       phone: "",
       email: "",
       errors: {},
@@ -38,8 +38,8 @@ class UserInfo extends Component {
       this.setState({ errors: nextProps.errors });
     }
 
-    const { id, username, nickname, phone } = nextProps.user;
-    this.setState({ id, username, nickname, phone });
+    const { id, username, fullName, phone } = nextProps.user;
+    this.setState({ id, username, fullName, phone });
   }
 
   componentDidMount() {
@@ -73,7 +73,7 @@ class UserInfo extends Component {
       <div className="container">
         <div className="container">
           <h3>email: {this.state.username}</h3>
-          <h3>nickname: {this.state.nickname}</h3>
+          <h3>full name: {this.state.fullName}</h3>
           <h3>phone: {this.state.phone}</h3>
         </div>
 

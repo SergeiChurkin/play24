@@ -19,7 +19,8 @@ class FriendItem extends Component {
 
   handleClick = (eventId, userId) => {
     this.setState({ isDisable: true });
-    axios.get(`/api/event/${eventId}/${userId}/invites`);
+    axios.get(`/api/invites/${eventId}/${userId}`);
+    //this.setState({ isDisable: false });
   };
 
   render() {
@@ -33,7 +34,7 @@ class FriendItem extends Component {
     return (
       <Row>
         <Col xs={12} md={8}>
-          {friend.nickname}
+          {friend.fullName}
         </Col>
         <Col xs={6} md={4}>
           <Button

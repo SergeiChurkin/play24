@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { getEvent, createEvent } from "../../actions/eventActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getFriends } from "../../actions/friendActions";
+import { getFriendsReadyToInvite } from "../../actions/friendActions";
 import { Modal, Button, Container } from "react-bootstrap";
 import FriendItemInvite from "../User/FriendItemInvite";
 
@@ -18,7 +18,7 @@ class ShowEvent extends Component {
       eventType: {},
       errors: {},
       schedules: [],
-      friends: [],
+      friendsToInvite: [],
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -51,8 +51,8 @@ class ShowEvent extends Component {
     document.title = "Просмотр мероприятия - Play 24/7";
     const { id } = this.props.match.params;
     this.props.getEvent(id, this.props.history);
-    const { temp } = this.props.getFriends();
-    this.setState({ friends: temp });
+    const { temp } = this.props.getFriendsReadyToInvite(id);
+    this.setState({ friendsToInvite: temp });
   }
 
   daySwitch(param) {
@@ -83,7 +83,7 @@ class ShowEvent extends Component {
   };
 
   render() {
-    const { friends } = this.props.friends;
+    const { friendsToInvite } = this.props.friendsToInvite;
     return (
       <div className="container">
         <div className="card border-info mb-3  text-center">
@@ -124,7 +124,7 @@ class ShowEvent extends Component {
           </Modal.Header>
           <Modal.Body>
             <Container>
-              {friends.map((friend) => (
+              {friendsToInvite.map((friend) => (
                 <FriendItemInvite key={friend.id} friend={friend} />
               ))}
             </Container>
@@ -145,15 +145,15 @@ ShowEvent.propTypes = {
   createEvent: PropTypes.func.isRequired,
   event: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
-  friends: PropTypes.object.isRequired,
+  friendsToInvite: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   event: state.events.event,
   errors: state.errors,
-  friends: state.friends,
+  friendsToInvite: state.friends,
 });
 
-export default connect(mapStateToProps, { getEvent, createEvent, getFriends })(
+export default connect(mapStateToProps, { getEvent, createEvent, getFriendsReadyToInvite })(
   ShowEvent
 );

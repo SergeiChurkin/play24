@@ -59,4 +59,5 @@ public class FriendsController {
         return friendsService.getFriends(principal.getName());
     }
 
+
 }

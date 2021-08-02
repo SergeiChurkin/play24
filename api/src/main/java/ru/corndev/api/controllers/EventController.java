@@ -66,16 +66,6 @@ public class EventController {
         return new ResponseEntity<>("Мероприятие было удалено", HttpStatus.OK);
     }
 
-    @GetMapping("/{eventId}/invites")
-    public Iterable<User> getFriendsReadyToInvite(@PathVariable long eventId, Principal principal){
-        return friendsService.getFriendsForInviteToEvent(eventId,principal.getName());
-    }
 
-    @GetMapping("/{eventId}/{userId}/invites")
-    public ResponseEntity<?> sendingInviteToEvent(@PathVariable long eventId,
-                                                  @PathVariable long userId,
-                                                  Principal principal){
-        friendsService.sendingInviteToEvent(eventId,userId,principal.getName());
-        return new ResponseEntity<>("Приглашение на мероприятие отправлено", HttpStatus.OK);
-    }
+
 }

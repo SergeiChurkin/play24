@@ -25,7 +25,7 @@ class FriendItem extends Component {
     return (
       <Container>
           <Row>
-              {friend.nickname} ({friend.username})
+              {friend.fullName} ({friend.username})
           </Row>
 
       </Container>

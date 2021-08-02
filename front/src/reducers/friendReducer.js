@@ -3,11 +3,13 @@ import {
   DELETE_REQUEST,
   GET_FRIENDS,
   GET_INVITES,
+  GET_FRIENDS_TO_INVITE
 } from "../actions/types";
 
 const initialState = {
   invites: [],
-  friends:[]
+  friends:[],
+  friendsToInvite:[]
 };
 
 export default function friend(state = initialState, action) {
@@ -22,6 +24,11 @@ export default function friend(state = initialState, action) {
         ...state,
         friends: action.payload,
       };
+    case GET_FRIENDS_TO_INVITE:
+        return {
+          ...state,
+          friendsToInvite: action.payload,
+        };
     case ACCEPT_REQUEST:
       return {
         ...state,
